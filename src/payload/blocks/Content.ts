@@ -1,17 +1,14 @@
-import {
-  HeadingFeature,
-  InlineToolbarFeature,
-  ItalicFeature,
-  lexicalEditor,
-  ParagraphFeature,
-} from "@payloadcms/richtext-lexical";
 import type { Block } from "payload";
+import medium from "@/payload/fields/medium";
+import textBlock from "@/payload/blocks/Text";
+import quotesBlock from "@/payload/blocks/Quotes";
+import footerBlock from "@/payload/blocks/Footer";
 
 export default {
-  slug: "textBlock",
+  slug: "contentBlock",
   labels: {
-    singular: "Text block",
-    plural: "Text blocks",
+    singular: "Content block",
+    plural: "Content blocks",
   },
   fields: [
     {
@@ -21,16 +18,14 @@ export default {
           label: "Block",
           fields: [
             {
-              name: "text",
-              type: "richText",
-              editor: lexicalEditor({
-                features: () => [
-                  ParagraphFeature(),
-                  HeadingFeature(),
-                  ItalicFeature(),
-                  InlineToolbarFeature(),
-                ],
-              }),
+              ...medium,
+              label: "Side medium",
+            },
+            {
+              name: "blocks",
+              label: "Blocks",
+              type: "blocks",
+              blocks: [textBlock, quotesBlock, footerBlock],
             },
           ],
         },
@@ -51,6 +46,10 @@ export default {
                     {
                       label: "Default",
                       value: "default",
+                    },
+                    {
+                      label: "Full",
+                      value: "full",
                     },
                   ],
                   defaultValue: "default",

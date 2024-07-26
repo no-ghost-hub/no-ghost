@@ -14,7 +14,8 @@ export interface Config {
     users: User;
     pages: Page;
     media: Media;
-    subscribers: Subscriber;
+    quotes: Quote;
+    menus: Menu;
     'payload-preferences': PayloadPreference;
     'payload-migrations': PayloadMigration;
   };
@@ -23,6 +24,7 @@ export interface Config {
   };
   globals: {
     site: Site;
+    footer: Footer;
   };
   locale: null;
   user: User & {
@@ -69,27 +71,71 @@ export interface User {
 export interface Page {
   id: number;
   title: string;
-  blocks: {
-    text?: {
-      root: {
-        type: string;
-        children: {
-          type: string;
-          version: number;
-          [k: string]: unknown;
-        }[];
-        direction: ('ltr' | 'rtl') | null;
-        format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
-        indent: number;
-        version: number;
-      };
-      [k: string]: unknown;
-    } | null;
-    id?: string | null;
-    blockName?: string | null;
-    blockType: 'textBlock';
-  }[];
-  meta?: {};
+  slug: string;
+  blocks?:
+    | {
+        medium?: {
+          medium?: number | Media | null;
+          caption?: {
+            root: {
+              type: string;
+              children: {
+                type: string;
+                version: number;
+                [k: string]: unknown;
+              }[];
+              direction: ('ltr' | 'rtl') | null;
+              format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+              indent: number;
+              version: number;
+            };
+            [k: string]: unknown;
+          } | null;
+        };
+        blocks?:
+          | (
+              | {
+                  text?: {
+                    root: {
+                      type: string;
+                      children: {
+                        type: string;
+                        version: number;
+                        [k: string]: unknown;
+                      }[];
+                      direction: ('ltr' | 'rtl') | null;
+                      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+                      indent: number;
+                      version: number;
+                    };
+                    [k: string]: unknown;
+                  } | null;
+                  theme?: 'default' | null;
+                  id?: string | null;
+                  blockName?: string | null;
+                  blockType: 'textBlock';
+                }
+              | {
+                  quotes?: (number | Quote)[] | null;
+                  theme?: 'default' | null;
+                  id?: string | null;
+                  blockName?: string | null;
+                  blockType: 'quotesBlock';
+                }
+              | {
+                  theme?: 'default' | null;
+                  id?: string | null;
+                  blockName?: string | null;
+                  blockType: 'footerBlock';
+                }
+            )[]
+          | null;
+        theme?: ('default' | 'full') | null;
+        id?: string | null;
+        blockName?: string | null;
+        blockType: 'contentBlock';
+      }[]
+    | null;
   updatedAt: string;
   createdAt: string;
   _status?: ('draft' | 'published') | null;
@@ -130,15 +176,59 @@ export interface Media {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "subscribers".
+ * via the `definition` "quotes".
  */
-export interface Subscriber {
+export interface Quote {
   id: number;
-  name: {
-    first: string;
-    middle?: string | null;
-    last: string;
+  title: string;
+  slug: string;
+  role: string;
+  age: number;
+  quote: string;
+  medium?: {
+    medium?: number | Media | null;
+    caption?: {
+      root: {
+        type: string;
+        children: {
+          type: string;
+          version: number;
+          [k: string]: unknown;
+        }[];
+        direction: ('ltr' | 'rtl') | null;
+        format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+        indent: number;
+        version: number;
+      };
+      [k: string]: unknown;
+    } | null;
   };
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "menus".
+ */
+export interface Menu {
+  id: number;
+  title: string;
+  slug: string;
+  items?:
+    | {
+        link?: {
+          type?: ('reference' | 'custom') | null;
+          reference?: {
+            relationTo: 'pages';
+            value: number | Page;
+          } | null;
+          url?: string | null;
+          icon?: string | null;
+          text?: string | null;
+        };
+        id?: string | null;
+      }[]
+    | null;
   updatedAt: string;
   createdAt: string;
 }
@@ -183,6 +273,44 @@ export interface PayloadMigration {
 export interface Site {
   id: number;
   title: string;
+  home: {
+    relationTo: 'pages';
+    value: number | Page;
+  };
+  description?: string | null;
+  medium?: {
+    medium?: number | Media | null;
+    caption?: {
+      root: {
+        type: string;
+        children: {
+          type: string;
+          version: number;
+          [k: string]: unknown;
+        }[];
+        direction: ('ltr' | 'rtl') | null;
+        format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+        indent: number;
+        version: number;
+      };
+      [k: string]: unknown;
+    } | null;
+  };
+  updatedAt?: string | null;
+  createdAt?: string | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "footer".
+ */
+export interface Footer {
+  id: number;
+  menus?:
+    | {
+        relationTo: 'menus';
+        value: number | Menu;
+      }[]
+    | null;
   updatedAt?: string | null;
   createdAt?: string | null;
 }

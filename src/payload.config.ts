@@ -7,23 +7,26 @@ import { vercelBlobStorage } from "@payloadcms/storage-vercel-blob";
 import Users from "@/payload/collections/Users";
 import Media from "@/payload/collections/Media";
 import Pages from "@/payload/collections/Pages";
+import Quotes from "@/payload/collections/Quotes";
 import Subscribers from "@/payload/collections/Subscribers";
+import Menus from "@/payload/collections/Menus";
 import Site from "@/payload/globals/Site";
+import Footer from "@/payload/globals/Footer";
 
 export default buildConfig({
-  admin: {
-    user: "users",
-    autoLogin:
-      process.env.PAYLOAD_PUBLIC_ENABLE_AUTOLOGIN === "true"
-        ? {
-            email: "leonardi.gabriele.lg@gmail.com",
-            password: "1234",
-          }
-        : false,
-  },
+  // admin: {
+  //   user: "users",
+  //   autoLogin:
+  //     process.env.PAYLOAD_PUBLIC_ENABLE_AUTOLOGIN === "true"
+  //       ? {
+  //           email: "leonardi.gabriele.lg@gmail.com",
+  //           password: "1234",
+  //         }
+  //       : false,
+  // },
   editor: lexicalEditor(),
-  globals: [Site],
-  collections: [Users, Pages, Media, Subscribers],
+  globals: [Site, Footer],
+  collections: [Users, Pages, Media, Quotes, Menus],
   secret: process.env.PAYLOAD_SECRET || "",
   db: postgresAdapter({
     pool: {

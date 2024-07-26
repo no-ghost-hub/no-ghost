@@ -1,20 +1,20 @@
 import type { CollectionConfig } from "payload";
-import contentBlock from "@/payload/blocks/Content";
+import link from "@/payload/fields/link";
 
 export default {
-  slug: "pages",
-  admin: {
-    useAsTitle: "title",
-  },
+  slug: "menus",
   access: {
     read: () => true,
+  },
+  admin: {
+    useAsTitle: "title",
   },
   fields: [
     {
       type: "tabs",
       tabs: [
         {
-          label: "Page",
+          label: "Menu",
           fields: [
             {
               type: "row",
@@ -24,7 +24,7 @@ export default {
                     width: "50%",
                   },
                   name: "title",
-                  label: "Title",
+                  label: "Name",
                   type: "text",
                   required: true,
                 },
@@ -39,33 +39,15 @@ export default {
                 },
               ],
             },
-          ],
-        },
-        {
-          label: "Blocks",
-          fields: [
             {
-              name: "blocks",
-              label: "Blocks",
-              type: "blocks",
-              blocks: [contentBlock],
+              name: "items",
+              label: "Items",
+              type: "array",
+              fields: [link],
             },
           ],
         },
-        // {
-        //   name: "meta",
-        //   label: "SEO",
-        //   fields: [],
-        // },
       ],
     },
   ],
-  versions: {
-    drafts: {
-      autosave: {
-        interval: 100,
-      },
-    },
-    maxPerDoc: 50,
-  },
 } as CollectionConfig;

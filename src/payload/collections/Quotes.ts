@@ -1,8 +1,8 @@
 import type { CollectionConfig } from "payload";
-import contentBlock from "@/payload/blocks/Content";
+import medium from "@/payload/fields/medium";
 
 export default {
-  slug: "pages",
+  slug: "quotes",
   admin: {
     useAsTitle: "title",
   },
@@ -14,7 +14,7 @@ export default {
       type: "tabs",
       tabs: [
         {
-          label: "Page",
+          label: "Quote",
           fields: [
             {
               type: "row",
@@ -24,7 +24,7 @@ export default {
                     width: "50%",
                   },
                   name: "title",
-                  label: "Title",
+                  label: "Name",
                   type: "text",
                   required: true,
                 },
@@ -39,33 +39,39 @@ export default {
                 },
               ],
             },
-          ],
-        },
-        {
-          label: "Blocks",
-          fields: [
             {
-              name: "blocks",
-              label: "Blocks",
-              type: "blocks",
-              blocks: [contentBlock],
+              type: "row",
+              fields: [
+                {
+                  admin: {
+                    width: "50%",
+                  },
+                  name: "role",
+                  label: "Role",
+                  type: "text",
+                  required: true,
+                },
+                {
+                  admin: {
+                    width: "50%",
+                  },
+                  name: "age",
+                  label: "Age",
+                  type: "number",
+                  required: true,
+                },
+              ],
             },
+            {
+              name: "quote",
+              label: "Quote",
+              type: "textarea",
+              required: true,
+            },
+            medium,
           ],
         },
-        // {
-        //   name: "meta",
-        //   label: "SEO",
-        //   fields: [],
-        // },
       ],
     },
   ],
-  versions: {
-    drafts: {
-      autosave: {
-        interval: 100,
-      },
-    },
-    maxPerDoc: 50,
-  },
 } as CollectionConfig;
