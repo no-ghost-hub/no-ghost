@@ -1,8 +1,10 @@
 import {
   HeadingFeature,
+  HTMLConverterFeature,
   InlineToolbarFeature,
   ItalicFeature,
   lexicalEditor,
+  lexicalHTML,
   ParagraphFeature,
 } from "@payloadcms/richtext-lexical";
 import type { Block } from "payload";
@@ -13,6 +15,7 @@ export default {
     singular: "Text block",
     plural: "Text blocks",
   },
+  interfaceName: "TextBlock",
   fields: [
     {
       type: "tabs",
@@ -29,9 +32,11 @@ export default {
                   HeadingFeature(),
                   ItalicFeature(),
                   InlineToolbarFeature(),
+                  HTMLConverterFeature(),
                 ],
               }),
             },
+            // lexicalHTML("text", { name: "textHTML" }),
           ],
         },
         {

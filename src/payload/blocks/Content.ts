@@ -10,6 +10,7 @@ export default {
     singular: "Content block",
     plural: "Content blocks",
   },
+  interfaceName: "ContentBlock",
   fields: [
     {
       type: "tabs",

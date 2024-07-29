@@ -6,6 +6,7 @@ export default {
     singular: "Footer block",
     plural: "Footer blocks",
   },
+  interfaceName: "FooterBlock",
   fields: [
     {
       type: "tabs",

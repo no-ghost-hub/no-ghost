@@ -29,6 +29,7 @@ export default buildConfig({
   collections: [Users, Pages, Media, Quotes, Menus],
   secret: process.env.PAYLOAD_SECRET || "",
   db: postgresAdapter({
+    push: false,
     pool: {
       connectionString: process.env.POSTGRES_URL || "",
     },
@@ -42,4 +43,7 @@ export default buildConfig({
     }),
   ],
   sharp,
+  typescript: {
+    outputFile: "./src/payload-types.ts",
+  },
 });

@@ -72,73 +72,39 @@ export interface Page {
   id: number;
   title: string;
   slug: string;
-  blocks?:
-    | {
-        medium?: {
-          medium?: number | Media | null;
-          caption?: {
-            root: {
-              type: string;
-              children: {
-                type: string;
-                version: number;
-                [k: string]: unknown;
-              }[];
-              direction: ('ltr' | 'rtl') | null;
-              format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
-              indent: number;
-              version: number;
-            };
-            [k: string]: unknown;
-          } | null;
-        };
-        blocks?:
-          | (
-              | {
-                  text?: {
-                    root: {
-                      type: string;
-                      children: {
-                        type: string;
-                        version: number;
-                        [k: string]: unknown;
-                      }[];
-                      direction: ('ltr' | 'rtl') | null;
-                      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
-                      indent: number;
-                      version: number;
-                    };
-                    [k: string]: unknown;
-                  } | null;
-                  theme?: 'default' | null;
-                  id?: string | null;
-                  blockName?: string | null;
-                  blockType: 'textBlock';
-                }
-              | {
-                  quotes?: (number | Quote)[] | null;
-                  theme?: 'default' | null;
-                  id?: string | null;
-                  blockName?: string | null;
-                  blockType: 'quotesBlock';
-                }
-              | {
-                  theme?: 'default' | null;
-                  id?: string | null;
-                  blockName?: string | null;
-                  blockType: 'footerBlock';
-                }
-            )[]
-          | null;
-        theme?: ('default' | 'full') | null;
-        id?: string | null;
-        blockName?: string | null;
-        blockType: 'contentBlock';
-      }[]
-    | null;
+  blocks?: ContentBlock[] | null;
   updatedAt: string;
   createdAt: string;
   _status?: ('draft' | 'published') | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "ContentBlock".
+ */
+export interface ContentBlock {
+  medium?: {
+    medium?: number | Media | null;
+    caption?: {
+      root: {
+        type: string;
+        children: {
+          type: string;
+          version: number;
+          [k: string]: unknown;
+        }[];
+        direction: ('ltr' | 'rtl') | null;
+        format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+        indent: number;
+        version: number;
+      };
+      [k: string]: unknown;
+    } | null;
+  };
+  blocks?: (TextBlock | QuotesBlock | FooterBlock)[] | null;
+  theme?: ('default' | 'full') | null;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'contentBlock';
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -176,6 +142,42 @@ export interface Media {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "TextBlock".
+ */
+export interface TextBlock {
+  text?: {
+    root: {
+      type: string;
+      children: {
+        type: string;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  } | null;
+  theme?: 'default' | null;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'textBlock';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "QuotesBlock".
+ */
+export interface QuotesBlock {
+  quotes?: (number | Quote)[] | null;
+  theme?: 'default' | null;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'quotesBlock';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "quotes".
  */
 export interface Quote {
@@ -205,6 +207,16 @@ export interface Quote {
   };
   updatedAt: string;
   createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "FooterBlock".
+ */
+export interface FooterBlock {
+  theme?: 'default' | null;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'footerBlock';
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema

@@ -1,5 +1,7 @@
 import getEntry from "@/utils/getEntry";
 
+import Blocks from "@/components/Blocks";
+
 export default async function Page({
   params,
   searchParams,
@@ -10,11 +12,10 @@ export default async function Page({
   const slug = params.slug?.[0] || "home";
   const data = await getEntry(slug, "Pages");
 
-  console.log(data);
-
   return (
     <main>
-      <pre>{JSON.stringify(data)}</pre>
+      {/* <pre>{JSON.stringify(data)}</pre> */}
+      <Blocks blocks={data?.blocks} />
     </main>
   );
 }

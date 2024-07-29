@@ -23,6 +23,9 @@ export default async (slug: string, type: string) => {
   }
 
   data = await res?.json();
+
+  console.log(data);
+
   if (data) {
     data = data?.data[type].docs[0];
   }

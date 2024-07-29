@@ -6,6 +6,7 @@ export default {
     singular: "Quotes block",
     plural: "Quotes blocks",
   },
+  interfaceName: "QuotesBlock",
   fields: [
     {
       type: "tabs",
