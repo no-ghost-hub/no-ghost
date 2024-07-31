@@ -1,9 +1,17 @@
 import { FC } from "react";
+import { FooterBlock } from "@/types";
 
-const Component: FC = () => {
+import getGlobal from "@/utils/getGlobal";
+import { Footer } from "@/payload-types";
+
+type Props = FooterBlock;
+
+const Component: FC<Props> = async (props) => {
+  // const data: Footer = await getGlobal("Footer");
+
   return (
-    <footer>
-      <p>Footer</p>
+    <footer className="self-end">
+      <p>{JSON.stringify(props)}</p>
     </footer>
   );
 };

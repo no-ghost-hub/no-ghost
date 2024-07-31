@@ -1,7 +1,7 @@
 import type { Config } from "tailwindcss";
 import plugin from "tailwindcss/plugin";
 
-export default {
+const config: Partial<Config> = {
   theme: {
     screens: {
       s: "800px",
@@ -11,10 +11,14 @@ export default {
       current: "currentColor",
       black: "rgb(0,0,0)",
       white: "rgb(255,255,255)",
+      purple: "rgb(90,60,220)",
+      yellow: "rgb(245,205,90)",
+      green: "rgb(40,230,205)",
     },
     spacing: {
       0: "var(--spacing-0)",
       s: "var(--spacing-s)",
+      m: "var(--spacing-m)",
     },
   },
   plugins: [
@@ -23,11 +27,14 @@ export default {
         ":root": {
           "--spacing-0": "0px",
           "--spacing-s": "8px",
-          "@media screen(s)": {
-            "--spacing-s": "16px",
-          },
+          // "@media screen(s)": {
+          //   "--spacing-s": "16px",
+          // },
+          "--spacing-m": "16px",
         },
       });
     }),
   ],
-} satisfies Partial<Config>;
+};
+
+export default config;

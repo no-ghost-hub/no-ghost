@@ -16,9 +16,9 @@ const Component: FC<Props> = ({ medium, blocks }) => {
   ]);
 
   return (
-    <div className="s:flex-row s:h-screen flex flex-col">
-      <div className="basis-1/3">sidebar</div>
-      <div className="grow">
+    <div className="flex flex-col p-s s:h-screen s:flex-row">
+      <div className="shrink-0 basis-1/3">sidebar</div>
+      <div className="grid grow">
         {blocks?.map((block, index) => {
           const Block = components.get(block.type);
           if (!Block) {

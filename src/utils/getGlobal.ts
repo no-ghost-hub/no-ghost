@@ -1,8 +1,8 @@
-import pageQuery from "@/graphql/queries/page";
+import footerQuery from "@/graphql/queries/footer";
 
-const queries = new Map([["Pages", pageQuery]]);
+const queries = new Map([["Footer", footerQuery]]);
 
-export default async (slug: string, type: string) => {
+export default async (type: string) => {
   let res;
   let data;
 
@@ -15,9 +15,6 @@ export default async (slug: string, type: string) => {
       },
       body: JSON.stringify({
         query: queries.get(type),
-        variables: {
-          slug,
-        },
       }),
     });
   }
@@ -25,7 +22,9 @@ export default async (slug: string, type: string) => {
   data = await res?.json();
 
   if (data) {
-    data = data?.data[type].docs[0];
+    console.log(data);
+
+    // data = data?.data[type].docs[0];
   }
 
   return data;
