@@ -1,8 +1,11 @@
 import type { Config } from "tailwindcss";
+import defaultTheme from "tailwindcss/defaultTheme";
+import preset from "./src/styles/tailwind";
 
-const config: Config = {
-  content: ["./src/app/**/*.{js,ts,jsx,tsx,mdx}"],
-  theme: {},
+// console.log(defaultTheme);
+
+export default {
+  content: ["./src/**/*.{js,ts,jsx,tsx,mdx}"],
+  presets: [preset],
   plugins: [],
-};
-export default config;
+} as Config;

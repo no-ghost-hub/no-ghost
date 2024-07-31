@@ -1,21 +1,12 @@
-import {
-  HeadingFeature,
-  HTMLConverterFeature,
-  InlineToolbarFeature,
-  ItalicFeature,
-  lexicalEditor,
-  lexicalHTML,
-  ParagraphFeature,
-} from "@payloadcms/richtext-lexical";
 import type { Block } from "payload";
 
 export default {
-  slug: "textBlock",
+  slug: "quotesBlock",
   labels: {
-    singular: "Text block",
-    plural: "Text blocks",
+    singular: "Quotes block",
+    plural: "Quotes blocks",
   },
-  interfaceName: "TextBlock",
+  interfaceName: "QuotesBlock",
   fields: [
     {
       type: "tabs",
@@ -24,19 +15,12 @@ export default {
           label: "Block",
           fields: [
             {
-              name: "text",
-              type: "richText",
-              editor: lexicalEditor({
-                features: () => [
-                  ParagraphFeature(),
-                  HeadingFeature(),
-                  ItalicFeature(),
-                  InlineToolbarFeature(),
-                  HTMLConverterFeature(),
-                ],
-              }),
+              label: "Quotes",
+              name: "quotes",
+              type: "relationship",
+              relationTo: "quotes",
+              hasMany: true,
             },
-            lexicalHTML("text", { name: "textHTML" }),
           ],
         },
         {
