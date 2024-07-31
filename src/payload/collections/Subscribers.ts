@@ -1,6 +1,6 @@
 import type { CollectionConfig } from "payload";
 
-export default {
+const collection: CollectionConfig = {
   slug: "subscribers",
   admin: {
     useAsTitle: "email",
@@ -31,4 +31,6 @@ export default {
       ],
     },
   ],
-} as CollectionConfig;
+};
+
+export default collection;

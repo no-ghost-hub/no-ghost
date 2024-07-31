@@ -1,7 +1,7 @@
 import type { CollectionConfig } from "payload";
 import link from "@/payload/fields/link";
 
-export default {
+const collection: CollectionConfig = {
   slug: "menus",
   access: {
     read: () => true,
@@ -50,4 +50,6 @@ export default {
       ],
     },
   ],
-} as CollectionConfig;
+};
+
+export default collection;

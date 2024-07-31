@@ -1,7 +1,7 @@
 import { GlobalConfig } from "payload";
 import medium from "@/payload/fields/medium";
 
-export default {
+const global: GlobalConfig = {
   label: "Site",
   slug: "site",
   fields: [
@@ -40,4 +40,6 @@ export default {
       ...medium,
     },
   ],
-} as GlobalConfig;
+};
+
+export default global;

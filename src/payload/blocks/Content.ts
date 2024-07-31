@@ -4,7 +4,7 @@ import textBlock from "@/payload/blocks/Text";
 import quotesBlock from "@/payload/blocks/Quotes";
 import footerBlock from "@/payload/blocks/Footer";
 
-export default {
+const block: Block = {
   slug: "contentBlock",
   labels: {
     singular: "Content block",
@@ -19,8 +19,8 @@ export default {
           label: "Block",
           fields: [
             {
-              ...medium,
               label: "Side medium",
+              ...medium,
             },
             {
               name: "blocks",
@@ -62,4 +62,6 @@ export default {
       ],
     },
   ],
-} as Block;
+};
+
+export default block;

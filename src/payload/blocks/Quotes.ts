@@ -1,6 +1,6 @@
 import type { Block } from "payload";
 
-export default {
+const block: Block = {
   slug: "quotesBlock",
   labels: {
     singular: "Quotes block",
@@ -51,4 +51,6 @@ export default {
       ],
     },
   ],
-} as Block;
+};
+
+export default block;
