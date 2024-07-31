@@ -1,6 +1,9 @@
+import { TextBlock } from "@/types";
 import { FC } from "react";
 
-const Component: FC = (props) => {
+type Props = TextBlock;
+
+const Component: FC<Props> = (props) => {
   console.log(props);
 
   return (

@@ -9,7 +9,8 @@ type Props = Omit<ContentBlock, "blocks"> & { blocks: ContentBlockBlocks };
 
 const Component: FC<Props> = ({ medium, blocks }) => {
   console.log(blocks);
-  const components = new Map([
+
+  const components = new Map<string, FC<any>>([
     ["textBlock", TextBlock],
     ["quotesBlock", QuotesBlock],
     ["footerBlock", FooterBlock],

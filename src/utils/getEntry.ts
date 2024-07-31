@@ -25,7 +25,7 @@ export default async (slug: string, type: string) => {
   data = await res?.json();
 
   if (data) {
-    data = data?.data[type].docs[0];
+    data = data?.data[type]?.docs[0];
   }
 
   return data;
