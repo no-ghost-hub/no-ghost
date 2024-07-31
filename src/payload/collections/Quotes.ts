@@ -1,5 +1,5 @@
 import type { CollectionConfig } from "payload";
-import medium from "@/payload/fields/medium";
+import image from "@/payload/fields/image";
 
 const collection: CollectionConfig = {
   slug: "quotes",
@@ -56,7 +56,7 @@ const collection: CollectionConfig = {
               type: "textarea",
               required: true,
             },
-            medium,
+            image,
           ],
         },
       ],

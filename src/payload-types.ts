@@ -211,47 +211,7 @@ export interface Quote {
   role: string;
   age: number;
   quote: string;
-  medium?: {
-    medium?:
-      | (
-          | {
-              image?: number | Media | null;
-              id?: string | null;
-              blockName?: string | null;
-              blockType: 'imageBlock';
-            }
-          | {
-              video: {
-                src: string;
-                poster?: number | Media | null;
-                ratio: {
-                  x: number;
-                  y: number;
-                };
-              };
-              id?: string | null;
-              blockName?: string | null;
-              blockType: 'videoBlock';
-            }
-        )[]
-      | null;
-    caption?: {
-      root: {
-        type: string;
-        children: {
-          type: string;
-          version: number;
-          [k: string]: unknown;
-        }[];
-        direction: ('ltr' | 'rtl') | null;
-        format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
-        indent: number;
-        version: number;
-      };
-      [k: string]: unknown;
-    } | null;
-    captionHTML?: string | null;
-  };
+  image?: number | Media | null;
   updatedAt: string;
   createdAt: string;
 }

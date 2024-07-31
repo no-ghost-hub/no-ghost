@@ -12,8 +12,22 @@ const field: GroupField = {
       name: "medium",
       type: "blocks",
       blocks: [
-        { slug: "imageBlock", fields: [image] },
-        { slug: "videoBlock", fields: [video] },
+        {
+          slug: "imageBlock",
+          labels: {
+            singular: "Image",
+            plural: "Images",
+          },
+          fields: [image],
+        },
+        {
+          slug: "videoBlock",
+          labels: {
+            singular: "Video",
+            plural: "Videos",
+          },
+          fields: [video],
+        },
       ],
       maxRows: 1,
     },
