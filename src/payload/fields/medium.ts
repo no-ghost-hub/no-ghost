@@ -1,12 +1,8 @@
 import type { GroupField } from "payload";
-import {
-  HTMLConverterFeature,
-  InlineToolbarFeature,
-  ItalicFeature,
-  lexicalEditor,
-  lexicalHTML,
-  ParagraphFeature,
-} from "@payloadcms/richtext-lexical";
+import { lexicalHTML } from "@payloadcms/richtext-lexical";
+
+import image from "@/payload/fields/image";
+import video from "@/payload/fields/video";
 
 const field: GroupField = {
   name: "medium",
@@ -14,8 +10,12 @@ const field: GroupField = {
   fields: [
     {
       name: "medium",
-      type: "upload",
-      relationTo: "media",
+      type: "blocks",
+      blocks: [
+        { slug: "imageBlock", fields: [image] },
+        { slug: "videoBlock", fields: [video] },
+      ],
+      maxRows: 1,
     },
     {
       name: "caption",

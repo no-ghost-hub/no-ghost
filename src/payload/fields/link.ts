@@ -1,6 +1,6 @@
-import type { Field } from "payload";
+import type { GroupField } from "payload";
 
-const field: Field = {
+const field: GroupField = {
   name: "link",
   type: "group",
   fields: [
@@ -10,7 +10,6 @@ const field: Field = {
         {
           admin: {
             layout: "horizontal",
-            width: "50%",
           },
           name: "type",
           type: "radio",
@@ -31,7 +30,6 @@ const field: Field = {
           name: "reference",
           type: "relationship",
           admin: {
-            width: "50%",
             condition: (_, siblingData) => siblingData?.type === "reference",
           },
           relationTo: ["pages"],
@@ -41,7 +39,6 @@ const field: Field = {
           name: "url",
           type: "text",
           admin: {
-            width: "50%",
             condition: (_, siblingData) => siblingData?.type === "custom",
           },
         },
@@ -51,17 +48,11 @@ const field: Field = {
       type: "row",
       fields: [
         {
-          admin: {
-            width: "50%",
-          },
           label: "Icon",
           name: "icon",
           type: "text",
         },
         {
-          admin: {
-            width: "50%",
-          },
           label: "Text",
           name: "text",
           type: "text",

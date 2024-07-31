@@ -83,7 +83,29 @@ export interface Page {
  */
 export interface ContentBlock {
   medium?: {
-    medium?: number | Media | null;
+    medium?:
+      | (
+          | {
+              image?: number | Media | null;
+              id?: string | null;
+              blockName?: string | null;
+              blockType: 'imageBlock';
+            }
+          | {
+              video: {
+                src: string;
+                poster?: number | Media | null;
+                ratio: {
+                  x: number;
+                  y: number;
+                };
+              };
+              id?: string | null;
+              blockName?: string | null;
+              blockType: 'videoBlock';
+            }
+        )[]
+      | null;
     caption?: {
       root: {
         type: string;
@@ -190,7 +212,29 @@ export interface Quote {
   age: number;
   quote: string;
   medium?: {
-    medium?: number | Media | null;
+    medium?:
+      | (
+          | {
+              image?: number | Media | null;
+              id?: string | null;
+              blockName?: string | null;
+              blockType: 'imageBlock';
+            }
+          | {
+              video: {
+                src: string;
+                poster?: number | Media | null;
+                ratio: {
+                  x: number;
+                  y: number;
+                };
+              };
+              id?: string | null;
+              blockName?: string | null;
+              blockType: 'videoBlock';
+            }
+        )[]
+      | null;
     caption?: {
       root: {
         type: string;
@@ -294,7 +338,29 @@ export interface Site {
   };
   description?: string | null;
   medium?: {
-    medium?: number | Media | null;
+    medium?:
+      | (
+          | {
+              image?: number | Media | null;
+              id?: string | null;
+              blockName?: string | null;
+              blockType: 'imageBlock';
+            }
+          | {
+              video: {
+                src: string;
+                poster?: number | Media | null;
+                ratio: {
+                  x: number;
+                  y: number;
+                };
+              };
+              id?: string | null;
+              blockName?: string | null;
+              blockType: 'videoBlock';
+            }
+        )[]
+      | null;
     caption?: {
       root: {
         type: string;

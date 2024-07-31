@@ -20,18 +20,12 @@ const collection: CollectionConfig = {
               type: "row",
               fields: [
                 {
-                  admin: {
-                    width: "50%",
-                  },
                   name: "title",
                   label: "Name",
                   type: "text",
                   required: true,
                 },
                 {
-                  admin: {
-                    width: "50%",
-                  },
                   name: "slug",
                   label: "Slug",
                   type: "text",
@@ -43,18 +37,12 @@ const collection: CollectionConfig = {
               type: "row",
               fields: [
                 {
-                  admin: {
-                    width: "50%",
-                  },
                   name: "role",
                   label: "Role",
                   type: "text",
                   required: true,
                 },
                 {
-                  admin: {
-                    width: "50%",
-                  },
                   name: "age",
                   label: "Age",
                   type: "number",

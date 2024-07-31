@@ -30,9 +30,6 @@ const block: Block = {
               type: "row",
               fields: [
                 {
-                  admin: {
-                    width: "50%",
-                  },
                   name: "theme",
                   label: "Theme",
                   type: "select",
