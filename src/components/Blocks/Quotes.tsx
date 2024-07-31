@@ -9,19 +9,22 @@ import getEntries from "@/utils/getEntries";
 
 type Props = QuotesBlock;
 
-const Component: FC<Props> = async () => {
-  const quotes: Quote[] = await getEntries("Quotes");
+const Component: FC<Props> = async (props) => {
+  console.log(props);
+
+  // const data: Quote[] = await getEntries("Quotes");
 
   return (
-    <Carousel>
-      {quotes?.map((quote, index) => {
-        return (
-          <div key={index} className="swiper-slide">
-            <QuoteThumb {...quote} />
-          </div>
-        );
-      })}
-    </Carousel>
+    <div></div>
+    // <Carousel>
+    //   {data?.map((quote, index) => {
+    //     return (
+    //       <div key={index} className="swiper-slide">
+    //         <QuoteThumb {...quote} />
+    //       </div>
+    //     );
+    //   })}
+    // </Carousel>
   );
 };
 

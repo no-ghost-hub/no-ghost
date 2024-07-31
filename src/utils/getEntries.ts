@@ -2,7 +2,7 @@ import quotesQuery from "@/graphql/queries/quotes";
 
 const queries = new Map([["Quotes", quotesQuery]]);
 
-export default async (type: string) => {
+export default async (type: string, slugs?: string[]) => {
   let res;
   let data;
 
@@ -15,6 +15,7 @@ export default async (type: string) => {
       },
       body: JSON.stringify({
         query: queries.get(type),
+        variables: { slugs },
       }),
     });
   }
@@ -22,7 +23,7 @@ export default async (type: string) => {
   data = await res?.json();
 
   if (data) {
-    data = data?.data[type].docs;
+    data = data?.data?.[type]?.docs;
   }
 
   return data;

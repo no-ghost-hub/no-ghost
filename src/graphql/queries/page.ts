@@ -1,6 +1,6 @@
 export default /* GraphQL */ `
   query ($slug: String) {
-    Pages(where: { slug: { equals: $slug } }) {
+    Pages(where: { slug: { in: [$slug] } }) {
       docs {
         id
         title
@@ -12,13 +12,38 @@ export default /* GraphQL */ `
             medium {
               ... on ContentBlock_Medium {
                 medium {
-                  ... on Media {
+                  ... on ImageBlock {
                     id
-                    alt
-                    caption
-                    url
-                    width
-                    height
+                    type: blockType
+                    image {
+                      ... on Media {
+                        id
+                        alt
+                        url
+                        width
+                        height
+                      }
+                    }
+                  }
+                  ... on VideoBlock {
+                    id
+                    type: blockType
+                    video {
+                      src
+                      poster {
+                        ... on Media {
+                          id
+                          alt
+                          url
+                          width
+                          height
+                        }
+                      }
+                      ratio {
+                        x
+                        y
+                      }
+                    }
                   }
                 }
               }
@@ -27,7 +52,7 @@ export default /* GraphQL */ `
               ... on TextBlock {
                 id
                 type: blockType
-                text
+                text: textHTML
               }
               ... on QuotesBlock {
                 id
@@ -35,11 +60,7 @@ export default /* GraphQL */ `
                 quotes {
                   ... on Quote {
                     id
-                    title
                     slug
-                    role
-                    age
-                    quote
                   }
                 }
               }

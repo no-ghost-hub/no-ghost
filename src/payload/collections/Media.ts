@@ -1,3 +1,4 @@
+import { lexicalHTML } from "@payloadcms/richtext-lexical";
 import type { CollectionConfig } from "payload";
 
 const collection: CollectionConfig = {
@@ -15,6 +16,7 @@ const collection: CollectionConfig = {
       name: "caption",
       type: "richText",
     },
+    lexicalHTML("caption", { name: "captionHTML" }),
   ],
   upload: true,
 };

@@ -151,6 +151,7 @@ export interface Media {
     };
     [k: string]: unknown;
   } | null;
+  captionHTML?: string | null;
   updatedAt: string;
   createdAt: string;
   url?: string | null;

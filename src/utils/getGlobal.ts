@@ -22,8 +22,6 @@ export default async (type: string) => {
   data = await res?.json();
 
   if (data) {
-    console.log(data);
-
     // data = data?.data[type].docs[0];
   }
 
