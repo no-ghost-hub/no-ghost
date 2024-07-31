@@ -1,6 +1,6 @@
 import { GlobalConfig } from "payload";
 
-export default {
+const global: GlobalConfig = {
   label: "Footer",
   slug: "footer",
   fields: [
@@ -11,4 +11,6 @@ export default {
       hasMany: true,
     },
   ],
-} as GlobalConfig;
+};
+
+export default global;

@@ -1,15 +1,11 @@
 import {
   HeadingFeature,
-  HTMLConverterFeature,
-  InlineToolbarFeature,
-  ItalicFeature,
   lexicalEditor,
   lexicalHTML,
-  ParagraphFeature,
 } from "@payloadcms/richtext-lexical";
 import type { Block } from "payload";
 
-export default {
+const block: Block = {
   slug: "textBlock",
   labels: {
     singular: "Text block",
@@ -27,12 +23,9 @@ export default {
               name: "text",
               type: "richText",
               editor: lexicalEditor({
-                features: () => [
-                  ParagraphFeature(),
+                features: ({ rootFeatures }) => [
+                  ...rootFeatures,
                   HeadingFeature(),
-                  ItalicFeature(),
-                  InlineToolbarFeature(),
-                  HTMLConverterFeature(),
                 ],
               }),
             },
@@ -67,4 +60,6 @@ export default {
       ],
     },
   ],
-} as Block;
+};
+
+export default block;

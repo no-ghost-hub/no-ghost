@@ -1,5 +1,12 @@
 import sharp from "sharp";
-import { lexicalEditor } from "@payloadcms/richtext-lexical";
+import {
+  HTMLConverterFeature,
+  InlineToolbarFeature,
+  ItalicFeature,
+  lexicalEditor,
+  LinkFeature,
+  ParagraphFeature,
+} from "@payloadcms/richtext-lexical";
 import { postgresAdapter } from "@payloadcms/db-postgres";
 import { buildConfig } from "payload";
 import { vercelBlobStorage } from "@payloadcms/storage-vercel-blob";
@@ -24,12 +31,20 @@ export default buildConfig({
   //         }
   //       : false,
   // },
-  editor: lexicalEditor(),
+  editor: lexicalEditor({
+    features: () => [
+      ParagraphFeature(),
+      ItalicFeature(),
+      LinkFeature(),
+      InlineToolbarFeature(),
+      HTMLConverterFeature(),
+    ],
+  }),
   globals: [Site, Footer],
   collections: [Users, Pages, Media, Quotes, Menus],
   secret: process.env.PAYLOAD_SECRET || "",
   db: postgresAdapter({
-    push: false,
+    push: true,
     pool: {
       connectionString: process.env.POSTGRES_URL || "",
     },

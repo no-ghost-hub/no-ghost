@@ -1,6 +1,14 @@
-import type { Field } from "payload";
+import type { GroupField } from "payload";
+import {
+  HTMLConverterFeature,
+  InlineToolbarFeature,
+  ItalicFeature,
+  lexicalEditor,
+  lexicalHTML,
+  ParagraphFeature,
+} from "@payloadcms/richtext-lexical";
 
-export default {
+const field: GroupField = {
   name: "medium",
   type: "group",
   fields: [
@@ -13,5 +21,8 @@ export default {
       name: "caption",
       type: "richText",
     },
+    lexicalHTML("caption", { name: "captionHTML" }),
   ],
-} as Field;
+};
+
+export default field;

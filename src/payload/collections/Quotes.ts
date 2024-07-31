@@ -1,7 +1,7 @@
 import type { CollectionConfig } from "payload";
 import medium from "@/payload/fields/medium";
 
-export default {
+const collection: CollectionConfig = {
   slug: "quotes",
   admin: {
     useAsTitle: "title",
@@ -74,4 +74,6 @@ export default {
       ],
     },
   ],
-} as CollectionConfig;
+};
+
+export default collection;

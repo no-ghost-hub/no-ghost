@@ -99,6 +99,7 @@ export interface ContentBlock {
       };
       [k: string]: unknown;
     } | null;
+    captionHTML?: string | null;
   };
   blocks?: (TextBlock | QuotesBlock | FooterBlock)[] | null;
   theme?: ('default' | 'full') | null;
@@ -205,6 +206,7 @@ export interface Quote {
       };
       [k: string]: unknown;
     } | null;
+    captionHTML?: string | null;
   };
   updatedAt: string;
   createdAt: string;
@@ -308,6 +310,7 @@ export interface Site {
       };
       [k: string]: unknown;
     } | null;
+    captionHTML?: string | null;
   };
   updatedAt?: string | null;
   createdAt?: string | null;

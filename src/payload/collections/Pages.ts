@@ -1,7 +1,7 @@
 import type { CollectionConfig } from "payload";
 import contentBlock from "@/payload/blocks/Content";
 
-export default {
+const collection: CollectionConfig = {
   slug: "pages",
   admin: {
     useAsTitle: "title",
@@ -68,4 +68,6 @@ export default {
     },
     maxPerDoc: 50,
   },
-} as CollectionConfig;
+};
+
+export default collection;

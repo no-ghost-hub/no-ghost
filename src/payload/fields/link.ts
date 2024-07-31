@@ -1,6 +1,6 @@
 import type { Field } from "payload";
 
-export default {
+const field: Field = {
   name: "link",
   type: "group",
   fields: [
@@ -69,4 +69,6 @@ export default {
       ],
     },
   ],
-} as Field;
+};
+
+export default field;
