@@ -1,5 +1,5 @@
 import { GlobalConfig } from "payload";
-import medium from "@/payload/fields/medium";
+import image from "@/payload/fields/image";
 
 const global: GlobalConfig = {
   label: "Site",
@@ -30,8 +30,8 @@ const global: GlobalConfig = {
       type: "textarea",
     },
     {
+      ...image,
       label: "Social image",
-      ...medium,
     },
   ],
 };
