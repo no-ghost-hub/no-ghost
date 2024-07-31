@@ -8,15 +8,20 @@ const collection: CollectionConfig = {
   },
   fields: [
     {
-      name: "alt",
-      type: "text",
-      required: true,
+      type: "row",
+      fields: [
+        {
+          name: "alt",
+          type: "text",
+          required: true,
+        },
+        {
+          name: "caption",
+          type: "richText",
+        },
+        lexicalHTML("caption", { name: "captionHTML" }),
+      ],
     },
-    {
-      name: "caption",
-      type: "richText",
-    },
-    lexicalHTML("caption", { name: "captionHTML" }),
   ],
   upload: true,
 };

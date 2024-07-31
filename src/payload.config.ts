@@ -44,7 +44,7 @@ export default buildConfig({
   collections: [Users, Pages, Media, Quotes, Menus],
   secret: process.env.PAYLOAD_SECRET || "",
   db: postgresAdapter({
-    push: false,
+    push: true,
     pool: {
       connectionString: process.env.POSTGRES_URL || "",
     },
@@ -61,7 +61,7 @@ export default buildConfig({
   typescript: {
     outputFile: "./src/payload-types.ts",
   },
-  graphQL: {
-    maxComplexity: 100,
-  },
+  // graphQL: {
+  //   maxComplexity: 100,
+  // },
 });
