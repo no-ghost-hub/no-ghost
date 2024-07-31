@@ -81,12 +81,34 @@ CREATE TABLE IF NOT EXISTS "users" (
 	"lock_until" timestamp(3) with time zone
 );
 
+CREATE TABLE IF NOT EXISTS "pages_blocks_image_block" (
+	"_order" integer NOT NULL,
+	"_parent_id" integer NOT NULL,
+	"_path" text NOT NULL,
+	"id" varchar PRIMARY KEY NOT NULL,
+	"image_id" integer,
+	"block_name" varchar
+);
+
+CREATE TABLE IF NOT EXISTS "pages_blocks_video_block" (
+	"_order" integer NOT NULL,
+	"_parent_id" integer NOT NULL,
+	"_path" text NOT NULL,
+	"id" varchar PRIMARY KEY NOT NULL,
+	"video_src" varchar,
+	"video_poster_id" integer,
+	"video_ratio_x" numeric,
+	"video_ratio_y" numeric,
+	"block_name" varchar
+);
+
 CREATE TABLE IF NOT EXISTS "pages_blocks_text_block" (
 	"_order" integer NOT NULL,
 	"_parent_id" integer NOT NULL,
 	"_path" text NOT NULL,
 	"id" varchar PRIMARY KEY NOT NULL,
 	"text" jsonb,
+	"text_h_t_m_l" varchar,
 	"theme" "enum_pages_blocks_text_block_theme",
 	"block_name" varchar
 );
@@ -114,8 +136,8 @@ CREATE TABLE IF NOT EXISTS "pages_blocks_content_block" (
 	"_parent_id" integer NOT NULL,
 	"_path" text NOT NULL,
 	"id" varchar PRIMARY KEY NOT NULL,
-	"medium_medium_id" integer,
 	"medium_caption" jsonb,
+	"medium_caption_h_t_m_l" varchar,
 	"theme" "enum_pages_blocks_content_block_theme",
 	"block_name" varchar
 );
@@ -137,12 +159,36 @@ CREATE TABLE IF NOT EXISTS "pages_rels" (
 	"quotes_id" integer
 );
 
+CREATE TABLE IF NOT EXISTS "_pages_v_blocks_image_block" (
+	"_order" integer NOT NULL,
+	"_parent_id" integer NOT NULL,
+	"_path" text NOT NULL,
+	"id" serial PRIMARY KEY NOT NULL,
+	"image_id" integer,
+	"_uuid" varchar,
+	"block_name" varchar
+);
+
+CREATE TABLE IF NOT EXISTS "_pages_v_blocks_video_block" (
+	"_order" integer NOT NULL,
+	"_parent_id" integer NOT NULL,
+	"_path" text NOT NULL,
+	"id" serial PRIMARY KEY NOT NULL,
+	"video_src" varchar,
+	"video_poster_id" integer,
+	"video_ratio_x" numeric,
+	"video_ratio_y" numeric,
+	"_uuid" varchar,
+	"block_name" varchar
+);
+
 CREATE TABLE IF NOT EXISTS "_pages_v_blocks_text_block" (
 	"_order" integer NOT NULL,
 	"_parent_id" integer NOT NULL,
 	"_path" text NOT NULL,
 	"id" serial PRIMARY KEY NOT NULL,
 	"text" jsonb,
+	"text_h_t_m_l" varchar,
 	"theme" "enum__pages_v_blocks_text_block_theme",
 	"_uuid" varchar,
 	"block_name" varchar
@@ -173,8 +219,8 @@ CREATE TABLE IF NOT EXISTS "_pages_v_blocks_content_block" (
 	"_parent_id" integer NOT NULL,
 	"_path" text NOT NULL,
 	"id" serial PRIMARY KEY NOT NULL,
-	"medium_medium_id" integer,
 	"medium_caption" jsonb,
+	"medium_caption_h_t_m_l" varchar,
 	"theme" "enum__pages_v_blocks_content_block_theme",
 	"_uuid" varchar,
 	"block_name" varchar
@@ -206,6 +252,7 @@ CREATE TABLE IF NOT EXISTS "media" (
 	"id" serial PRIMARY KEY NOT NULL,
 	"alt" varchar NOT NULL,
 	"caption" jsonb,
+	"caption_h_t_m_l" varchar,
 	"updated_at" timestamp(3) with time zone DEFAULT now() NOT NULL,
 	"created_at" timestamp(3) with time zone DEFAULT now() NOT NULL,
 	"url" varchar,
@@ -226,8 +273,7 @@ CREATE TABLE IF NOT EXISTS "quotes" (
 	"role" varchar NOT NULL,
 	"age" numeric NOT NULL,
 	"quote" varchar NOT NULL,
-	"medium_medium_id" integer,
-	"medium_caption" jsonb,
+	"image_id" integer,
 	"updated_at" timestamp(3) with time zone DEFAULT now() NOT NULL,
 	"created_at" timestamp(3) with time zone DEFAULT now() NOT NULL
 );
@@ -286,8 +332,7 @@ CREATE TABLE IF NOT EXISTS "site" (
 	"id" serial PRIMARY KEY NOT NULL,
 	"title" varchar NOT NULL,
 	"description" varchar,
-	"medium_medium_id" integer,
-	"medium_caption" jsonb,
+	"image_id" integer,
 	"updated_at" timestamp(3) with time zone,
 	"created_at" timestamp(3) with time zone
 );
@@ -316,6 +361,12 @@ CREATE TABLE IF NOT EXISTS "footer_rels" (
 
 CREATE INDEX IF NOT EXISTS "users_created_at_idx" ON "users" ("created_at");
 CREATE UNIQUE INDEX IF NOT EXISTS "users_email_idx" ON "users" ("email");
+CREATE INDEX IF NOT EXISTS "pages_blocks_image_block_order_idx" ON "pages_blocks_image_block" ("_order");
+CREATE INDEX IF NOT EXISTS "pages_blocks_image_block_parent_id_idx" ON "pages_blocks_image_block" ("_parent_id");
+CREATE INDEX IF NOT EXISTS "pages_blocks_image_block_path_idx" ON "pages_blocks_image_block" ("_path");
+CREATE INDEX IF NOT EXISTS "pages_blocks_video_block_order_idx" ON "pages_blocks_video_block" ("_order");
+CREATE INDEX IF NOT EXISTS "pages_blocks_video_block_parent_id_idx" ON "pages_blocks_video_block" ("_parent_id");
+CREATE INDEX IF NOT EXISTS "pages_blocks_video_block_path_idx" ON "pages_blocks_video_block" ("_path");
 CREATE INDEX IF NOT EXISTS "pages_blocks_text_block_order_idx" ON "pages_blocks_text_block" ("_order");
 CREATE INDEX IF NOT EXISTS "pages_blocks_text_block_parent_id_idx" ON "pages_blocks_text_block" ("_parent_id");
 CREATE INDEX IF NOT EXISTS "pages_blocks_text_block_path_idx" ON "pages_blocks_text_block" ("_path");
@@ -333,6 +384,12 @@ CREATE INDEX IF NOT EXISTS "pages__status_idx" ON "pages" ("_status");
 CREATE INDEX IF NOT EXISTS "pages_rels_order_idx" ON "pages_rels" ("order");
 CREATE INDEX IF NOT EXISTS "pages_rels_parent_idx" ON "pages_rels" ("parent_id");
 CREATE INDEX IF NOT EXISTS "pages_rels_path_idx" ON "pages_rels" ("path");
+CREATE INDEX IF NOT EXISTS "_pages_v_blocks_image_block_order_idx" ON "_pages_v_blocks_image_block" ("_order");
+CREATE INDEX IF NOT EXISTS "_pages_v_blocks_image_block_parent_id_idx" ON "_pages_v_blocks_image_block" ("_parent_id");
+CREATE INDEX IF NOT EXISTS "_pages_v_blocks_image_block_path_idx" ON "_pages_v_blocks_image_block" ("_path");
+CREATE INDEX IF NOT EXISTS "_pages_v_blocks_video_block_order_idx" ON "_pages_v_blocks_video_block" ("_order");
+CREATE INDEX IF NOT EXISTS "_pages_v_blocks_video_block_parent_id_idx" ON "_pages_v_blocks_video_block" ("_parent_id");
+CREATE INDEX IF NOT EXISTS "_pages_v_blocks_video_block_path_idx" ON "_pages_v_blocks_video_block" ("_path");
 CREATE INDEX IF NOT EXISTS "_pages_v_blocks_text_block_order_idx" ON "_pages_v_blocks_text_block" ("_order");
 CREATE INDEX IF NOT EXISTS "_pages_v_blocks_text_block_parent_id_idx" ON "_pages_v_blocks_text_block" ("_parent_id");
 CREATE INDEX IF NOT EXISTS "_pages_v_blocks_text_block_path_idx" ON "_pages_v_blocks_text_block" ("_path");
@@ -376,6 +433,30 @@ CREATE INDEX IF NOT EXISTS "footer_rels_order_idx" ON "footer_rels" ("order");
 CREATE INDEX IF NOT EXISTS "footer_rels_parent_idx" ON "footer_rels" ("parent_id");
 CREATE INDEX IF NOT EXISTS "footer_rels_path_idx" ON "footer_rels" ("path");
 DO $$ BEGIN
+ ALTER TABLE "pages_blocks_image_block" ADD CONSTRAINT "pages_blocks_image_block_image_id_media_id_fk" FOREIGN KEY ("image_id") REFERENCES "media"("id") ON DELETE set null ON UPDATE no action;
+EXCEPTION
+ WHEN duplicate_object THEN null;
+END $$;
+
+DO $$ BEGIN
+ ALTER TABLE "pages_blocks_image_block" ADD CONSTRAINT "pages_blocks_image_block_parent_id_fk" FOREIGN KEY ("_parent_id") REFERENCES "pages"("id") ON DELETE cascade ON UPDATE no action;
+EXCEPTION
+ WHEN duplicate_object THEN null;
+END $$;
+
+DO $$ BEGIN
+ ALTER TABLE "pages_blocks_video_block" ADD CONSTRAINT "pages_blocks_video_block_video_poster_id_media_id_fk" FOREIGN KEY ("video_poster_id") REFERENCES "media"("id") ON DELETE set null ON UPDATE no action;
+EXCEPTION
+ WHEN duplicate_object THEN null;
+END $$;
+
+DO $$ BEGIN
+ ALTER TABLE "pages_blocks_video_block" ADD CONSTRAINT "pages_blocks_video_block_parent_id_fk" FOREIGN KEY ("_parent_id") REFERENCES "pages"("id") ON DELETE cascade ON UPDATE no action;
+EXCEPTION
+ WHEN duplicate_object THEN null;
+END $$;
+
+DO $$ BEGIN
  ALTER TABLE "pages_blocks_text_block" ADD CONSTRAINT "pages_blocks_text_block_parent_id_fk" FOREIGN KEY ("_parent_id") REFERENCES "pages"("id") ON DELETE cascade ON UPDATE no action;
 EXCEPTION
  WHEN duplicate_object THEN null;
@@ -389,12 +470,6 @@ END $$;
 
 DO $$ BEGIN
  ALTER TABLE "pages_blocks_footer_block" ADD CONSTRAINT "pages_blocks_footer_block_parent_id_fk" FOREIGN KEY ("_parent_id") REFERENCES "pages"("id") ON DELETE cascade ON UPDATE no action;
-EXCEPTION
- WHEN duplicate_object THEN null;
-END $$;
-
-DO $$ BEGIN
- ALTER TABLE "pages_blocks_content_block" ADD CONSTRAINT "pages_blocks_content_block_medium_medium_id_media_id_fk" FOREIGN KEY ("medium_medium_id") REFERENCES "media"("id") ON DELETE set null ON UPDATE no action;
 EXCEPTION
  WHEN duplicate_object THEN null;
 END $$;
@@ -418,6 +493,30 @@ EXCEPTION
 END $$;
 
 DO $$ BEGIN
+ ALTER TABLE "_pages_v_blocks_image_block" ADD CONSTRAINT "_pages_v_blocks_image_block_image_id_media_id_fk" FOREIGN KEY ("image_id") REFERENCES "media"("id") ON DELETE set null ON UPDATE no action;
+EXCEPTION
+ WHEN duplicate_object THEN null;
+END $$;
+
+DO $$ BEGIN
+ ALTER TABLE "_pages_v_blocks_image_block" ADD CONSTRAINT "_pages_v_blocks_image_block_parent_id_fk" FOREIGN KEY ("_parent_id") REFERENCES "_pages_v"("id") ON DELETE cascade ON UPDATE no action;
+EXCEPTION
+ WHEN duplicate_object THEN null;
+END $$;
+
+DO $$ BEGIN
+ ALTER TABLE "_pages_v_blocks_video_block" ADD CONSTRAINT "_pages_v_blocks_video_block_video_poster_id_media_id_fk" FOREIGN KEY ("video_poster_id") REFERENCES "media"("id") ON DELETE set null ON UPDATE no action;
+EXCEPTION
+ WHEN duplicate_object THEN null;
+END $$;
+
+DO $$ BEGIN
+ ALTER TABLE "_pages_v_blocks_video_block" ADD CONSTRAINT "_pages_v_blocks_video_block_parent_id_fk" FOREIGN KEY ("_parent_id") REFERENCES "_pages_v"("id") ON DELETE cascade ON UPDATE no action;
+EXCEPTION
+ WHEN duplicate_object THEN null;
+END $$;
+
+DO $$ BEGIN
  ALTER TABLE "_pages_v_blocks_text_block" ADD CONSTRAINT "_pages_v_blocks_text_block_parent_id_fk" FOREIGN KEY ("_parent_id") REFERENCES "_pages_v"("id") ON DELETE cascade ON UPDATE no action;
 EXCEPTION
  WHEN duplicate_object THEN null;
@@ -431,12 +530,6 @@ END $$;
 
 DO $$ BEGIN
  ALTER TABLE "_pages_v_blocks_footer_block" ADD CONSTRAINT "_pages_v_blocks_footer_block_parent_id_fk" FOREIGN KEY ("_parent_id") REFERENCES "_pages_v"("id") ON DELETE cascade ON UPDATE no action;
-EXCEPTION
- WHEN duplicate_object THEN null;
-END $$;
-
-DO $$ BEGIN
- ALTER TABLE "_pages_v_blocks_content_block" ADD CONSTRAINT "_pages_v_blocks_content_block_medium_medium_id_media_id_fk" FOREIGN KEY ("medium_medium_id") REFERENCES "media"("id") ON DELETE set null ON UPDATE no action;
 EXCEPTION
  WHEN duplicate_object THEN null;
 END $$;
@@ -466,7 +559,7 @@ EXCEPTION
 END $$;
 
 DO $$ BEGIN
- ALTER TABLE "quotes" ADD CONSTRAINT "quotes_medium_medium_id_media_id_fk" FOREIGN KEY ("medium_medium_id") REFERENCES "media"("id") ON DELETE set null ON UPDATE no action;
+ ALTER TABLE "quotes" ADD CONSTRAINT "quotes_image_id_media_id_fk" FOREIGN KEY ("image_id") REFERENCES "media"("id") ON DELETE set null ON UPDATE no action;
 EXCEPTION
  WHEN duplicate_object THEN null;
 END $$;
@@ -502,7 +595,7 @@ EXCEPTION
 END $$;
 
 DO $$ BEGIN
- ALTER TABLE "site" ADD CONSTRAINT "site_medium_medium_id_media_id_fk" FOREIGN KEY ("medium_medium_id") REFERENCES "media"("id") ON DELETE set null ON UPDATE no action;
+ ALTER TABLE "site" ADD CONSTRAINT "site_image_id_media_id_fk" FOREIGN KEY ("image_id") REFERENCES "media"("id") ON DELETE set null ON UPDATE no action;
 EXCEPTION
  WHEN duplicate_object THEN null;
 END $$;
@@ -536,12 +629,16 @@ END $$;
 export async function down({ payload, req }: MigrateDownArgs): Promise<void> {
 await payload.db.drizzle.execute(sql`
  DROP TABLE "users";
+DROP TABLE "pages_blocks_image_block";
+DROP TABLE "pages_blocks_video_block";
 DROP TABLE "pages_blocks_text_block";
 DROP TABLE "pages_blocks_quotes_block";
 DROP TABLE "pages_blocks_footer_block";
 DROP TABLE "pages_blocks_content_block";
 DROP TABLE "pages";
 DROP TABLE "pages_rels";
+DROP TABLE "_pages_v_blocks_image_block";
+DROP TABLE "_pages_v_blocks_video_block";
 DROP TABLE "_pages_v_blocks_text_block";
 DROP TABLE "_pages_v_blocks_quotes_block";
 DROP TABLE "_pages_v_blocks_footer_block";
