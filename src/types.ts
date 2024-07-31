@@ -5,10 +5,6 @@ import type {
   FooterBlock as RawFooterBlock,
 } from "@/payload-types";
 
-export type ContentBlock = Omit<RawContentBlock, "blockType"> & {
-  type: "contentBlock";
-};
-
 export type TextBlock = Omit<RawTextBlock, "blockType"> & {
   type: "textBlock";
 };
@@ -21,8 +17,14 @@ export type FooterBlock = Omit<RawFooterBlock, "blockType"> & {
   type: "footerBlock";
 };
 
-export type Blocks = ContentBlock[] | null | undefined;
 export type ContentBlockBlocks =
   | (TextBlock | QuotesBlock | FooterBlock)[]
   | null
   | undefined;
+
+export type ContentBlock = Omit<RawContentBlock, "blocks" | "blockType"> & {
+  blocks: ContentBlockBlocks;
+  type: "contentBlock";
+};
+
+export type Blocks = ContentBlock[] | null | undefined;

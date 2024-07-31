@@ -1,8 +1,9 @@
-import { FC, Fragment } from "react";
-import { Quote } from "@/payload-types";
-import { QuotesBlock } from "@/types";
+import { FC } from "react";
 import QuoteThumb from "@/components/thumbs/Quote";
 import Carousel from "@/components/elements/Carousel";
+
+import type { Quote } from "@/payload-types";
+import type { QuotesBlock } from "@/types";
 
 import getEntries from "@/utils/getEntries";
 

@@ -36,7 +36,7 @@ export default {
                 ],
               }),
             },
-            // lexicalHTML("text", { name: "textHTML" }),
+            lexicalHTML("text", { name: "textHTML" }),
           ],
         },
         {

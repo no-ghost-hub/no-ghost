@@ -160,6 +160,7 @@ export interface TextBlock {
     };
     [k: string]: unknown;
   } | null;
+  textHTML?: string | null;
   theme?: 'default' | null;
   id?: string | null;
   blockName?: string | null;
