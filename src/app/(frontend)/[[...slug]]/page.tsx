@@ -1,16 +1,17 @@
 import getEntry from "@/utils/getEntry";
 
 import Blocks from "@/components/Blocks";
+import type { Page as PageType } from "@/payload-types";
 
-export default async function Page({
+const Page = async ({
   params,
   searchParams,
 }: {
   params: { slug: string[] };
   searchParams: { [key: string]: string | string[] | undefined };
-}) {
+}) => {
   const slug = params.slug?.[0] || "home";
-  const data = await getEntry(slug, "Pages");
+  const data: PageType = await getEntry(slug, "Pages");
 
   return (
     <main>
@@ -18,4 +19,6 @@ export default async function Page({
       <Blocks blocks={data?.blocks} />
     </main>
   );
-}
+};
+
+export default Page;

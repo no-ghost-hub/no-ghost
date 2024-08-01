@@ -16,6 +16,7 @@ const Component: FC<Props> = ({ children }) => {
       swiper.current = new Swiper(swiperEl.current, {
         slidesPerView: 2.5,
         spaceBetween: 16,
+        grabCursor: true,
       });
     }
 

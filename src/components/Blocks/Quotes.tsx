@@ -3,28 +3,27 @@ import QuoteThumb from "@/components/thumbs/Quote";
 import Carousel from "@/components/elements/Carousel";
 
 import type { Quote } from "@/payload-types";
-import type { QuotesBlock } from "@/types";
 
 import getEntries from "@/utils/getEntries";
+import parsed from "@/utils/parsed";
 
-type Props = QuotesBlock;
+type Props = {
+  slugs: string[];
+};
 
-const Component: FC<Props> = async (props) => {
-  console.log(props);
-
-  // const data: Quote[] = await getEntries("Quotes");
+const Component: FC<Props> = async ({ slugs }) => {
+  const data: Quote[] = await getEntries("Quotes", slugs);
 
   return (
-    <div></div>
-    // <Carousel>
-    //   {data?.map((quote, index) => {
-    //     return (
-    //       <div key={index} className="swiper-slide">
-    //         <QuoteThumb {...quote} />
-    //       </div>
-    //     );
-    //   })}
-    // </Carousel>
+    <Carousel>
+      {data?.map((quote, index) => {
+        return (
+          <div key={index} className="swiper-slide">
+            <QuoteThumb {...parsed(quote, "quoteThumb")} />
+          </div>
+        );
+      })}
+    </Carousel>
   );
 };
 

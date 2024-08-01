@@ -1,30 +1,45 @@
-import type {
-  ContentBlock as RawContentBlock,
-  TextBlock as RawTextBlock,
-  QuotesBlock as RawQuotesBlock,
-  FooterBlock as RawFooterBlock,
-} from "@/payload-types";
+import { ReactNode } from "react";
 
-export type TextBlock = Omit<RawTextBlock, "blockType"> & {
-  type: "textBlock";
+export type Block = {
+  id: string;
+  blockType: string;
 };
 
-export type QuotesBlock = Omit<RawQuotesBlock, "blockType"> & {
-  type: "quotesBlock";
+export type ContentBlockProps = {
+  sideMedium: any;
+  blocks: any[];
 };
 
-export type FooterBlock = Omit<RawFooterBlock, "blockType"> & {
-  type: "footerBlock";
+export type ContentBlock = Block & ContentBlockProps;
+
+export type Image = {
+  src: string;
+  alt: string;
+  width: number;
+  height: number;
+  theme?: string;
 };
 
-export type ContentBlockBlocks =
-  | (TextBlock | QuotesBlock | FooterBlock)[]
-  | null
-  | undefined;
-
-export type ContentBlock = Omit<RawContentBlock, "blocks" | "blockType"> & {
-  blocks: ContentBlockBlocks;
-  type: "contentBlock";
+export type Video = {
+  src: string;
+  poster: Image;
+  ratio: { x: number; y: number };
+  autoplay?: boolean;
+  theme?: string;
 };
 
-export type Blocks = ContentBlock[] | null | undefined;
+export type Quote = {
+  title: string;
+  slug: string;
+  role: string;
+  age: number;
+  quote: string;
+  image: Image;
+};
+
+export type Text = {
+  children?: ReactNode;
+  html?: string;
+  tag?: keyof JSX.IntrinsicElements;
+  typo?: string;
+};

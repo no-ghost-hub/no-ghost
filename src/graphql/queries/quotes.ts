@@ -1,5 +1,5 @@
 export default /* GraphQL */ `
-  query ($slugs: String[]) {
+  query ($slugs: [String]) {
     Quotes(where: { slug: { in: $slugs } }) {
       docs {
         id

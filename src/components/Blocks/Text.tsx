@@ -1,14 +1,12 @@
-import { TextBlock } from "@/types";
 import { FC } from "react";
+import Text from "@/components/elements/Text";
 
-type Props = TextBlock;
+type Props = {
+  text: string;
+};
 
-const Component: FC<Props> = (props) => {
-  return (
-    <div>
-      <p>Text</p>
-    </div>
-  );
+const Component: FC<Props> = ({ text }) => {
+  return <Text html={text} />;
 };
 
 export default Component;

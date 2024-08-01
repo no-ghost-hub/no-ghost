@@ -2,7 +2,7 @@ import pageQuery from "@/graphql/queries/page";
 
 const queries = new Map([["Pages", pageQuery]]);
 
-export default async (slug: string, type: string) => {
+const util = async (slug: string, type: string) => {
   let res;
   let data;
 
@@ -30,3 +30,5 @@ export default async (slug: string, type: string) => {
 
   return data;
 };
+
+export default util;

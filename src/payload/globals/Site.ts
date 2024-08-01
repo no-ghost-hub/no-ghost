@@ -4,6 +4,9 @@ import image from "@/payload/fields/image";
 const global: GlobalConfig = {
   label: "Site",
   slug: "site",
+  access: {
+    read: () => true,
+  },
   fields: [
     {
       type: "row",

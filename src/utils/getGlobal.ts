@@ -2,7 +2,7 @@ import footerQuery from "@/graphql/queries/footer";
 
 const queries = new Map([["Footer", footerQuery]]);
 
-export default async (type: string) => {
+const util = async (type: string) => {
   let res;
   let data;
 
@@ -21,9 +21,13 @@ export default async (type: string) => {
 
   data = await res?.json();
 
+  console.log(data);
+
   if (data) {
     // data = data?.data[type].docs[0];
   }
 
   return data;
 };
+
+export default util;

@@ -8,13 +8,13 @@ export default /* GraphQL */ `
         blocks {
           ... on ContentBlock {
             id
-            type: blockType
+            blockType
             medium {
               ... on ContentBlock_Medium {
                 medium {
                   ... on ImageBlock {
                     id
-                    type: blockType
+                    blockType
                     image {
                       ... on Media {
                         id
@@ -27,7 +27,7 @@ export default /* GraphQL */ `
                   }
                   ... on VideoBlock {
                     id
-                    type: blockType
+                    blockType
                     video {
                       src
                       poster {
@@ -51,12 +51,12 @@ export default /* GraphQL */ `
             blocks {
               ... on TextBlock {
                 id
-                type: blockType
-                text: textHTML
+                blockType
+                textHTML
               }
               ... on QuotesBlock {
                 id
-                type: blockType
+                blockType
                 quotes {
                   ... on Quote {
                     id
@@ -66,7 +66,7 @@ export default /* GraphQL */ `
               }
               ... on FooterBlock {
                 id
-                type: blockType
+                blockType
               }
             }
           }

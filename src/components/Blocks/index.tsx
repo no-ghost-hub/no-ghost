@@ -1,24 +1,21 @@
 import { FC } from "react";
 import ContentBlock from "@/components/Blocks/Content";
-import type { Blocks } from "@/types";
+import parsed from "@/utils/parsed";
 
-interface BlocksProps {
-  blocks: Blocks;
-}
+import type { Page as PageType } from "@/payload-types";
 
-const Blocks: FC<BlocksProps> = ({ blocks }) => {
-  const components = new Map([["contentBlock", ContentBlock]]);
+type Props = { blocks: PageType["blocks"] };
+
+const Blocks: FC<Props> = ({ blocks }) => {
+  const components = {
+    contentBlock: ContentBlock,
+  };
 
   return (
     <div>
       {blocks?.map((block, index) => {
-        const Block = components.get(block.type);
-
-        if (!Block) {
-          return null;
-        }
-
-        return <Block key={index} {...block} />;
+        const Component = components[block.blockType];
+        return <Component key={index} {...parsed(block, block.blockType)} />;
       })}
     </div>
   );
