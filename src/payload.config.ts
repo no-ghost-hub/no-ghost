@@ -44,7 +44,7 @@ export default buildConfig({
   collections: [Users, Pages, Media, Quotes, Menus],
   secret: process.env.PAYLOAD_SECRET || "",
   db: postgresAdapter({
-    push: true,
+    push: false,
     pool: {
       connectionString: process.env.POSTGRES_URL || "",
     },

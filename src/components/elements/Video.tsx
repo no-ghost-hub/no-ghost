@@ -1,10 +1,12 @@
-import { FC } from "react";
-
 import { Video } from "@/types";
 
 type Props = Video;
 
-const Component: FC<Props> = ({ src, autoplay = false, theme = "default" }) => {
+const Component: React.FC<Props> = ({
+  src,
+  autoplay = false,
+  theme = "default",
+}) => {
   const classes: Record<string, string> = {
     default: "",
     cover: "w-full h-full object-cover",

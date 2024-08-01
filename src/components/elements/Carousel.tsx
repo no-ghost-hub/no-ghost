@@ -5,19 +5,31 @@ import Swiper from "swiper";
 
 import "swiper/css";
 
-type Props = { children: ReactNode };
+import { SwiperOptions } from "swiper/types";
 
-const Component: FC<Props> = ({ children }) => {
+type Props = { children: ReactNode; theme?: string };
+
+const Component: React.FC<Props> = ({ children, theme = "default" }) => {
   const swiperEl = useRef<HTMLDivElement | null>(null);
   const swiper = useRef<Swiper | null>(null);
 
+  const options: Record<string, SwiperOptions> = {
+    default: {},
+    quotes: {
+      slidesPerView: 1.25,
+      spaceBetween: 20,
+      grabCursor: true,
+      breakpoints: {
+        600: {
+          slidesPerView: 2.5,
+        },
+      },
+    },
+  };
+
   useEffect(() => {
     if (swiperEl.current) {
-      swiper.current = new Swiper(swiperEl.current, {
-        slidesPerView: 2.5,
-        spaceBetween: 16,
-        grabCursor: true,
-      });
+      swiper.current = new Swiper(swiperEl.current, options[theme]);
     }
 
     return () => {

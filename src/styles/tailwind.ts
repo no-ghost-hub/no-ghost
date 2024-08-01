@@ -1,11 +1,12 @@
 import type { Config } from "tailwindcss";
 import plugin from "tailwindcss/plugin";
 import typographyPlugin from "@tailwindcss/typography";
+import defaultTheme from "tailwindcss/defaultTheme";
 
 const config: Partial<Config> = {
   theme: {
     screens: {
-      s: "800px",
+      s: "1000px",
     },
     colors: {
       transparent: "transparent",
@@ -22,10 +23,17 @@ const config: Partial<Config> = {
       m: "var(--spacing-m)",
       l: "var(--spacing-l)",
       xl: "var(--spacing-xl)",
+      pagex: "var(--spacing-page-x)",
+      pagey: "var(--spacing-page-y)",
+    },
+    gridAutoColumns: {
+      ...defaultTheme.gridAutoColumns,
+      max: "minmax(0, max-content)",
     },
     borderRadius: {
       DEFAULT: "var(--radius-default)",
       container: "var(--radius-container)",
+      none: "0px",
     },
     fontFamily: {
       redhat: ["var(--font-redhat)"],
@@ -36,14 +44,14 @@ const config: Partial<Config> = {
         css: {
           p: {
             fontFamily: "var(--font-redhat)",
-            fontSize: "18px",
+            fontSize: "16px",
             lineHeight: "1.1",
             textWrap: "balance",
             maxWidth: "65ch",
           },
           h1: {
             fontFamily: "var(--font-dexlite)",
-            fontSize: "60px",
+            fontSize: "min(9vw, 60px)",
             lineHeight: "1",
           },
           "h1, h2, .typo-1, .typo-2": {
@@ -62,7 +70,7 @@ const config: Partial<Config> = {
           },
           h2: {
             fontFamily: "var(--font-dexlite)",
-            fontSize: "40px",
+            fontSize: "min(7.5vw, 40px)",
             lineHeight: "1",
             color: "var(--color-purple)",
             textTransform: "uppercase",
@@ -90,12 +98,17 @@ const config: Partial<Config> = {
         ":root": {
           "--spacing-0": "0px",
           "--spacing-s": "8px",
-          // "@media screen(s)": {
-          //   "--spacing-s": "16px",
-          // },
-          "--spacing-m": "16px",
-          "--spacing-l": "32px",
-          "--spacing-xl": "64px",
+          "--spacing-m": "20px",
+          "--spacing-l": "36px",
+          "--spacing-xl": "72px",
+          "--spacing-page-x": "20px",
+          "--spacing-page-y": "48px",
+
+          "@media screen(s)": {
+            "--spacing-l": "48px",
+            "--spacing-page-x": "72px",
+            "--spacing-page-y": "72px",
+          },
 
           "--color-black": "rgb(0,0,0)",
           "--color-white": "rgb(255,255,255)",

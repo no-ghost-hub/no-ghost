@@ -1,9 +1,8 @@
 import { Text } from "@/types";
-import { FC } from "react";
 
 type Props = Text;
 
-const Component: FC<Props> = ({ children, html, tag = "p", typo }) => {
+const Component: React.FC<Props> = ({ children, html, tag = "p", typo }) => {
   const Component = tag;
 
   const typos: Record<string, string> = {

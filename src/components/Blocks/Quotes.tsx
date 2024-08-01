@@ -1,4 +1,3 @@
-import { FC } from "react";
 import QuoteThumb from "@/components/thumbs/Quote";
 import Carousel from "@/components/elements/Carousel";
 
@@ -11,11 +10,11 @@ type Props = {
   slugs: string[];
 };
 
-const Component: FC<Props> = async ({ slugs }) => {
+const Component: React.FC<Props> = async ({ slugs }) => {
   const data: Quote[] = await getEntries("Quotes", slugs);
 
   return (
-    <Carousel>
+    <Carousel theme="quotes">
       {data?.map((quote, index) => {
         return (
           <div key={index} className="swiper-slide">

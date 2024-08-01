@@ -21,10 +21,8 @@ const util = async (type: string) => {
 
   data = await res?.json();
 
-  console.log(data);
-
   if (data) {
-    // data = data?.data[type].docs[0];
+    data = data?.data?.[type];
   }
 
   return data;

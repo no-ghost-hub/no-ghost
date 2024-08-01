@@ -1,14 +1,9 @@
-import { FC } from "react";
-
-import getGlobal from "@/utils/getGlobal";
-import { Footer } from "@/payload-types";
+import Footer from "@/components/layout/Footer";
 
 type Props = {};
 
-const Component: FC<Props> = async () => {
-  const data: Footer = await getGlobal("Footer");
-
-  return <footer></footer>;
+const Component: React.FC<Props> = async () => {
+  return <Footer />;
 };
 
 export default Component;

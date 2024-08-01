@@ -1,4 +1,5 @@
 import { ReactNode } from "react";
+import type { LinkProps } from "next/link";
 
 export type Block = {
   id: string;
@@ -43,3 +44,5 @@ export type Text = {
   tag?: keyof JSX.IntrinsicElements;
   typo?: string;
 };
+
+export type Link = LinkProps & { children: ReactNode };
