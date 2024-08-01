@@ -16,7 +16,7 @@ const util = (raw: any, type?: string): any => {
         ratio: raw.ratio,
       };
     case "videoBlock":
-      return { ...util(raw.video, "video"), autoplay: false, type: "video" };
+      return { ...util(raw.video, "video"), autoplay: true, type: "video" };
     case "contentBlock":
       return {
         sideMedium: raw.medium.medium[0],
