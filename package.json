@@ -15,12 +15,12 @@
     "ci": "payload migrate && pnpm build"
   },
   "dependencies": {
-    "@payloadcms/db-postgres": "3.0.0-beta.71",
-    "@payloadcms/next": "3.0.0-beta.71",
-    "@payloadcms/richtext-lexical": "3.0.0-beta.71",
-    "@payloadcms/storage-vercel-blob": "3.0.0-beta.71",
+    "@payloadcms/db-postgres": "3.0.0-beta.72",
+    "@payloadcms/next": "3.0.0-beta.72",
+    "@payloadcms/richtext-lexical": "3.0.0-beta.72",
+    "@payloadcms/storage-vercel-blob": "3.0.0-beta.72",
     "next": "15.0.0-rc.0",
-    "payload": "3.0.0-beta.71",
+    "payload": "3.0.0-beta.72",
     "react": "19.0.0-rc-3208e73e-20240730",
     "react-dom": "19.0.0-rc-3208e73e-20240730",
     "sharp": "^0.33.4",
@@ -28,9 +28,9 @@
     "swr": "^2.2.5"
   },
   "devDependencies": {
-    "@payloadcms/graphql": "3.0.0-beta.71",
+    "@payloadcms/graphql": "3.0.0-beta.72",
     "@svgr/webpack": "^8.1.0",
-    "@swc/core": "^1.7.4",
+    "@swc/core": "^1.7.5",
     "@tailwindcss/typography": "^0.5.13",
     "@types/node": "^22",
     "@types/react": "^18",

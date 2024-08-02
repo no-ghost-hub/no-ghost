@@ -17,7 +17,7 @@ const Component: React.FC<Props> = async ({ slugs }) => {
     <Carousel theme="quotes">
       {data?.map((quote, index) => {
         return (
-          <div key={index} className="swiper-slide">
+          <div key={index} className="swiper-slide max-w-[280px]">
             <QuoteThumb {...parsed(quote, "quoteThumb")} />
           </div>
         );

@@ -1,7 +1,8 @@
 "use client";
 
-import { useRef, FC, ReactNode, useEffect } from "react";
+import { useRef, ReactNode, useEffect } from "react";
 import Swiper from "swiper";
+import { Mousewheel } from "swiper/modules";
 
 import "swiper/css";
 
@@ -16,12 +17,19 @@ const Component: React.FC<Props> = ({ children, theme = "default" }) => {
   const options: Record<string, SwiperOptions> = {
     default: {},
     quotes: {
-      slidesPerView: 1.25,
+      modules: [Mousewheel],
+      mousewheel: {
+        enabled: true,
+      },
+      slidesPerView: "auto",
       spaceBetween: 20,
       grabCursor: true,
+      slidesOffsetBefore: 20,
+      slidesOffsetAfter: 20,
       breakpoints: {
         600: {
-          slidesPerView: 2.5,
+          slidesOffsetBefore: 72,
+          slidesOffsetAfter: 72,
         },
       },
     },
