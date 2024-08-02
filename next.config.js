@@ -23,7 +23,7 @@ const nextConfig = {
     remotePatterns: [
       {
         protocol: "https",
-        hostname: "eatnoghosts.com",
+        hostname: "**.vercel-storage.com",
       },
     ],
   },
