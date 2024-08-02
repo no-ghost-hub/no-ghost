@@ -19,6 +19,14 @@ const nextConfig = {
 
     return config;
   },
+  images: {
+    remotePatterns: [
+      {
+        protocol: "https",
+        hostname: "no-ghosts.vercel.app",
+      },
+    ],
+  },
 };
 
 export default withPayload(nextConfig);
