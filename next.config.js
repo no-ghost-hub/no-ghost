@@ -23,9 +23,7 @@ const nextConfig = {
     remotePatterns: [
       {
         protocol: "https",
-        hostname: "no-ghosts.vercel.app",
-        port: "",
-        pathname: "**",
+        hostname: "eatnoghosts.com",
       },
     ],
   },
