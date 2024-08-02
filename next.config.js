@@ -24,6 +24,8 @@ const nextConfig = {
       {
         protocol: "https",
         hostname: "no-ghosts.vercel.app",
+        port: "",
+        pathname: "**",
       },
     ],
   },
