@@ -17,7 +17,7 @@ const Component: React.FC<Props> = ({
   };
 
   return (
-    <Image
+    <img
       src={src}
       alt={alt}
       width={width}
