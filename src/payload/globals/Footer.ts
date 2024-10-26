@@ -1,4 +1,5 @@
 import { GlobalConfig } from "payload";
+import textFields from "@/payload/groups/textFields";
 
 const global: GlobalConfig = {
   label: "Footer",
@@ -6,14 +7,7 @@ const global: GlobalConfig = {
   access: {
     read: () => true,
   },
-  fields: [
-    {
-      name: "menus",
-      type: "relationship",
-      relationTo: ["menus"],
-      hasMany: true,
-    },
-  ],
+  fields: [...textFields()],
 };
 
 export default global;

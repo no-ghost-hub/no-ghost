@@ -1,58 +1,33 @@
-import type { Quote } from "@/payload-types";
-
 const util = (raw: any, type?: string): any => {
   switch (type) {
-    case "image":
+    case "linkBlock": {
       return {
-        src: raw.url,
-        alt: raw.alt,
-        width: raw.width,
-        height: raw.height,
+        ...util(raw, "link"),
       };
-    case "video":
+    }
+    case "link": {
       return {
-        src: raw.src,
-        poster: util(raw.poster, "image"),
-        ratio: raw.ratio,
+        href: raw.type === "custom" ? raw.url : `/${raw.reference?.value.slug}`,
+        text: raw.text || raw.reference?.value.title,
       };
-    case "videoBlock":
-      return { ...util(raw.video, "video"), autoplay: true, type: "video" };
-    case "contentBlock":
+    }
+    case "category": {
       return {
-        sideMedium: raw.medium.medium[0],
-        blocks: raw.blocks,
+        title: raw.name,
+        products: raw.products,
       };
-    case "textBlock":
+    }
+    case "product-thumb": {
       return {
-        text: raw.textHTML,
+        title: raw.name,
+        image: raw.image,
+        price: raw.price,
+        description: raw.description,
       };
-    case "quotesBlock":
-      return {
-        slugs: raw.quotes.map((quote: Quote) => quote.slug),
-      };
-    case "quoteThumb":
-      return {
-        title: raw.title,
-        slug: raw.slug,
-        role: raw.role,
-        age: raw.age,
-        quote: raw.quote,
-        image: util(raw.image, "image"),
-      };
-    case "menu":
-      return {
-        title: raw.value.title,
-        slug: raw.value.slug,
-        items: raw.value.items,
-      };
-    case "link":
-      return {
-        href: raw.type === "custom" ? raw.url : raw.reference,
-        icon: raw.icon,
-        text: raw.text,
-      };
-    default:
+    }
+    default: {
       return raw;
+    }
   }
 };
 

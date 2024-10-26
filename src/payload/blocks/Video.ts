@@ -1,9 +1,13 @@
-import type { GroupField } from "payload";
+import type { Block } from "payload";
 import image from "@/payload/fields/image";
 
-const field: GroupField = {
-  name: "video",
-  type: "group",
+const block: Block = {
+  slug: "videoBlock",
+  labels: {
+    singular: "Video block",
+    plural: "Video blocks",
+  },
+  interfaceName: "VideoBlock",
   fields: [
     {
       name: "src",
@@ -38,4 +42,4 @@ const field: GroupField = {
   ],
 };
 
-export default field;
+export default block;

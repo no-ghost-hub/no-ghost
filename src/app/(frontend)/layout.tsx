@@ -2,35 +2,23 @@ import type { Metadata } from "next";
 import localFont from "next/font/local";
 import "@/styles/index.css";
 
-const redHat = localFont({
-  src: [
-    {
-      path: "./fonts/redhattext.woff2",
-      style: "normal",
-    },
-    {
-      path: "./fonts/redhattext-italic.woff2",
-      style: "italic",
-    },
-  ],
-  display: "swap",
-  variable: "--font-redhat",
-});
+import Navigation from "@/components/layout/Navigation";
+import Footer from "@/components/layout/Footer";
 
-const dexlite = localFont({
+const leif = localFont({
   src: [
     {
-      path: "./fonts/dexlite-700.woff2",
+      path: "./fonts/leif-800.woff2",
       style: "normal",
-      weight: "700",
+      weight: "800",
     },
   ],
   display: "swap",
-  variable: "--font-dexlite",
+  variable: "--font-leif",
 });
 
 export const metadata: Metadata = {
-  title: "No Ghosts",
+  title: "No Ghost",
 };
 
 export default function RootLayout({
@@ -41,9 +29,13 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${redHat.variable} ${dexlite.variable} selection:bg-purple selection:text-white`}
+      className={`${leif.variable} selection:bg-purple selection:text-white`}
     >
-      <body className="typo-p">{children}</body>
+      <body className="typo-p">
+        {children}
+        <Navigation />
+        <Footer />
+      </body>
     </html>
   );
 }

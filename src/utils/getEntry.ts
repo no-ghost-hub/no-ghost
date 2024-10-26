@@ -1,6 +1,11 @@
 import pageQuery from "@/graphql/queries/page";
+import menuQuery from "@/graphql/queries/menu";
+import parsed from "@/utils/parsed";
 
-const queries = new Map([["Pages", pageQuery]]);
+const queries = new Map([
+  ["Pages", pageQuery],
+  ["Menus", menuQuery],
+]);
 
 const util = async (slug: string, type: string) => {
   let res;
@@ -23,12 +28,13 @@ const util = async (slug: string, type: string) => {
   }
 
   data = await res?.json();
+  console.log(data, "data");
 
   if (data) {
     data = data?.data?.[type]?.docs[0];
   }
 
-  return data;
+  return parsed(data, type);
 };
 
 export default util;

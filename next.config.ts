@@ -1,8 +1,7 @@
-// import type { NextConfig } from "next";
+import type { NextConfig } from "next";
 import { withPayload } from "@payloadcms/next/withPayload";
 
-/** @type {import('next').NextConfig} */
-const nextConfig = {
+const nextConfig: NextConfig = {
   serverExternalPackages: ["graphql"],
   webpack: (config) => {
     const fileLoaderRule = config.module.rules.find((rule) =>
@@ -20,10 +19,23 @@ const nextConfig = {
     return config;
   },
   images: {
+    domains: ["public.blob.vercel-storage.com"],
     remotePatterns: [
       {
         protocol: "https",
-        hostname: "no-ghosts.vercel.app",
+        hostname: "**.vercel-storage.com",
+      },
+      {
+        protocol: "https",
+        hostname: "public.blob.vercel-storage.com",
+      },
+      {
+        protocol: "https",
+        hostname: "**.public.blob.vercel-storage.com",
+      },
+      {
+        protocol: "https",
+        hostname: "vercel-storage.com",
       },
     ],
   },

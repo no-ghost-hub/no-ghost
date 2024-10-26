@@ -4,12 +4,8 @@ import type { Link as LinkType } from "@/types";
 
 type Props = LinkType;
 
-const Component: React.FC<Props> = ({ href, children }) => {
-  return (
-    <Link href={href} target="_blank" className="hover:text-purple">
-      {children}
-    </Link>
-  );
+const Component = ({ href, children }: Props) => {
+  return <Link href={href}>{children}</Link>;
 };
 
 export default Component;

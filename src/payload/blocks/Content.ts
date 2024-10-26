@@ -1,8 +1,6 @@
 import type { Block } from "payload";
-import medium from "@/payload/fields/medium";
-import textBlock from "@/payload/blocks/Text";
-import quotesBlock from "@/payload/blocks/Quotes";
-import footerBlock from "@/payload/blocks/Footer";
+import textFields from "@/payload/groups/textFields";
+import mediumFields from "@/payload/groups/mediumFields";
 
 const block: Block = {
   slug: "contentBlock",
@@ -17,18 +15,7 @@ const block: Block = {
       tabs: [
         {
           label: "Block",
-          fields: [
-            {
-              label: "Side medium",
-              ...medium,
-            },
-            {
-              name: "blocks",
-              label: "Blocks",
-              type: "blocks",
-              blocks: [textBlock, quotesBlock, footerBlock],
-            },
-          ],
+          fields: [...textFields(), ...mediumFields()],
         },
         {
           label: "Settings",
@@ -46,8 +33,36 @@ const block: Block = {
                       value: "default",
                     },
                     {
+                      label: "Fit",
+                      value: "fit",
+                    },
+                    {
                       label: "Full",
                       value: "full",
+                    },
+                  ],
+                  defaultValue: "default",
+                },
+                {
+                  name: "background",
+                  label: "Background",
+                  type: "select",
+                  options: [
+                    {
+                      label: "Default",
+                      value: "default",
+                    },
+                    {
+                      label: "Orange",
+                      value: "orange",
+                    },
+                    {
+                      label: "Blue",
+                      value: "blue",
+                    },
+                    {
+                      label: "None",
+                      value: "none",
                     },
                   ],
                   defaultValue: "default",

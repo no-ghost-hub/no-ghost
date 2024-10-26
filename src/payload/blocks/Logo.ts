@@ -1,27 +1,20 @@
 import type { Block } from "payload";
+import mediumFields from "@/payload/groups/mediumFields";
 
 const block: Block = {
-  slug: "quotesBlock",
+  slug: "logoBlock",
   labels: {
-    singular: "Quotes block",
-    plural: "Quotes blocks",
+    singular: "Logo block",
+    plural: "Logo blocks",
   },
-  interfaceName: "QuotesBlock",
+  interfaceName: "LogoBlock",
   fields: [
     {
       type: "tabs",
       tabs: [
         {
           label: "Block",
-          fields: [
-            {
-              label: "Quotes",
-              name: "quotes",
-              type: "relationship",
-              relationTo: "quotes",
-              hasMany: true,
-            },
-          ],
+          fields: mediumFields(),
         },
         {
           label: "Settings",

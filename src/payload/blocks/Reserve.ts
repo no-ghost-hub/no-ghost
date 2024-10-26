@@ -1,16 +1,21 @@
 import type { Block } from "payload";
+import message from "@/payload/fields/message";
 
 const block: Block = {
-  slug: "footerBlock",
+  slug: "reserveBlock",
   labels: {
-    singular: "Footer block",
-    plural: "Footer blocks",
+    singular: "Reserve block",
+    plural: "Reserve blocks",
   },
-  interfaceName: "FooterBlock",
+  interfaceName: "ReserveBlock",
   fields: [
     {
       type: "tabs",
       tabs: [
+        {
+          label: "Block",
+          fields: [message(`Displays the UI elements for reserving`)],
+        },
         {
           label: "Settings",
           fields: [

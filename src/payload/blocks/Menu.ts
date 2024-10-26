@@ -1,17 +1,13 @@
-import {
-  HeadingFeature,
-  lexicalEditor,
-  lexicalHTML,
-} from "@payloadcms/richtext-lexical";
 import type { Block } from "payload";
+import message from "@/payload/fields/message";
 
 const block: Block = {
-  slug: "textBlock",
+  slug: "menuBlock",
   labels: {
-    singular: "Text block",
-    plural: "Text blocks",
+    singular: "Menu block",
+    plural: "Menu blocks",
   },
-  interfaceName: "TextBlock",
+  interfaceName: "MenuBlock",
   fields: [
     {
       type: "tabs",
@@ -19,17 +15,7 @@ const block: Block = {
         {
           label: "Block",
           fields: [
-            {
-              name: "text",
-              type: "richText",
-              editor: lexicalEditor({
-                features: ({ rootFeatures }) => [
-                  ...rootFeatures,
-                  HeadingFeature(),
-                ],
-              }),
-            },
-            lexicalHTML("text", { name: "textHTML" }),
+            message(`Displays the UI elements for the restaurant's menu`),
           ],
         },
         {

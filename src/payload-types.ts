@@ -14,8 +14,8 @@ export interface Config {
     users: User;
     pages: Page;
     media: Media;
-    quotes: Quote;
     menus: Menu;
+    'payload-locked-documents': PayloadLockedDocument;
     'payload-preferences': PayloadPreference;
     'payload-migrations': PayloadMigration;
   };
@@ -25,6 +25,7 @@ export interface Config {
   globals: {
     site: Site;
     footer: Footer;
+    strings: String;
   };
   locale: null;
   user: User & {
@@ -34,6 +35,7 @@ export interface Config {
 export interface UserAuthOperations {
   forgotPassword: {
     email: string;
+    password: string;
   };
   login: {
     email: string;
@@ -45,6 +47,7 @@ export interface UserAuthOperations {
   };
   unlock: {
     email: string;
+    password: string;
   };
 }
 /**
@@ -72,62 +75,32 @@ export interface Page {
   id: number;
   title: string;
   slug: string;
-  blocks?: ContentBlock[] | null;
+  blocks?: (LogoBlock | ContentBlock)[] | null;
+  meta?: {};
   updatedAt: string;
   createdAt: string;
   _status?: ('draft' | 'published') | null;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "ContentBlock".
+ * via the `definition` "LogoBlock".
  */
-export interface ContentBlock {
-  medium?: {
-    medium?:
-      | (
-          | {
-              image?: number | Media | null;
-              id?: string | null;
-              blockName?: string | null;
-              blockType: 'imageBlock';
-            }
-          | {
-              video: {
-                src: string;
-                poster?: number | Media | null;
-                ratio: {
-                  x: number;
-                  y: number;
-                };
-              };
-              id?: string | null;
-              blockName?: string | null;
-              blockType: 'videoBlock';
-            }
-        )[]
-      | null;
-    caption?: {
-      root: {
-        type: string;
-        children: {
-          type: string;
-          version: number;
-          [k: string]: unknown;
-        }[];
-        direction: ('ltr' | 'rtl') | null;
-        format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
-        indent: number;
-        version: number;
-      };
-      [k: string]: unknown;
-    } | null;
-    captionHTML?: string | null;
-  };
-  blocks?: (TextBlock | QuotesBlock | FooterBlock)[] | null;
-  theme?: ('default' | 'full') | null;
+export interface LogoBlock {
+  medium?: (ImageBlock | VideoBlock)[] | null;
+  theme?: 'default' | null;
   id?: string | null;
   blockName?: string | null;
-  blockType: 'contentBlock';
+  blockType: 'logoBlock';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "ImageBlock".
+ */
+export interface ImageBlock {
+  image?: (number | null) | Media;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'imageBlock';
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -166,9 +139,24 @@ export interface Media {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "TextBlock".
+ * via the `definition` "VideoBlock".
  */
-export interface TextBlock {
+export interface VideoBlock {
+  src: string;
+  poster?: (number | null) | Media;
+  ratio: {
+    x: number;
+    y: number;
+  };
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'videoBlock';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "ContentBlock".
+ */
+export interface ContentBlock {
   text?: {
     root: {
       type: string;
@@ -185,46 +173,12 @@ export interface TextBlock {
     [k: string]: unknown;
   } | null;
   textHTML?: string | null;
-  theme?: 'default' | null;
+  medium?: (ImageBlock | VideoBlock)[] | null;
+  theme?: ('default' | 'fit' | 'full') | null;
+  background?: ('default' | 'orange' | 'blue' | 'none') | null;
   id?: string | null;
   blockName?: string | null;
-  blockType: 'textBlock';
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "QuotesBlock".
- */
-export interface QuotesBlock {
-  quotes?: (number | Quote)[] | null;
-  theme?: 'default' | null;
-  id?: string | null;
-  blockName?: string | null;
-  blockType: 'quotesBlock';
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "quotes".
- */
-export interface Quote {
-  id: number;
-  title: string;
-  slug: string;
-  role: string;
-  age: number;
-  quote: string;
-  image?: number | Media | null;
-  updatedAt: string;
-  createdAt: string;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "FooterBlock".
- */
-export interface FooterBlock {
-  theme?: 'default' | null;
-  id?: string | null;
-  blockName?: string | null;
-  blockType: 'footerBlock';
+  blockType: 'contentBlock';
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -234,21 +188,85 @@ export interface Menu {
   id: number;
   title: string;
   slug: string;
-  items?:
-    | {
-        link?: {
-          type?: ('reference' | 'custom') | null;
-          reference?: {
-            relationTo: 'pages';
-            value: number | Page;
-          } | null;
-          url?: string | null;
-          icon?: string | null;
-          text?: string | null;
-        };
-        id?: string | null;
-      }[]
-    | null;
+  items?: (LinkBlock | MenuBlock | OrderBlock | ReserveBlock)[] | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "LinkBlock".
+ */
+export interface LinkBlock {
+  type?: ('reference' | 'custom') | null;
+  reference?: {
+    relationTo: 'pages';
+    value: number | Page;
+  } | null;
+  url?: string | null;
+  text?: string | null;
+  theme?: 'default' | null;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'linkBlock';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "MenuBlock".
+ */
+export interface MenuBlock {
+  theme?: 'default' | null;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'menuBlock';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "OrderBlock".
+ */
+export interface OrderBlock {
+  theme?: 'default' | null;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'orderBlock';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "ReserveBlock".
+ */
+export interface ReserveBlock {
+  theme?: 'default' | null;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'reserveBlock';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "payload-locked-documents".
+ */
+export interface PayloadLockedDocument {
+  id: number;
+  document?:
+    | ({
+        relationTo: 'users';
+        value: number | User;
+      } | null)
+    | ({
+        relationTo: 'pages';
+        value: number | Page;
+      } | null)
+    | ({
+        relationTo: 'media';
+        value: number | Media;
+      } | null)
+    | ({
+        relationTo: 'menus';
+        value: number | Menu;
+      } | null);
+  globalSlug?: string | null;
+  user: {
+    relationTo: 'users';
+    value: number | User;
+  };
   updatedAt: string;
   createdAt: string;
 }
@@ -298,7 +316,7 @@ export interface Site {
     value: number | Page;
   };
   description?: string | null;
-  image?: number | Media | null;
+  image?: (number | null) | Media;
   updatedAt?: string | null;
   createdAt?: string | null;
 }
@@ -308,10 +326,36 @@ export interface Site {
  */
 export interface Footer {
   id: number;
-  menus?:
+  text?: {
+    root: {
+      type: string;
+      children: {
+        type: string;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  } | null;
+  textHTML?: string | null;
+  updatedAt?: string | null;
+  createdAt?: string | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "strings".
+ */
+export interface String {
+  id: number;
+  strings?:
     | {
-        relationTo: 'menus';
-        value: number | Menu;
+        key: string;
+        value: string;
+        id?: string | null;
       }[]
     | null;
   updatedAt?: string | null;

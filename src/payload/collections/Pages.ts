@@ -1,4 +1,5 @@
 import type { CollectionConfig } from "payload";
+import logoBlock from "@/payload/blocks/Logo";
 import contentBlock from "@/payload/blocks/Content";
 
 const collection: CollectionConfig = {
@@ -42,15 +43,15 @@ const collection: CollectionConfig = {
               name: "blocks",
               label: "Blocks",
               type: "blocks",
-              blocks: [contentBlock],
+              blocks: [logoBlock, contentBlock],
             },
           ],
         },
-        // {
-        //   name: "meta",
-        //   label: "SEO",
-        //   fields: [],
-        // },
+        {
+          name: "meta",
+          label: "SEO",
+          fields: [],
+        },
       ],
     },
   ],

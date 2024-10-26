@@ -1,5 +1,5 @@
-import { lexicalHTML } from "@payloadcms/richtext-lexical";
 import type { CollectionConfig } from "payload";
+import textFields from "@/payload/groups/textFields";
 
 const collection: CollectionConfig = {
   slug: "media",
@@ -15,11 +15,7 @@ const collection: CollectionConfig = {
           type: "text",
           required: true,
         },
-        {
-          name: "caption",
-          type: "richText",
-        },
-        lexicalHTML("caption", { name: "captionHTML" }),
+        ...textFields({ name: "caption", theme: "minimal" }),
       ],
     },
   ],
