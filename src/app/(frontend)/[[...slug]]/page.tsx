@@ -11,7 +11,6 @@ const Page = async ({
   searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
 }) => {
   const { slug } = await params;
-  console.log(slug, "slug");
 
   // const data: PageType = await getEntry(slug, "Pages");
 

@@ -1,29 +1,42 @@
 import Image from "next/image";
 
-import type { Image as ImageType } from "@/types";
+type Props = {
+  src?: string;
+  alt?: string;
+  width?: number;
+  height?: number;
+  theme?: string;
+};
 
-type Props = ImageType;
-
-const Component: React.FC<Props> = ({
+const Component = ({
   src,
-  alt,
+  alt = "",
   width,
   height,
   theme = "default",
-}) => {
+}: Props) => {
   const classes: Record<string, string> = {
     default: "",
-    "quote-thumb": "w-xl h-xl rounded max-w-none",
   };
 
+  const fillThemes = ["thumb"];
+  const fill = fillThemes.includes(theme);
+
   return (
-    <Image
-      src={src}
-      alt={alt}
-      width={width}
-      height={height}
-      className={classes[theme]}
-    />
+    <>
+      {src ? (
+        <Image
+          src={src}
+          alt={alt}
+          width={width}
+          height={height}
+          className={`${classes[theme]} ${fill && "object-cover"}`}
+          fill={fill}
+        />
+      ) : (
+        <div></div>
+      )}
+    </>
   );
 };
 

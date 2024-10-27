@@ -11,7 +11,7 @@ const util = async (slug: string, type: string) => {
   let res;
   let data;
 
-  const endpoint = process.env.NEXT_PUBLIC_GRAPHQL_ENDPOINT;
+  const endpoint = process.env.NEXT_PUBLIC_PAYLOAD_API_ENDPOINT;
   if (endpoint) {
     res = await fetch(endpoint, {
       method: "POST",
@@ -28,7 +28,6 @@ const util = async (slug: string, type: string) => {
   }
 
   data = await res?.json();
-  console.log(data, "data");
 
   if (data) {
     data = data?.data?.[type]?.docs[0];

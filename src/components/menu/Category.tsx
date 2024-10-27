@@ -9,16 +9,22 @@ type Props = {
 
 const Component = async ({ title, products }: Props) => {
   return (
-    <div>
-      <Text>{title}</Text>
-      {products?.map((product) => {
-        return (
-          <ProductThumb
-            key={product.id}
-            {...parsed(product, "product-thumb")}
-          />
-        );
-      })}
+    <div className="grid gap-m">
+      <Text tag="h3" align="center" transform="uppercase">
+        {title}
+      </Text>
+      <div className="grid-cols-thumbs grid gap-xs">
+        {products?.map((product) => {
+          return (
+            <div className="flex-[1_1_20%]">
+              <ProductThumb
+                key={product.id}
+                {...parsed(product, "product-thumb")}
+              />
+            </div>
+          );
+        })}
+      </div>
     </div>
   );
 };

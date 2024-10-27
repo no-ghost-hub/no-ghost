@@ -1,17 +1,28 @@
 import type { NextConfig } from "next";
 import { withPayload } from "@payloadcms/next/withPayload";
+import { Config as SVGRConfig } from "@svgr/core";
 
 const nextConfig: NextConfig = {
   serverExternalPackages: ["graphql"],
   webpack: (config) => {
-    const fileLoaderRule = config.module.rules.find((rule) =>
+    const fileLoaderRule = config.module.rules.find((rule: any) =>
       rule.test?.test?.(".svg"),
     );
 
     config.module.rules.push({
       test: /\.svg$/i,
       issuer: fileLoaderRule.issuer,
-      use: ["@svgr/webpack"],
+      use: [
+        {
+          loader: "@svgr/webpack",
+          options: {
+            typescript: true,
+            svgoConfig: {
+              plugins: [],
+            },
+          } as SVGRConfig,
+        },
+      ],
     });
 
     fileLoaderRule.exclude = /\.svg$/i;
@@ -19,23 +30,10 @@ const nextConfig: NextConfig = {
     return config;
   },
   images: {
-    domains: ["public.blob.vercel-storage.com"],
     remotePatterns: [
       {
         protocol: "https",
-        hostname: "**.vercel-storage.com",
-      },
-      {
-        protocol: "https",
-        hostname: "public.blob.vercel-storage.com",
-      },
-      {
-        protocol: "https",
-        hostname: "**.public.blob.vercel-storage.com",
-      },
-      {
-        protocol: "https",
-        hostname: "vercel-storage.com",
+        hostname: "foodics-console-sandbox.s3.eu-west-1.amazonaws.com",
       },
     ],
   },

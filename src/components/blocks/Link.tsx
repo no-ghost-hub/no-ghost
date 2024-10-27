@@ -1,4 +1,5 @@
 import Link from "@/components/elements/Link";
+import Text from "@/components/elements/Text";
 
 type Props = {
   href: string;
@@ -6,7 +7,11 @@ type Props = {
 };
 
 const Component = ({ href, text }: Props) => {
-  return <Link href={href}>{text}</Link>;
+  return (
+    <Link href={href} theme="button">
+      <Text tag="div">{text}</Text>
+    </Link>
+  );
 };
 
 export default Component;

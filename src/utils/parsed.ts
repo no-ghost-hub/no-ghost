@@ -25,6 +25,13 @@ const util = (raw: any, type?: string): any => {
         description: raw.description,
       };
     }
+    case "settings": {
+      // console.log(raw, "raw");
+
+      return {
+        currency: raw.business_currency,
+      };
+    }
     default: {
       return raw;
     }

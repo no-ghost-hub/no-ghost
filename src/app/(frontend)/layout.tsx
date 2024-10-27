@@ -27,13 +27,12 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html
-      lang="en"
-      className={`${leif.variable} selection:bg-purple selection:text-white`}
-    >
-      <body className="typo-p">
+    <html lang="en" className={`${leif.variable} selection:bg-yellow`}>
+      <body className="bg-grey typo-p">
         {children}
-        <Navigation />
+        <div className="fixed inset-x-0 bottom-0 m-xs grid place-content-center">
+          <Navigation />
+        </div>
         <Footer />
       </body>
     </html>

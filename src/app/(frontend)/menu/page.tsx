@@ -1,4 +1,6 @@
+import Logo from "@/components/layout/Logo";
 import Category from "@/components/menu/Category";
+import getMenu from "@/utils/getMenu";
 import parsed from "@/utils/parsed";
 
 const Page = async ({
@@ -11,17 +13,25 @@ const Page = async ({
   const { slug } = await params;
   const { group } = await searchParams;
 
-  const menuResponse = await fetch(
-    `${process.env.NEXT_PUBLIC_SERVER_URL}/api/foodics/menu?group=${group}`,
-  );
+  let menu;
 
-  const menu = await menuResponse.json();
-  console.log(menu);
+  if (group) {
+    menu = await getMenu(group);
+  }
 
   return (
     <main>
+      <header className="grid place-content-center">
+        <div className="p-m">
+          <Logo />
+        </div>
+      </header>
       {menu?.map((category: any) => {
-        return <Category key={category.id} {...parsed(category, "category")} />;
+        return (
+          <div key={category.id} className="mx-auto max-w-screen-s px-xs pb-l">
+            <Category {...parsed(category, "category")} />
+          </div>
+        );
       })}
     </main>
   );

@@ -1,30 +1,112 @@
 import type { Config } from "tailwindcss";
 import plugin from "tailwindcss/plugin";
-import typographyPlugin from "@tailwindcss/typography";
 import defaultTheme from "tailwindcss/defaultTheme";
+import containerQueriesPlugin from "@tailwindcss/container-queries";
 
 const config: Partial<Config> = {
+  plugins: [
+    plugin(function ({ addBase, addUtilities, theme }) {
+      addBase({
+        ":root": {
+          "--spacing-0": "0px",
+          "--spacing-xs": "clamp(12px, 1.6vw, 16px)",
+          "--spacing-s": "clamp(16px, 2vw, 20px)",
+          "--spacing-m": "clamp(40px, 6vw, 60px)",
+          "--spacing-l": "clamp(80px, 16vw, 160px)",
+
+          "--color-black": "rgb(0,0,0)",
+          "--color-white": "rgb(255,255,255)",
+          "--color-grey": "rgb(245,245,245)",
+          "--color-yellow": "rgb(255,245,165)",
+          "--color-green": "rgb(190,240,210)",
+          "--color-blue": "rgb(25,155,255)",
+          "--color-orange": "rgb(255,105,5)",
+
+          "--radius-default": "0px",
+          "--radius-container": "0px",
+        },
+      });
+      addUtilities({
+        ".typo-p": {
+          fontFamily: theme("fontFamily.leif"),
+          fontSize: "clamp(12px, 1.5vw, 18px)",
+          lineHeight: "1.2",
+          "&::before": {
+            content: "''",
+            marginBottom: "-0.243em",
+            display: "table",
+          },
+          "&::after": {
+            content: "''",
+            marginTop: "-0.217em",
+            display: "table",
+          },
+        },
+        ".typo-1": {
+          fontFamily: theme("fontFamily.leif"),
+          fontSize: "clamp(32px, 4vw, 64px)",
+          lineHeight: "1",
+          textTransform: "uppercase",
+          textAlign: "center",
+          "&::before": {
+            content: "''",
+            marginBottom: "-0.143em",
+            display: "table",
+          },
+          "&::after": {
+            content: "''",
+            marginTop: "-0.117em",
+            display: "table",
+          },
+        },
+        ".typo-2": {
+          fontFamily: theme("fontFamily.leif"),
+          fontSize: "clamp(16px, 2vw, 24px)",
+          lineHeight: "1.2",
+          "&::before": {
+            content: "''",
+            marginBottom: "-0.243em",
+            display: "table",
+          },
+          "&::after": {
+            content: "''",
+            marginTop: "-0.217em",
+            display: "table",
+          },
+        },
+      });
+    }),
+    containerQueriesPlugin,
+  ],
   theme: {
     screens: {
-      s: "1000px",
+      s: "1024px",
+    },
+    containers: {
+      s: "1024px",
     },
     colors: {
       transparent: "transparent",
       current: "currentColor",
       black: "var(--color-black)",
       white: "var(--color-white)",
-      purple: "var(--color-purple)",
+      grey: "var(--color-grey)",
       yellow: "var(--color-yellow)",
       green: "var(--color-green)",
+      blue: "var(--color-blue)",
+      orange: "var(--color-orange)",
     },
     spacing: {
       0: "var(--spacing-0)",
+      xs: "var(--spacing-xs)",
       s: "var(--spacing-s)",
       m: "var(--spacing-m)",
       l: "var(--spacing-l)",
-      xl: "var(--spacing-xl)",
-      pagex: "var(--spacing-page-x)",
-      pagey: "var(--spacing-page-y)",
+      full: "100%",
+    },
+    gridTemplateColumns: {
+      ...defaultTheme.gridTemplateColumns,
+      thumbs: "repeat(auto-fit, minmax(128px, 1fr))",
     },
     gridAutoColumns: {
       ...defaultTheme.gridAutoColumns,
@@ -36,111 +118,9 @@ const config: Partial<Config> = {
       none: "0px",
     },
     fontFamily: {
-      redhat: ["var(--font-redhat)"],
-      dexlite: ["var(--font-dexlite)"],
-    },
-    typography: {
-      DEFAULT: {
-        css: {
-          p: {
-            fontFamily: "var(--font-redhat)",
-            fontSize: "16px",
-            lineHeight: "1.1",
-            textWrap: "balance",
-            maxWidth: "65ch",
-          },
-          h1: {
-            fontFamily: "var(--font-dexlite)",
-            fontSize: "min(9vw, 60px)",
-            lineHeight: "1",
-          },
-          "h1, h2, .typo-1, .typo-2": {
-            "&::before, &::after": {
-              display: "table",
-              content: "''",
-            },
-          },
-          "h1, .typo-1, h2, .typo-2": {
-            "&::before": {
-              marginBottom: "-0.05em",
-            },
-            "&::after": {
-              marginTop: "-0.25em",
-            },
-          },
-          h2: {
-            fontFamily: "var(--font-dexlite)",
-            fontSize: "min(7.5vw, 40px)",
-            lineHeight: "1",
-            color: "var(--color-purple)",
-            textTransform: "uppercase",
-          },
-          "h2 + h1": {
-            marginTop: "var(--spacing-l)",
-          },
-          "h1 + p": {
-            marginTop: "var(--spacing-l)",
-          },
-          "p + p": {
-            "&::before": {
-              content: "'\\A'",
-              whiteSpace: "pre",
-            },
-          },
-        },
-      },
+      leif: ["var(--font-leif)"],
     },
   },
-  plugins: [
-    typographyPlugin,
-    plugin(function ({ addBase, addUtilities, theme }) {
-      addBase({
-        ":root": {
-          "--spacing-0": "0px",
-          "--spacing-s": "8px",
-          "--spacing-m": "20px",
-          "--spacing-l": "36px",
-          "--spacing-xl": "72px",
-          "--spacing-page-x": "20px",
-          "--spacing-page-y": "48px",
-
-          "@media screen(s)": {
-            "--spacing-l": "48px",
-            "--spacing-page-x": "72px",
-            "--spacing-page-y": "72px",
-          },
-
-          "--color-black": "rgb(0,0,0)",
-          "--color-white": "rgb(255,255,255)",
-          "--color-purple": "rgb(90,60,220)",
-          "--color-yellow": "rgb(245,205,90)",
-          "--color-green": "rgb(40,230,205)",
-
-          "--radius-default": "6px",
-          "--radius-container": "10px",
-        },
-      });
-      addUtilities({
-        ".typo-p": {
-          fontFamily: theme("typography.DEFAULT.css.p.fontFamily"),
-          fontSize: theme("typography.DEFAULT.css.p.fontSize"),
-          lineHeight: theme("typography.DEFAULT.css.p.lineHeight"),
-        },
-        ".typo-1": {
-          fontFamily: theme("typography.DEFAULT.css.h1.fontFamily"),
-          fontSize: theme("typography.DEFAULT.css.h1.fontSize"),
-          lineHeight: theme("typography.DEFAULT.css.h1.lineHeight"),
-        },
-        ".typo-2": {
-          fontFamily: theme("typography.DEFAULT.css.h2.fontFamily"),
-          fontSize: theme("typography.DEFAULT.css.h2.fontSize"),
-          lineHeight: theme("typography.DEFAULT.css.h2.lineHeight"),
-          color: theme("colors.purple"),
-          textTransform: theme("typography.DEFAULT.css.h2.textTransform"),
-        },
-      });
-    }),
-  ],
 };
 
 export default config;

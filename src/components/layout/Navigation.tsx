@@ -21,10 +21,12 @@ const Component = async ({}: Props) => {
 
   return (
     <div>
-      {main.items?.map((item) => {
-        const Item = components[item.blockType];
-        return <Item key={item.id} {...parsed(item, item.blockType)} />;
-      })}
+      <nav className="grid grid-flow-col">
+        {main.items?.map((item) => {
+          const Item = components[item.blockType];
+          return <Item key={item.id} {...parsed(item, item.blockType)} />;
+        })}
+      </nav>
     </div>
   );
 };

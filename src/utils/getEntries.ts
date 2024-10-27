@@ -6,7 +6,7 @@ const util = async (type: string, slugs?: string[]) => {
   let res;
   let data;
 
-  const endpoint = process.env.NEXT_PUBLIC_GRAPHQL_ENDPOINT;
+  const endpoint = process.env.NEXT_PUBLIC_PAYLOAD_API_ENDPOINT;
   if (endpoint) {
     res = await fetch(endpoint, {
       method: "POST",

@@ -1,11 +1,19 @@
 import Link from "next/link";
+import type { LinkProps } from "next/link";
 
-import type { Link as LinkType } from "@/types";
+type Props = LinkProps & { children: React.ReactNode; theme?: string };
 
-type Props = LinkType;
+const Component = ({ href, children, theme = "default" }: Props) => {
+  const classes: Record<string, string> = {
+    default: "",
+    button: "bg-white p-xs",
+  };
 
-const Component = ({ href, children }: Props) => {
-  return <Link href={href}>{children}</Link>;
+  return (
+    <Link href={href} className={classes[theme]}>
+      {children}
+    </Link>
+  );
 };
 
 export default Component;
