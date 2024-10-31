@@ -13,7 +13,7 @@
     "generate:types": "payload generate:types",
     "generate:importMap": "payload generate:importMap",
     "migrate:create": "payload migrate:create",
-    "ci": "payload migrate && pnpm build"
+    "ci": "pnpm build"
   },
   "dependencies": {
     "@payloadcms/db-mongodb": "3.0.0-beta.120",
