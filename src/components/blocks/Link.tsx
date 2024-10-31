@@ -9,7 +9,9 @@ type Props = {
 const Component = ({ href, text }: Props) => {
   return (
     <Link href={href} theme="button">
-      <Text tag="div">{text}</Text>
+      <Text tag="div">
+        <span className={"custom-underline"}>{text}</span>
+      </Text>
     </Link>
   );
 };

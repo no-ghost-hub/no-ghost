@@ -24,6 +24,8 @@ const config: Partial<Config> = {
 
           "--radius-default": "0px",
           "--radius-container": "0px",
+
+          "--border-default": "1px",
         },
       });
       addUtilities({
@@ -78,9 +80,13 @@ const config: Partial<Config> = {
     }),
     containerQueriesPlugin,
   ],
+  future: {
+    hoverOnlyWhenSupported: true,
+  },
   theme: {
     screens: {
       s: "1024px",
+      hover: { raw: "(hover: hover) and (pointer: fine)" },
     },
     containers: {
       s: "1024px",
@@ -106,11 +112,15 @@ const config: Partial<Config> = {
     },
     gridTemplateColumns: {
       ...defaultTheme.gridTemplateColumns,
-      thumbs: "repeat(auto-fit, minmax(128px, 1fr))",
+      thumbs: "repeat(auto-fill, minmax(200px, 1fr))",
     },
     gridAutoColumns: {
       ...defaultTheme.gridAutoColumns,
       max: "minmax(0, max-content)",
+    },
+    border: {
+      DEFAULT: "var(--border-default)",
+      0: "0px",
     },
     borderRadius: {
       DEFAULT: "var(--radius-default)",

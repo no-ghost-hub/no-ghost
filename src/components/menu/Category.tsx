@@ -13,15 +13,13 @@ const Component = async ({ title, products }: Props) => {
       <Text tag="h3" align="center" transform="uppercase">
         {title}
       </Text>
-      <div className="grid-cols-thumbs grid gap-xs">
+      <div className="grid grid-cols-thumbs gap-xs">
         {products?.map((product) => {
           return (
-            <div className="flex-[1_1_20%]">
-              <ProductThumb
-                key={product.id}
-                {...parsed(product, "product-thumb")}
-              />
-            </div>
+            <ProductThumb
+              key={product.id}
+              {...parsed(product, "product-thumb")}
+            />
           );
         })}
       </div>

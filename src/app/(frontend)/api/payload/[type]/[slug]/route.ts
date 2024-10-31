@@ -1,23 +1,21 @@
 import { NextResponse } from "next/server";
 
-import footerQuery from "@/graphql/queries/footer";
-import stringsQuery from "@/graphql/queries/strings";
-import siteQuery from "@/graphql/queries/site";
+import pageQuery from "@/graphql/queries/page";
+import menuQuery from "@/graphql/queries/menu";
 
 import parsed from "@/utils/parsed";
 
 const endpoint = process.env.NEXT_PUBLIC_PAYLOAD_API_ENDPOINT;
 const queries: Record<string, any> = {
-  Footer: footerQuery,
-  Strings: stringsQuery,
-  Site: siteQuery,
+  Pages: pageQuery,
+  Menus: menuQuery,
 };
 
 export async function GET(
   request: Request,
-  { params }: { params: Promise<{ type: string }> },
+  { params }: { params: Promise<{ type: string; slug: string }> },
 ) {
-  const { type } = await params;
+  const { type, slug } = await params;
 
   if (endpoint) {
     let response;
@@ -29,6 +27,9 @@ export async function GET(
       },
       body: JSON.stringify({
         query: queries[type],
+        variables: {
+          slug,
+        },
       }),
     });
 
@@ -40,7 +41,7 @@ export async function GET(
     }
 
     if (data) {
-      response.data = parsed(data[type], type);
+      response.data = parsed(data[type].docs[0], type);
     }
 
     return NextResponse.json(response);

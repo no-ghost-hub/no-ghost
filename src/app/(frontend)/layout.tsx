@@ -21,11 +21,11 @@ export const metadata: Metadata = {
   title: "No Ghost",
 };
 
-export default function RootLayout({
+const Layout = async ({
   children,
 }: Readonly<{
   children: React.ReactNode;
-}>) {
+}>) => {
   return (
     <html lang="en" className={`${leif.variable} selection:bg-yellow`}>
       <body className="bg-grey typo-p">
@@ -37,4 +37,6 @@ export default function RootLayout({
       </body>
     </html>
   );
-}
+};
+
+export default Layout;

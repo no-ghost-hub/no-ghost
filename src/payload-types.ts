@@ -20,7 +20,7 @@ export interface Config {
     'payload-migrations': PayloadMigration;
   };
   db: {
-    defaultIDType: number;
+    defaultIDType: string;
   };
   globals: {
     site: Site;
@@ -55,7 +55,7 @@ export interface UserAuthOperations {
  * via the `definition` "users".
  */
 export interface User {
-  id: number;
+  id: string;
   updatedAt: string;
   createdAt: string;
   email: string;
@@ -72,7 +72,7 @@ export interface User {
  * via the `definition` "pages".
  */
 export interface Page {
-  id: number;
+  id: string;
   title: string;
   slug: string;
   blocks?: (LogoBlock | ContentBlock)[] | null;
@@ -97,7 +97,7 @@ export interface LogoBlock {
  * via the `definition` "ImageBlock".
  */
 export interface ImageBlock {
-  image?: (number | null) | Media;
+  image?: (string | null) | Media;
   id?: string | null;
   blockName?: string | null;
   blockType: 'imageBlock';
@@ -107,7 +107,7 @@ export interface ImageBlock {
  * via the `definition` "media".
  */
 export interface Media {
-  id: number;
+  id: string;
   alt: string;
   caption?: {
     root: {
@@ -143,7 +143,7 @@ export interface Media {
  */
 export interface VideoBlock {
   src: string;
-  poster?: (number | null) | Media;
+  poster?: (string | null) | Media;
   ratio: {
     x: number;
     y: number;
@@ -185,7 +185,7 @@ export interface ContentBlock {
  * via the `definition` "menus".
  */
 export interface Menu {
-  id: number;
+  id: string;
   title: string;
   slug: string;
   items?: (LinkBlock | MenuBlock | OrderBlock | ReserveBlock)[] | null;
@@ -200,7 +200,7 @@ export interface LinkBlock {
   type?: ('reference' | 'custom') | null;
   reference?: {
     relationTo: 'pages';
-    value: number | Page;
+    value: string | Page;
   } | null;
   url?: string | null;
   text?: string | null;
@@ -244,28 +244,28 @@ export interface ReserveBlock {
  * via the `definition` "payload-locked-documents".
  */
 export interface PayloadLockedDocument {
-  id: number;
+  id: string;
   document?:
     | ({
         relationTo: 'users';
-        value: number | User;
+        value: string | User;
       } | null)
     | ({
         relationTo: 'pages';
-        value: number | Page;
+        value: string | Page;
       } | null)
     | ({
         relationTo: 'media';
-        value: number | Media;
+        value: string | Media;
       } | null)
     | ({
         relationTo: 'menus';
-        value: number | Menu;
+        value: string | Menu;
       } | null);
   globalSlug?: string | null;
   user: {
     relationTo: 'users';
-    value: number | User;
+    value: string | User;
   };
   updatedAt: string;
   createdAt: string;
@@ -275,10 +275,10 @@ export interface PayloadLockedDocument {
  * via the `definition` "payload-preferences".
  */
 export interface PayloadPreference {
-  id: number;
+  id: string;
   user: {
     relationTo: 'users';
-    value: number | User;
+    value: string | User;
   };
   key?: string | null;
   value?:
@@ -298,7 +298,7 @@ export interface PayloadPreference {
  * via the `definition` "payload-migrations".
  */
 export interface PayloadMigration {
-  id: number;
+  id: string;
   name?: string | null;
   batch?: number | null;
   updatedAt: string;
@@ -309,14 +309,14 @@ export interface PayloadMigration {
  * via the `definition` "site".
  */
 export interface Site {
-  id: number;
+  id: string;
   title: string;
   home: {
     relationTo: 'pages';
-    value: number | Page;
+    value: string | Page;
   };
   description?: string | null;
-  image?: (number | null) | Media;
+  image?: (string | null) | Media;
   updatedAt?: string | null;
   createdAt?: string | null;
 }
@@ -325,7 +325,7 @@ export interface Site {
  * via the `definition` "footer".
  */
 export interface Footer {
-  id: number;
+  id: string;
   text?: {
     root: {
       type: string;
@@ -350,7 +350,7 @@ export interface Footer {
  * via the `definition` "strings".
  */
 export interface String {
-  id: number;
+  id: string;
   strings?:
     | {
         key: string;

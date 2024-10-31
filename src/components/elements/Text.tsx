@@ -43,7 +43,7 @@ const Component = ({
         <div dangerouslySetInnerHTML={{ __html: html }} className="prose" />
       ) : (
         <Component
-          className={` ${typo ? typos[typo] : tags[tag] || "typo-p"} ${transform ? transform : ""} ${align ? aligns[align] : ""} `}
+          className={`${typo ? typos[typo] : tags[tag] || "typo-p"} ${transform ? transform : ""} ${align ? aligns[align] : ""}`}
         >
           {children}
         </Component>

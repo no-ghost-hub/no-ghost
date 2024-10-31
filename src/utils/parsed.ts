@@ -6,8 +6,10 @@ const util = (raw: any, type?: string): any => {
       };
     }
     case "link": {
+      const href =
+        raw.type === "custom" ? raw.url : `/${raw.reference?.value.slug}`;
       return {
-        href: raw.type === "custom" ? raw.url : `/${raw.reference?.value.slug}`,
+        href: href === raw.homeHref ? "/" : href,
         text: raw.text || raw.reference?.value.title,
       };
     }
@@ -30,6 +32,13 @@ const util = (raw: any, type?: string): any => {
 
       return {
         currency: raw.business_currency,
+      };
+    }
+    case "Site": {
+      return {
+        title: raw.title,
+        home: { slug: raw.home.value.slug, href: `/${raw.home.value.slug}` },
+        description: raw.description,
       };
     }
     default: {

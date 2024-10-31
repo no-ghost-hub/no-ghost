@@ -1,7 +1,5 @@
 import getEntry from "@/utils/getEntry";
-
-import Blocks from "@/components/Blocks";
-import type { Page as PageType } from "@/payload-types";
+import getGlobal from "@/utils/getGlobal";
 
 const Page = async ({
   params,
@@ -11,8 +9,9 @@ const Page = async ({
   searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
 }) => {
   const { slug } = await params;
+  const { home } = await getGlobal("Site");
 
-  // const data: PageType = await getEntry(slug, "Pages");
+  const data = await getEntry("Pages", slug || home.slug);
 
   return (
     <main>

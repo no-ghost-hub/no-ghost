@@ -1,3 +1,42 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer utilities {
+  .custom-underline {
+    position: relative;
+    display: inline-block;
+    &::after {
+      content: "";
+      display: block;
+      width: 100%;
+      height: var(--border-default);
+      background-color: currentColor;
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      transition: transform 0.2s;
+      transform: scaleX(0);
+    }
+
+    @media screen(hover) {
+      &:hover::after {
+        transform: scaleX(0.5);
+      }
+    }
+  }
+
+  .active-link {
+    .custom-underline {
+      &::after {
+        transform: scaleX(1);
+      }
+
+      @media screen(hover) {
+        &:hover::after {
+          transform: scaleX(0.5);
+        }
+      }
+    }
+  }
+}

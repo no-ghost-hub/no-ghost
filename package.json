@@ -4,7 +4,7 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "dev": "next dev",
+    "dev": "next dev --turbo",
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
@@ -16,22 +16,23 @@
     "ci": "payload migrate && pnpm build"
   },
   "dependencies": {
-    "@payloadcms/db-postgres": "3.0.0-beta.118",
-    "@payloadcms/next": "3.0.0-beta.118",
-    "@payloadcms/richtext-lexical": "3.0.0-beta.118",
-    "@payloadcms/storage-vercel-blob": "3.0.0-beta.118",
-    "next": "15.0.1",
-    "payload": "3.0.0-beta.118",
+    "@payloadcms/db-mongodb": "3.0.0-beta.120",
+    "@payloadcms/next": "3.0.0-beta.120",
+    "@payloadcms/richtext-lexical": "3.0.0-beta.120",
+    "@payloadcms/storage-vercel-blob": "3.0.0-beta.120",
+    "next": "15.0.2",
+    "payload": "3.0.0-beta.120",
     "react": "19.0.0-rc-1631855f-20241023",
     "react-dom": "19.0.0-rc-1631855f-20241023",
     "sharp": "^0.33.5",
     "swiper": "^11.1.14",
-    "swr": "^2.2.5"
+    "swr": "^2.2.5",
+    "zustand": "^5.0.1"
   },
   "devDependencies": {
-    "@payloadcms/graphql": "3.0.0-beta.118",
+    "@payloadcms/graphql": "3.0.0-beta.120",
     "@svgr/webpack": "^8.1.0",
-    "@swc/core": "^1.7.39",
+    "@swc/core": "^1.7.40",
     "@tailwindcss/container-queries": "^0.1.1",
     "@types/node": "^22",
     "@types/react": "^18",

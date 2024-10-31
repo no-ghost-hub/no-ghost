@@ -11,7 +11,6 @@ type Props = {};
 
 const Component: React.FC<Props> = async ({}: Props) => {
   const data: Footer = await getGlobal("Footer");
-  console.log(data);
 
   return <footer className="grid"></footer>;
 };

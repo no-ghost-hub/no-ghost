@@ -6,7 +6,7 @@ import {
   LinkFeature,
   ParagraphFeature,
 } from "@payloadcms/richtext-lexical";
-import { postgresAdapter } from "@payloadcms/db-postgres";
+import { mongooseAdapter } from "@payloadcms/db-mongodb";
 import { buildConfig } from "payload";
 import { vercelBlobStorage } from "@payloadcms/storage-vercel-blob";
 
@@ -40,11 +40,8 @@ export default buildConfig({
   globals: [Site, Footer, Strings],
   collections: [Users, Pages, Media, Menus],
   secret: process.env.PAYLOAD_SECRET || "",
-  db: postgresAdapter({
-    push: false,
-    pool: {
-      connectionString: process.env.POSTGRES_URL || "",
-    },
+  db: mongooseAdapter({
+    url: process.env.MONGODB_URL || "",
   }),
   plugins: [
     vercelBlobStorage({
