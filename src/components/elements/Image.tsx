@@ -19,24 +19,25 @@ const Component = ({
     default: "",
   };
 
-  const fillThemes = ["thumb"];
+  const fillThemes = ["thumb", "cover"];
   const fill = fillThemes.includes(theme);
 
   return (
-    <>
+    <figure className="grid">
       {src ? (
-        <Image
-          src={src}
-          alt={alt}
-          width={width}
-          height={height}
-          className={`${classes[theme]} ${fill && "object-cover"}`}
-          fill={fill}
-        />
+        <picture className="relative">
+          <Image
+            src={src}
+            alt={alt}
+            className={`${classes[theme] || classes["default"]} ${fill && "object-cover"}`}
+            fill={fill}
+            {...(!fill && { width, height })}
+          />
+        </picture>
       ) : (
-        <div></div>
+        <div />
       )}
-    </>
+    </figure>
   );
 };
 

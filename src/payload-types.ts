@@ -109,7 +109,7 @@ export interface ImageBlock {
 export interface Media {
   id: string;
   alt: string;
-  caption?: {
+  captionRaw?: {
     root: {
       type: string;
       children: {
@@ -124,7 +124,7 @@ export interface Media {
     };
     [k: string]: unknown;
   } | null;
-  captionHTML?: string | null;
+  caption?: string | null;
   updatedAt: string;
   createdAt: string;
   url?: string | null;
@@ -157,7 +157,7 @@ export interface VideoBlock {
  * via the `definition` "ContentBlock".
  */
 export interface ContentBlock {
-  text?: {
+  textRaw?: {
     root: {
       type: string;
       children: {
@@ -172,7 +172,7 @@ export interface ContentBlock {
     };
     [k: string]: unknown;
   } | null;
-  textHTML?: string | null;
+  text?: string | null;
   medium?: (ImageBlock | VideoBlock)[] | null;
   theme?: ('default' | 'fit' | 'full') | null;
   background?: ('default' | 'orange' | 'blue' | 'none') | null;
@@ -326,7 +326,7 @@ export interface Site {
  */
 export interface Footer {
   id: string;
-  text?: {
+  textRaw?: {
     root: {
       type: string;
       children: {
@@ -341,7 +341,7 @@ export interface Footer {
     };
     [k: string]: unknown;
   } | null;
-  textHTML?: string | null;
+  text?: string | null;
   updatedAt?: string | null;
   createdAt?: string | null;
 }

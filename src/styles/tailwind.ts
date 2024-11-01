@@ -27,6 +27,9 @@ const config: Partial<Config> = {
 
           "--border-default": "1px",
         },
+        svg: {
+          fill: "currentColor",
+        },
       });
       addUtilities({
         ".typo-p": {

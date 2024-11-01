@@ -15,7 +15,7 @@ const features: Record<string, any[]> = {
 
 const fields = ({ name = "text", theme = "default" } = {}): Field[] => [
   {
-    name,
+    name: `${name}Raw`,
     type: "richText",
     editor: lexicalEditor({
       features: ({ rootFeatures }) => [
@@ -24,7 +24,7 @@ const fields = ({ name = "text", theme = "default" } = {}): Field[] => [
       ],
     }),
   },
-  lexicalHTML(name, { name: `${name}HTML` }),
+  lexicalHTML(`${name}Raw`, { name }),
 ];
 
 export default fields;

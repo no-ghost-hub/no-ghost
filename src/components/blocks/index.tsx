@@ -1,23 +1,27 @@
-import ContentBlock from "@/components/Blocks/Content";
+import LogoBlock from "@/components/blocks/Logo";
+import ContentBlock from "@/components/blocks/Content";
 import parsed from "@/utils/parsed";
 
-import type { Page as PageType } from "@/payload-types";
+import type { Page } from "@/payload-types";
 
-type Props = { blocks: PageType["blocks"] };
+type Props = { blocks: Page["blocks"] };
 
-const Blocks: React.FC<Props> = ({ blocks }) => {
-  const components = {
-    contentBlock: ContentBlock,
-  };
+const components: Record<string, any> = {
+  logoBlock: LogoBlock,
+  contentBlock: ContentBlock,
+};
+
+const Component = ({ blocks }: Props) => {
+  console.log(blocks);
 
   return (
     <div>
       {blocks?.map((block, index) => {
-        const Component = components[block.blockType];
-        return <Component key={index} {...parsed(block, block.blockType)} />;
+        const Block = components[block.blockType];
+        return <Block key={index} {...parsed(block, block.blockType)} />;
       })}
     </div>
   );
 };
 
-export default Blocks;
+export default Component;

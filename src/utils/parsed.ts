@@ -41,6 +41,26 @@ const util = (raw: any, type?: string): any => {
         description: raw.description,
       };
     }
+    case "logoBlock": {
+      return {
+        medium: util(raw.medium[0], raw.medium[0].blockType),
+        theme: raw.logoTheme,
+      };
+    }
+    case "imageBlock": {
+      return {
+        type: "image",
+        ...util(raw.image, "image"),
+      };
+    }
+    case "image": {
+      return {
+        src: raw.url,
+        alt: raw.alt,
+        width: raw.width,
+        height: raw.height,
+      };
+    }
     default: {
       return raw;
     }

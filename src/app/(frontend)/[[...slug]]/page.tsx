@@ -1,6 +1,8 @@
 import getEntry from "@/utils/getEntry";
 import getGlobal from "@/utils/getGlobal";
 
+import Blocks from "@/components/blocks";
+
 const Page = async ({
   params,
   searchParams,
@@ -15,8 +17,7 @@ const Page = async ({
 
   return (
     <main>
-      {/* <pre>{JSON.stringify(data)}</pre> */}
-      {/* <Blocks blocks={data?.blocks} /> */}
+      <Blocks blocks={data.blocks} />
     </main>
   );
 };
