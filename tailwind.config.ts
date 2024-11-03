@@ -6,7 +6,7 @@ import preset from "./src/styles/tailwind";
 
 export default {
   content: [
-    "./src/**/*.{js,ts,jsx,tsx,mdx}",
+    "./src/**/*.{js,jsx,ts,tsx,mdx}",
     "./node_modules/next/link.js",
     "./node_modules/next/image.js",
   ],

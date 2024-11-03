@@ -1,30 +1,44 @@
 import Image from "next/image";
 
-import type { Image as ImageType } from "@/types";
+type Props = {
+  src?: string;
+  alt?: string;
+  width?: number;
+  height?: number;
+  theme?: string;
+};
 
-type Props = ImageType;
-
-const Component: React.FC<Props> = ({
+const ImageElement = ({
   src,
-  alt,
+  alt = "",
   width,
   height,
   theme = "default",
-}) => {
+}: Props) => {
   const classes: Record<string, string> = {
-    default: "",
-    "quote-thumb": "w-xl h-xl rounded max-w-none",
+    default: "w-full",
   };
 
+  const fillThemes = ["thumb", "cover"];
+  const fill = fillThemes.includes(theme);
+
   return (
-    <img
-      src={src}
-      alt={alt}
-      width={width}
-      height={height}
-      className={classes[theme]}
-    />
+    <figure className="grid">
+      {src ? (
+        <picture className="relative">
+          <Image
+            src={src}
+            alt={alt}
+            className={`${classes[theme] || classes["default"]} ${fill && "object-cover"}`}
+            fill={fill}
+            {...(!fill && { width, height })}
+          />
+        </picture>
+      ) : (
+        <div />
+      )}
+    </figure>
   );
 };
 
-export default Component;
+export default ImageElement;

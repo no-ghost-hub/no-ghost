@@ -6,6 +6,23 @@
  * and re-run `payload generate:types` to regenerate this file.
  */
 
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "LinksBlock".
+ */
+export type LinksBlock =
+  | {
+      type?: ('reference' | 'custom') | null;
+      reference?: {
+        relationTo: 'pages';
+        value: string | Page;
+      } | null;
+      url?: string | null;
+      text?: string | null;
+      id?: string | null;
+    }[]
+  | null;
+
 export interface Config {
   auth: {
     users: UserAuthOperations;
@@ -14,26 +31,46 @@ export interface Config {
     users: User;
     pages: Page;
     media: Media;
-    quotes: Quote;
     menus: Menu;
+    'payload-locked-documents': PayloadLockedDocument;
     'payload-preferences': PayloadPreference;
     'payload-migrations': PayloadMigration;
   };
+  collectionsSelect?: {
+    users: UsersSelect<false> | UsersSelect<true>;
+    pages: PagesSelect<false> | PagesSelect<true>;
+    media: MediaSelect<false> | MediaSelect<true>;
+    menus: MenusSelect<false> | MenusSelect<true>;
+    'payload-locked-documents': PayloadLockedDocumentsSelect<false> | PayloadLockedDocumentsSelect<true>;
+    'payload-preferences': PayloadPreferencesSelect<false> | PayloadPreferencesSelect<true>;
+    'payload-migrations': PayloadMigrationsSelect<false> | PayloadMigrationsSelect<true>;
+  };
   db: {
-    defaultIDType: number;
+    defaultIDType: string;
   };
   globals: {
     site: Site;
     footer: Footer;
+    strings: String;
+  };
+  globalsSelect?: {
+    site: SiteSelect<false> | SiteSelect<true>;
+    footer: FooterSelect<false> | FooterSelect<true>;
+    strings: StringsSelect<false> | StringsSelect<true>;
   };
   locale: null;
   user: User & {
     collection: 'users';
   };
+  jobs?: {
+    tasks: unknown;
+    workflows?: unknown;
+  };
 }
 export interface UserAuthOperations {
   forgotPassword: {
     email: string;
+    password: string;
   };
   login: {
     email: string;
@@ -45,6 +82,7 @@ export interface UserAuthOperations {
   };
   unlock: {
     email: string;
+    password: string;
   };
 }
 /**
@@ -52,7 +90,7 @@ export interface UserAuthOperations {
  * via the `definition` "users".
  */
 export interface User {
-  id: number;
+  id: string;
   updatedAt: string;
   createdAt: string;
   email: string;
@@ -69,74 +107,45 @@ export interface User {
  * via the `definition` "pages".
  */
 export interface Page {
-  id: number;
+  id: string;
   title: string;
   slug: string;
-  blocks?: ContentBlock[] | null;
+  blocks?: (LogoBlock | ContentBlock)[] | null;
+  meta?: {};
   updatedAt: string;
   createdAt: string;
   _status?: ('draft' | 'published') | null;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "ContentBlock".
+ * via the `definition` "LogoBlock".
  */
-export interface ContentBlock {
-  medium?: {
-    medium?:
-      | (
-          | {
-              image?: number | Media | null;
-              id?: string | null;
-              blockName?: string | null;
-              blockType: 'imageBlock';
-            }
-          | {
-              video: {
-                src: string;
-                poster?: number | Media | null;
-                ratio: {
-                  x: number;
-                  y: number;
-                };
-              };
-              id?: string | null;
-              blockName?: string | null;
-              blockType: 'videoBlock';
-            }
-        )[]
-      | null;
-    caption?: {
-      root: {
-        type: string;
-        children: {
-          type: string;
-          version: number;
-          [k: string]: unknown;
-        }[];
-        direction: ('ltr' | 'rtl') | null;
-        format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
-        indent: number;
-        version: number;
-      };
-      [k: string]: unknown;
-    } | null;
-    captionHTML?: string | null;
-  };
-  blocks?: (TextBlock | QuotesBlock | FooterBlock)[] | null;
-  theme?: ('default' | 'full') | null;
+export interface LogoBlock {
+  medium?: (ImageBlock | VideoBlock)[] | null;
+  theme?: 'default' | null;
+  background?: ('default' | 'orange' | 'blue' | 'none') | null;
   id?: string | null;
   blockName?: string | null;
-  blockType: 'contentBlock';
+  blockType: 'logoBlock';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "ImageBlock".
+ */
+export interface ImageBlock {
+  image?: (string | null) | Media;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'imageBlock';
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "media".
  */
 export interface Media {
-  id: number;
+  id: string;
   alt: string;
-  caption?: {
+  captionRaw?: {
     root: {
       type: string;
       children: {
@@ -151,7 +160,7 @@ export interface Media {
     };
     [k: string]: unknown;
   } | null;
-  captionHTML?: string | null;
+  caption?: string | null;
   updatedAt: string;
   createdAt: string;
   url?: string | null;
@@ -166,10 +175,25 @@ export interface Media {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "TextBlock".
+ * via the `definition` "VideoBlock".
  */
-export interface TextBlock {
-  text?: {
+export interface VideoBlock {
+  src: string;
+  poster?: (string | null) | Media;
+  ratio: {
+    x: number;
+    y: number;
+  };
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'videoBlock';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "ContentBlock".
+ */
+export interface ContentBlock {
+  textRaw?: {
     root: {
       type: string;
       children: {
@@ -184,71 +208,102 @@ export interface TextBlock {
     };
     [k: string]: unknown;
   } | null;
-  textHTML?: string | null;
-  theme?: 'default' | null;
+  text?: string | null;
+  medium?: (ImageBlock | VideoBlock)[] | null;
+  links?: LinksBlock;
+  theme?: ('default' | 'fit' | 'full') | null;
+  background?: ('default' | 'orange' | 'blue' | 'none') | null;
   id?: string | null;
   blockName?: string | null;
-  blockType: 'textBlock';
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "QuotesBlock".
- */
-export interface QuotesBlock {
-  quotes?: (number | Quote)[] | null;
-  theme?: 'default' | null;
-  id?: string | null;
-  blockName?: string | null;
-  blockType: 'quotesBlock';
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "quotes".
- */
-export interface Quote {
-  id: number;
-  title: string;
-  slug: string;
-  role: string;
-  age: number;
-  quote: string;
-  image?: number | Media | null;
-  updatedAt: string;
-  createdAt: string;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "FooterBlock".
- */
-export interface FooterBlock {
-  theme?: 'default' | null;
-  id?: string | null;
-  blockName?: string | null;
-  blockType: 'footerBlock';
+  blockType: 'contentBlock';
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "menus".
  */
 export interface Menu {
-  id: number;
+  id: string;
   title: string;
   slug: string;
-  items?:
-    | {
-        link?: {
-          type?: ('reference' | 'custom') | null;
-          reference?: {
-            relationTo: 'pages';
-            value: number | Page;
-          } | null;
-          url?: string | null;
-          icon?: string | null;
-          text?: string | null;
-        };
-        id?: string | null;
-      }[]
-    | null;
+  items?: (LinkBlock | MenuBlock | OrderBlock | ReserveBlock)[] | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "LinkBlock".
+ */
+export interface LinkBlock {
+  type?: ('reference' | 'custom') | null;
+  reference?: {
+    relationTo: 'pages';
+    value: string | Page;
+  } | null;
+  url?: string | null;
+  text?: string | null;
+  theme?: 'default' | null;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'linkBlock';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "MenuBlock".
+ */
+export interface MenuBlock {
+  theme?: 'default' | null;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'menuBlock';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "OrderBlock".
+ */
+export interface OrderBlock {
+  theme?: 'default' | null;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'orderBlock';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "ReserveBlock".
+ */
+export interface ReserveBlock {
+  theme?: 'default' | null;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'reserveBlock';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "payload-locked-documents".
+ */
+export interface PayloadLockedDocument {
+  id: string;
+  document?:
+    | ({
+        relationTo: 'users';
+        value: string | User;
+      } | null)
+    | ({
+        relationTo: 'pages';
+        value: string | Page;
+      } | null)
+    | ({
+        relationTo: 'media';
+        value: string | Media;
+      } | null)
+    | ({
+        relationTo: 'menus';
+        value: string | Menu;
+      } | null);
+  globalSlug?: string | null;
+  user: {
+    relationTo: 'users';
+    value: string | User;
+  };
   updatedAt: string;
   createdAt: string;
 }
@@ -257,10 +312,10 @@ export interface Menu {
  * via the `definition` "payload-preferences".
  */
 export interface PayloadPreference {
-  id: number;
+  id: string;
   user: {
     relationTo: 'users';
-    value: number | User;
+    value: string | User;
   };
   key?: string | null;
   value?:
@@ -280,7 +335,7 @@ export interface PayloadPreference {
  * via the `definition` "payload-migrations".
  */
 export interface PayloadMigration {
-  id: number;
+  id: string;
   name?: string | null;
   batch?: number | null;
   updatedAt: string;
@@ -288,17 +343,226 @@ export interface PayloadMigration {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "users_select".
+ */
+export interface UsersSelect<T extends boolean = true> {
+  updatedAt?: T;
+  createdAt?: T;
+  email?: T;
+  resetPasswordToken?: T;
+  resetPasswordExpiration?: T;
+  salt?: T;
+  hash?: T;
+  loginAttempts?: T;
+  lockUntil?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "pages_select".
+ */
+export interface PagesSelect<T extends boolean = true> {
+  title?: T;
+  slug?: T;
+  blocks?:
+    | T
+    | {
+        logoBlock?:
+          | T
+          | {
+              medium?:
+                | T
+                | {
+                    imageBlock?:
+                      | T
+                      | {
+                          image?: T;
+                          id?: T;
+                          blockName?: T;
+                        };
+                    videoBlock?:
+                      | T
+                      | {
+                          src?: T;
+                          poster?: T;
+                          ratio?:
+                            | T
+                            | {
+                                x?: T;
+                                y?: T;
+                              };
+                          id?: T;
+                          blockName?: T;
+                        };
+                  };
+              theme?: T;
+              background?: T;
+              id?: T;
+              blockName?: T;
+            };
+        contentBlock?:
+          | T
+          | {
+              textRaw?: T;
+              text?: T;
+              medium?:
+                | T
+                | {
+                    imageBlock?:
+                      | T
+                      | {
+                          image?: T;
+                          id?: T;
+                          blockName?: T;
+                        };
+                    videoBlock?:
+                      | T
+                      | {
+                          src?: T;
+                          poster?: T;
+                          ratio?:
+                            | T
+                            | {
+                                x?: T;
+                                y?: T;
+                              };
+                          id?: T;
+                          blockName?: T;
+                        };
+                  };
+              links?:
+                | T
+                | {
+                    type?: T;
+                    reference?: T;
+                    url?: T;
+                    text?: T;
+                    id?: T;
+                  };
+              theme?: T;
+              background?: T;
+              id?: T;
+              blockName?: T;
+            };
+      };
+  meta?: T | {};
+  updatedAt?: T;
+  createdAt?: T;
+  _status?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "media_select".
+ */
+export interface MediaSelect<T extends boolean = true> {
+  alt?: T;
+  captionRaw?: T;
+  caption?: T;
+  updatedAt?: T;
+  createdAt?: T;
+  url?: T;
+  thumbnailURL?: T;
+  filename?: T;
+  mimeType?: T;
+  filesize?: T;
+  width?: T;
+  height?: T;
+  focalX?: T;
+  focalY?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "menus_select".
+ */
+export interface MenusSelect<T extends boolean = true> {
+  title?: T;
+  slug?: T;
+  items?:
+    | T
+    | {
+        linkBlock?:
+          | T
+          | {
+              type?: T;
+              reference?: T;
+              url?: T;
+              text?: T;
+              theme?: T;
+              id?: T;
+              blockName?: T;
+            };
+        menuBlock?:
+          | T
+          | {
+              message?: T;
+              theme?: T;
+              id?: T;
+              blockName?: T;
+            };
+        orderBlock?:
+          | T
+          | {
+              message?: T;
+              theme?: T;
+              id?: T;
+              blockName?: T;
+            };
+        reserveBlock?:
+          | T
+          | {
+              message?: T;
+              theme?: T;
+              id?: T;
+              blockName?: T;
+            };
+      };
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "payload-locked-documents_select".
+ */
+export interface PayloadLockedDocumentsSelect<T extends boolean = true> {
+  document?: T;
+  globalSlug?: T;
+  user?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "payload-preferences_select".
+ */
+export interface PayloadPreferencesSelect<T extends boolean = true> {
+  user?: T;
+  key?: T;
+  value?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "payload-migrations_select".
+ */
+export interface PayloadMigrationsSelect<T extends boolean = true> {
+  name?: T;
+  batch?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "site".
  */
 export interface Site {
-  id: number;
+  id: string;
   title: string;
   home: {
     relationTo: 'pages';
-    value: number | Page;
+    value: string | Page;
   };
   description?: string | null;
-  image?: number | Media | null;
+  image?: (string | null) | Media;
   updatedAt?: string | null;
   createdAt?: string | null;
 }
@@ -307,15 +571,81 @@ export interface Site {
  * via the `definition` "footer".
  */
 export interface Footer {
-  id: number;
-  menus?:
+  id: string;
+  textRaw?: {
+    root: {
+      type: string;
+      children: {
+        type: string;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  } | null;
+  text?: string | null;
+  updatedAt?: string | null;
+  createdAt?: string | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "strings".
+ */
+export interface String {
+  id: string;
+  strings?:
     | {
-        relationTo: 'menus';
-        value: number | Menu;
+        key: string;
+        value: string;
+        id?: string | null;
       }[]
     | null;
   updatedAt?: string | null;
   createdAt?: string | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "site_select".
+ */
+export interface SiteSelect<T extends boolean = true> {
+  title?: T;
+  home?: T;
+  description?: T;
+  image?: T;
+  updatedAt?: T;
+  createdAt?: T;
+  globalType?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "footer_select".
+ */
+export interface FooterSelect<T extends boolean = true> {
+  textRaw?: T;
+  text?: T;
+  updatedAt?: T;
+  createdAt?: T;
+  globalType?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "strings_select".
+ */
+export interface StringsSelect<T extends boolean = true> {
+  strings?:
+    | T
+    | {
+        key?: T;
+        value?: T;
+        id?: T;
+      };
+  updatedAt?: T;
+  createdAt?: T;
+  globalType?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema

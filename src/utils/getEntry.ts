@@ -1,32 +1,11 @@
-import pageQuery from "@/graphql/queries/page";
+const util = async (type: string, slug: string) => {
+  let response;
 
-const queries = new Map([["Pages", pageQuery]]);
+  response = await fetch(
+    `${process.env.NEXT_PUBLIC_SERVER_URL}/api/payload/${type}/${slug}`,
+  );
 
-const util = async (slug: string, type: string) => {
-  let res;
-  let data;
-
-  const endpoint = process.env.NEXT_PUBLIC_GRAPHQL_ENDPOINT;
-  if (endpoint) {
-    res = await fetch(endpoint, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        query: queries.get(type),
-        variables: {
-          slug,
-        },
-      }),
-    });
-  }
-
-  data = await res?.json();
-
-  if (data) {
-    data = data?.data?.[type]?.docs[0];
-  }
+  const { data } = await response.json();
 
   return data;
 };

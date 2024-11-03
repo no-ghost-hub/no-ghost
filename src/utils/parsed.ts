@@ -1,58 +1,94 @@
-import type { Quote } from "@/payload-types";
-
 const util = (raw: any, type?: string): any => {
   switch (type) {
-    case "image":
+    case "linkBlock": {
+      return {
+        ...util(raw, "link"),
+      };
+    }
+    case "link": {
+      const href =
+        raw.type === "custom" ? raw.url : `/${raw.reference?.value.slug}`;
+      return {
+        href: href === raw.homeHref ? "/" : href,
+        text: raw.text || raw.reference?.value.title,
+      };
+    }
+    case "category": {
+      return {
+        title: raw.name,
+        products: raw.products,
+      };
+    }
+    case "product-thumb": {
+      return {
+        title: raw.name,
+        image: raw.image,
+        price: raw.price,
+        description: raw.description,
+      };
+    }
+    case "settings": {
+      return {
+        currency: raw.business_currency,
+      };
+    }
+    case "Site": {
+      return {
+        title: raw.title,
+        home: { slug: raw.home.value.slug, href: `/${raw.home.value.slug}` },
+        description: raw.description,
+      };
+    }
+    case "logoBlock": {
+      return {
+        medium: raw.medium.length
+          ? util(raw.medium[0], raw.medium[0].blockType)
+          : undefined,
+        theme: raw.logoTheme,
+        background: raw.logoBackground,
+      };
+    }
+    case "contentBlock": {
+      return {
+        text: raw.text,
+        links: raw.links,
+        medium: raw.medium.length
+          ? util(raw.medium[0], raw.medium[0].blockType)
+          : undefined,
+        theme: raw.contentTheme,
+        background: raw.contentBackground,
+      };
+    }
+    case "imageBlock": {
+      return {
+        type: "image",
+        ...util(raw.image, "image"),
+      };
+    }
+    case "videoBlock": {
+      return {
+        type: "video",
+        ...util(raw, "video"),
+      };
+    }
+    case "image": {
       return {
         src: raw.url,
         alt: raw.alt,
         width: raw.width,
         height: raw.height,
       };
-    case "video":
+    }
+    case "video": {
       return {
         src: raw.src,
-        poster: util(raw.poster, "image"),
+        poster: raw.poster?.url,
         ratio: raw.ratio,
       };
-    case "videoBlock":
-      return { ...util(raw.video, "video"), autoplay: true, type: "video" };
-    case "contentBlock":
-      return {
-        sideMedium: raw.medium.medium[0],
-        blocks: raw.blocks,
-      };
-    case "textBlock":
-      return {
-        text: raw.textHTML,
-      };
-    case "quotesBlock":
-      return {
-        slugs: raw.quotes.map((quote: Quote) => quote.slug),
-      };
-    case "quoteThumb":
-      return {
-        title: raw.title,
-        slug: raw.slug,
-        role: raw.role,
-        age: raw.age,
-        quote: raw.quote,
-        image: util(raw.image, "image"),
-      };
-    case "menu":
-      return {
-        title: raw.value.title,
-        slug: raw.value.slug,
-        items: raw.value.items,
-      };
-    case "link":
-      return {
-        href: raw.type === "custom" ? raw.url : raw.reference,
-        icon: raw.icon,
-        text: raw.text,
-      };
-    default:
+    }
+    default: {
       return raw;
+    }
   }
 };
 

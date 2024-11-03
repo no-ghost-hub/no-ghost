@@ -1,15 +1,54 @@
+"use client";
+
 import Link from "next/link";
+import { usePathname } from "next/navigation";
+import type { LinkProps } from "next/link";
 
-import type { Link as LinkType } from "@/types";
+type Props = Omit<LinkProps, "href"> & {
+  href?: string;
+  children: React.ReactNode;
+  background?: string;
+  theme?: string;
+};
 
-type Props = LinkType;
+const classes: Record<string, string> = {
+  default: "",
+  button: "p-xs mix-blend-multiply text-center",
+};
 
-const Component: React.FC<Props> = ({ href, children }) => {
+const backgrounds: Record<string, string> = {
+  default: "",
+  white: "bg-white",
+  orange: "bg-orange",
+  blue: "bg-blue",
+};
+
+const LinkElement = ({
+  href,
+  children,
+  theme = "default",
+  background = "default",
+}: Props) => {
+  const path = usePathname();
+
   return (
-    <Link href={href} target="_blank" className="hover:text-purple">
-      {children}
-    </Link>
+    <>
+      {href ? (
+        <Link
+          href={href}
+          className={`custom-underline ${classes[theme]} ${backgrounds[background]} ${path === href ? "active-link" : ""}`}
+        >
+          {children}
+        </Link>
+      ) : (
+        <button
+          className={`custom-underline ${classes[theme]} ${backgrounds[background]}`}
+        >
+          {children}
+        </button>
+      )}
+    </>
   );
 };
 
-export default Component;
+export default LinkElement;

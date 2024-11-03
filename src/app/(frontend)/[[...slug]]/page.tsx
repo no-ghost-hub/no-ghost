@@ -1,22 +1,25 @@
 import getEntry from "@/utils/getEntry";
+import getGlobal from "@/utils/getGlobal";
 
-import Blocks from "@/components/Blocks";
-import type { Page as PageType } from "@/payload-types";
+import Blocks from "@/components/blocks";
 
 const Page = async ({
   params,
   searchParams,
 }: {
-  params: { slug: string[] };
-  searchParams: { [key: string]: string | string[] | undefined };
+  params: Promise<{ slug: string }>;
+  searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
 }) => {
-  const slug = params.slug?.[0] || "home";
-  const data: PageType = await getEntry(slug, "Pages");
+  const { slug } = await params;
+  const { home } = await getGlobal("Site");
+
+  const data = await getEntry("Pages", slug || home.slug);
 
   return (
     <main>
-      {/* <pre>{JSON.stringify(data)}</pre> */}
-      <Blocks blocks={data?.blocks} />
+      {data?.blocks && data.blocks.length > 0 && (
+        <Blocks blocks={data.blocks} />
+      )}
     </main>
   );
 };

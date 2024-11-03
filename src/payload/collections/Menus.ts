@@ -1,13 +1,16 @@
 import type { CollectionConfig } from "payload";
-import link from "@/payload/fields/link";
+import linkBlock from "@/payload/blocks/Link";
+import menuBlock from "@/payload/blocks/Menu";
+import orderBlock from "@/payload/blocks/Order";
+import reserveBlock from "@/payload/blocks/Reserve";
 
 const collection: CollectionConfig = {
   slug: "menus",
-  access: {
-    read: () => true,
-  },
   admin: {
     useAsTitle: "title",
+  },
+  access: {
+    read: () => true,
   },
   fields: [
     {
@@ -26,9 +29,6 @@ const collection: CollectionConfig = {
                   required: true,
                 },
                 {
-                  admin: {
-                    width: "50%",
-                  },
                   name: "slug",
                   label: "Slug",
                   type: "text",
@@ -36,11 +36,16 @@ const collection: CollectionConfig = {
                 },
               ],
             },
+          ],
+        },
+        {
+          label: "Items",
+          fields: [
             {
               name: "items",
               label: "Items",
-              type: "array",
-              fields: [link],
+              type: "blocks",
+              blocks: [linkBlock, menuBlock, orderBlock, reserveBlock],
             },
           ],
         },

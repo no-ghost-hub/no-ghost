@@ -1,17 +1,13 @@
 import { ReactNode } from "react";
 import type { LinkProps } from "next/link";
+import type { ContentBlock } from "@/payload-types";
 
 export type Block = {
   id: string;
   blockType: string;
 };
 
-export type ContentBlockProps = {
-  sideMedium: any;
-  blocks: any[];
-};
-
-export type ContentBlock = Block & ContentBlockProps;
+export type ContentBlockProps = ContentBlock;
 
 export type Image = {
   src: string;
@@ -23,9 +19,8 @@ export type Image = {
 
 export type Video = {
   src: string;
-  poster: Image;
+  poster: string;
   ratio: { x: number; y: number };
-  autoplay?: boolean;
   theme?: string;
 };
 

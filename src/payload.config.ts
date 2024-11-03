@@ -2,23 +2,21 @@ import sharp from "sharp";
 import {
   HTMLConverterFeature,
   InlineToolbarFeature,
-  ItalicFeature,
   lexicalEditor,
   LinkFeature,
   ParagraphFeature,
 } from "@payloadcms/richtext-lexical";
-import { postgresAdapter } from "@payloadcms/db-postgres";
+import { mongooseAdapter } from "@payloadcms/db-mongodb";
 import { buildConfig } from "payload";
 import { vercelBlobStorage } from "@payloadcms/storage-vercel-blob";
 
 import Users from "@/payload/collections/Users";
 import Media from "@/payload/collections/Media";
 import Pages from "@/payload/collections/Pages";
-import Quotes from "@/payload/collections/Quotes";
-import Subscribers from "@/payload/collections/Subscribers";
 import Menus from "@/payload/collections/Menus";
 import Site from "@/payload/globals/Site";
 import Footer from "@/payload/globals/Footer";
+import Strings from "@/payload/globals/Strings";
 
 export default buildConfig({
   // admin: {
@@ -34,20 +32,16 @@ export default buildConfig({
   editor: lexicalEditor({
     features: () => [
       ParagraphFeature(),
-      ItalicFeature(),
       LinkFeature(),
       InlineToolbarFeature(),
       HTMLConverterFeature(),
     ],
   }),
-  globals: [Site, Footer],
-  collections: [Users, Pages, Media, Quotes, Menus],
+  globals: [Site, Footer, Strings],
+  collections: [Users, Pages, Media, Menus],
   secret: process.env.PAYLOAD_SECRET || "",
-  db: postgresAdapter({
-    push: false,
-    pool: {
-      connectionString: process.env.POSTGRES_URL || "",
-    },
+  db: mongooseAdapter({
+    url: process.env.MONGODB_URL || "",
   }),
   plugins: [
     vercelBlobStorage({
