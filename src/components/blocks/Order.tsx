@@ -4,12 +4,12 @@ import { s } from "@/utils/useString";
 
 type Props = {};
 
-const Component = async ({}: Props) => {
+const OrderBlock = async ({}: Props) => {
   return (
-    <Link theme="button">
-      <Text tag="div">{s("ctas.order")}</Text>
+    <Link theme="button" background="white">
+      <Text tag="div">{await s("ctas.order")}</Text>
     </Link>
   );
 };
 
-export default Component;
+export default OrderBlock;

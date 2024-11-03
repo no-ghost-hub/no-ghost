@@ -15,5 +15,6 @@ export default /* GraphQL */ `
       }
     }
     logoTheme: theme
+    logoBackground: background
   }
 `;

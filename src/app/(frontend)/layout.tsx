@@ -30,7 +30,7 @@ const Layout = async ({
     <html lang="en" className={`${leif.variable} selection:bg-yellow`}>
       <body className="bg-grey">
         {children}
-        <div className="fixed inset-x-0 bottom-0 m-xs grid place-content-center">
+        <div className="fixed bottom-0 left-0 right-0 z-20 m-xs grid place-content-center">
           <Navigation />
         </div>
         <Footer />

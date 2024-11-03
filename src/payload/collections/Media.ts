@@ -15,7 +15,7 @@ const collection: CollectionConfig = {
           type: "text",
           required: true,
         },
-        ...textFields({ name: "caption", theme: "minimal" }),
+        ...textFields({ name: "caption", label: "Caption", theme: "minimal" }),
       ],
     },
   ],

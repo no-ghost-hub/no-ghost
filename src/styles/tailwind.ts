@@ -25,14 +25,14 @@ const config: Partial<Config> = {
           "--radius-default": "0px",
           "--radius-container": "0px",
 
-          "--border-default": "1px",
+          "--border-default": "2px",
         },
         svg: {
           fill: "currentColor",
         },
       });
       addUtilities({
-        ".typo-p": {
+        ".typo-p,p,h4,h5,h6": {
           fontFamily: theme("fontFamily.leif"),
           fontSize: "clamp(12px, 1.5vw, 18px)",
           lineHeight: "1.2",
@@ -47,7 +47,7 @@ const config: Partial<Config> = {
             display: "table",
           },
         },
-        ".typo-1": {
+        ".typo-1,h1,h2": {
           fontFamily: theme("fontFamily.leif"),
           fontSize: "clamp(32px, 4vw, 64px)",
           lineHeight: "1",
@@ -64,7 +64,7 @@ const config: Partial<Config> = {
             display: "table",
           },
         },
-        ".typo-2": {
+        ".typo-2,h3": {
           fontFamily: theme("fontFamily.leif"),
           fontSize: "clamp(16px, 2vw, 24px)",
           lineHeight: "1.2",
@@ -89,7 +89,6 @@ const config: Partial<Config> = {
   theme: {
     screens: {
       s: "1024px",
-      hover: { raw: "(hover: hover) and (pointer: fine)" },
     },
     containers: {
       s: "1024px",

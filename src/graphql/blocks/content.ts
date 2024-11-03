@@ -3,15 +3,35 @@ export default /* GraphQL */ `
     id
     blockType
     text
+    links {
+      ... on LinksBlock {
+        id
+        type
+        reference {
+          value {
+            ... on Page {
+              slug
+              title
+            }
+          }
+        }
+        url
+        text
+      }
+    }
     medium {
       ... on ImageBlock {
+        blockType
         image {
           ...Image
         }
       }
       ...Video
+      ... on VideoBlock {
+        blockType
+      }
     }
-    background
     contentTheme: theme
+    contentBackground: background
   }
 `;

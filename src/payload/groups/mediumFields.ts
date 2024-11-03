@@ -11,7 +11,9 @@ const fields = (caption: boolean = false): Field[] => [
     blocks: [imageBlock, videoBlock],
     maxRows: 1,
   },
-  ...(caption ? textFields({ name: "caption", theme: "minimal" }) : []),
+  ...(caption
+    ? textFields({ name: "caption", label: "Caption", theme: "minimal" })
+    : []),
 ];
 
 export default fields;

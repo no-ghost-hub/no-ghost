@@ -1,5 +1,6 @@
 import type { Block } from "payload";
 import textFields from "@/payload/groups/textFields";
+import linkFields from "@/payload/groups/linkFields";
 import mediumFields from "@/payload/groups/mediumFields";
 
 const block: Block = {
@@ -15,7 +16,17 @@ const block: Block = {
       tabs: [
         {
           label: "Block",
-          fields: [...textFields(), ...mediumFields()],
+          fields: [
+            ...textFields(),
+            ...mediumFields(),
+            {
+              name: "links",
+              label: "Links",
+              interfaceName: "LinksBlock",
+              type: "array",
+              fields: linkFields,
+            },
+          ],
         },
         {
           label: "Settings",

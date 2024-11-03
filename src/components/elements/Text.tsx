@@ -34,13 +34,16 @@ const Component = ({
   };
 
   const aligns: Record<string, string> = {
-    center: "text-center",
+    center: "text-center *:mx-auto",
   };
 
   return (
     <>
       {html ? (
-        <div dangerouslySetInnerHTML={{ __html: html }} className="prose" />
+        <div
+          dangerouslySetInnerHTML={{ __html: html }}
+          className={`prose ${align ? aligns[align] : ""}`}
+        />
       ) : (
         <Component
           className={`${typo ? typos[typo] : tags[tag] || "typo-p"} ${transform ? transform : ""} ${align ? aligns[align] : ""}`}

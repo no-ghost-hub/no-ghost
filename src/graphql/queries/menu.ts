@@ -1,23 +1,16 @@
+import link from "@/graphql/fragments/link";
+
 export default /* GraphQL */ `
+  ${link}
   query ($slug: String) {
     Menus(where: { slug: { in: [$slug] } }) {
       docs {
         id
         items {
+          ...Link
           ... on LinkBlock {
             id
             blockType
-            type
-            reference {
-              value {
-                ... on Page {
-                  slug
-                  title
-                }
-              }
-            }
-            url
-            text
           }
           ... on MenuBlock {
             id

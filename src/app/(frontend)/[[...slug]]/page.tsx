@@ -17,7 +17,9 @@ const Page = async ({
 
   return (
     <main>
-      <Blocks blocks={data.blocks} />
+      {data?.blocks && data.blocks.length > 0 && (
+        <Blocks blocks={data.blocks} />
+      )}
     </main>
   );
 };

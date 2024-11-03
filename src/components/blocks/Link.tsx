@@ -6,14 +6,12 @@ type Props = {
   text: string;
 };
 
-const Component = ({ href, text }: Props) => {
+const LinkBlock = ({ href, text }: Props) => {
   return (
-    <Link href={href} theme="button">
-      <Text tag="div">
-        <span className={"custom-underline"}>{text}</span>
-      </Text>
+    <Link href={href} theme="button" background="white">
+      <Text tag="div">{text}</Text>
     </Link>
   );
 };
 
-export default Component;
+export default LinkBlock;

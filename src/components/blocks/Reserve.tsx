@@ -4,12 +4,12 @@ import { s } from "@/utils/useString";
 
 type Props = {};
 
-const Component = async ({}: Props) => {
+const ReserveBlock = async ({}: Props) => {
   return (
-    <Link theme="button">
-      <Text tag="div">{s("ctas.reserve")}</Text>
+    <Link theme="button" background="white">
+      <Text tag="div">{await s("ctas.reserve")}</Text>
     </Link>
   );
 };
 
-export default Component;
+export default ReserveBlock;

@@ -8,7 +8,7 @@ type Props = {
   theme?: string;
 };
 
-const Component = ({
+const ImageElement = ({
   src,
   alt = "",
   width,
@@ -16,7 +16,7 @@ const Component = ({
   theme = "default",
 }: Props) => {
   const classes: Record<string, string> = {
-    default: "",
+    default: "w-full",
   };
 
   const fillThemes = ["thumb", "cover"];
@@ -41,4 +41,4 @@ const Component = ({
   );
 };
 
-export default Component;
+export default ImageElement;

@@ -28,8 +28,6 @@ const util = (raw: any, type?: string): any => {
       };
     }
     case "settings": {
-      // console.log(raw, "raw");
-
       return {
         currency: raw.business_currency,
       };
@@ -43,8 +41,22 @@ const util = (raw: any, type?: string): any => {
     }
     case "logoBlock": {
       return {
-        medium: util(raw.medium[0], raw.medium[0].blockType),
+        medium: raw.medium.length
+          ? util(raw.medium[0], raw.medium[0].blockType)
+          : undefined,
         theme: raw.logoTheme,
+        background: raw.logoBackground,
+      };
+    }
+    case "contentBlock": {
+      return {
+        text: raw.text,
+        links: raw.links,
+        medium: raw.medium.length
+          ? util(raw.medium[0], raw.medium[0].blockType)
+          : undefined,
+        theme: raw.contentTheme,
+        background: raw.contentBackground,
       };
     }
     case "imageBlock": {
@@ -53,12 +65,25 @@ const util = (raw: any, type?: string): any => {
         ...util(raw.image, "image"),
       };
     }
+    case "videoBlock": {
+      return {
+        type: "video",
+        ...util(raw, "video"),
+      };
+    }
     case "image": {
       return {
         src: raw.url,
         alt: raw.alt,
         width: raw.width,
         height: raw.height,
+      };
+    }
+    case "video": {
+      return {
+        src: raw.src,
+        poster: raw.poster?.url,
+        ratio: raw.ratio,
       };
     }
     default: {

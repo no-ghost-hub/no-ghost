@@ -1,7 +1,7 @@
 type Props = {};
 
 const Component = ({}: Props) => {
-  return <div className="bg-white p-xs mix-blend-multiply" />;
+  return <div className="text-center *:mx-auto" />;
 };
 
 export default Component;

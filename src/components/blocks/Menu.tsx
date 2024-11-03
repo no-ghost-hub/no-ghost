@@ -4,12 +4,12 @@ import { s } from "@/utils/useString";
 
 type Props = {};
 
-const Component = ({}: Props) => {
+const MenuBlock = async ({}: Props) => {
   return (
-    <Link href="menu" theme="button">
-      <Text tag="div">{s("ctas.restaurantMenu")}</Text>
+    <Link href="menu" theme="button" background="white">
+      <Text tag="div">{await s("ctas.restaurantMenu")}</Text>
     </Link>
   );
 };
 
-export default Component;
+export default MenuBlock;

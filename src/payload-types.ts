@@ -6,6 +6,23 @@
  * and re-run `payload generate:types` to regenerate this file.
  */
 
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "LinksBlock".
+ */
+export type LinksBlock =
+  | {
+      type?: ('reference' | 'custom') | null;
+      reference?: {
+        relationTo: 'pages';
+        value: string | Page;
+      } | null;
+      url?: string | null;
+      text?: string | null;
+      id?: string | null;
+    }[]
+  | null;
+
 export interface Config {
   auth: {
     users: UserAuthOperations;
@@ -19,6 +36,15 @@ export interface Config {
     'payload-preferences': PayloadPreference;
     'payload-migrations': PayloadMigration;
   };
+  collectionsSelect?: {
+    users: UsersSelect<false> | UsersSelect<true>;
+    pages: PagesSelect<false> | PagesSelect<true>;
+    media: MediaSelect<false> | MediaSelect<true>;
+    menus: MenusSelect<false> | MenusSelect<true>;
+    'payload-locked-documents': PayloadLockedDocumentsSelect<false> | PayloadLockedDocumentsSelect<true>;
+    'payload-preferences': PayloadPreferencesSelect<false> | PayloadPreferencesSelect<true>;
+    'payload-migrations': PayloadMigrationsSelect<false> | PayloadMigrationsSelect<true>;
+  };
   db: {
     defaultIDType: string;
   };
@@ -27,9 +53,18 @@ export interface Config {
     footer: Footer;
     strings: String;
   };
+  globalsSelect?: {
+    site: SiteSelect<false> | SiteSelect<true>;
+    footer: FooterSelect<false> | FooterSelect<true>;
+    strings: StringsSelect<false> | StringsSelect<true>;
+  };
   locale: null;
   user: User & {
     collection: 'users';
+  };
+  jobs?: {
+    tasks: unknown;
+    workflows?: unknown;
   };
 }
 export interface UserAuthOperations {
@@ -88,6 +123,7 @@ export interface Page {
 export interface LogoBlock {
   medium?: (ImageBlock | VideoBlock)[] | null;
   theme?: 'default' | null;
+  background?: ('default' | 'orange' | 'blue' | 'none') | null;
   id?: string | null;
   blockName?: string | null;
   blockType: 'logoBlock';
@@ -174,6 +210,7 @@ export interface ContentBlock {
   } | null;
   text?: string | null;
   medium?: (ImageBlock | VideoBlock)[] | null;
+  links?: LinksBlock;
   theme?: ('default' | 'fit' | 'full') | null;
   background?: ('default' | 'orange' | 'blue' | 'none') | null;
   id?: string | null;
@@ -306,6 +343,215 @@ export interface PayloadMigration {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "users_select".
+ */
+export interface UsersSelect<T extends boolean = true> {
+  updatedAt?: T;
+  createdAt?: T;
+  email?: T;
+  resetPasswordToken?: T;
+  resetPasswordExpiration?: T;
+  salt?: T;
+  hash?: T;
+  loginAttempts?: T;
+  lockUntil?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "pages_select".
+ */
+export interface PagesSelect<T extends boolean = true> {
+  title?: T;
+  slug?: T;
+  blocks?:
+    | T
+    | {
+        logoBlock?:
+          | T
+          | {
+              medium?:
+                | T
+                | {
+                    imageBlock?:
+                      | T
+                      | {
+                          image?: T;
+                          id?: T;
+                          blockName?: T;
+                        };
+                    videoBlock?:
+                      | T
+                      | {
+                          src?: T;
+                          poster?: T;
+                          ratio?:
+                            | T
+                            | {
+                                x?: T;
+                                y?: T;
+                              };
+                          id?: T;
+                          blockName?: T;
+                        };
+                  };
+              theme?: T;
+              background?: T;
+              id?: T;
+              blockName?: T;
+            };
+        contentBlock?:
+          | T
+          | {
+              textRaw?: T;
+              text?: T;
+              medium?:
+                | T
+                | {
+                    imageBlock?:
+                      | T
+                      | {
+                          image?: T;
+                          id?: T;
+                          blockName?: T;
+                        };
+                    videoBlock?:
+                      | T
+                      | {
+                          src?: T;
+                          poster?: T;
+                          ratio?:
+                            | T
+                            | {
+                                x?: T;
+                                y?: T;
+                              };
+                          id?: T;
+                          blockName?: T;
+                        };
+                  };
+              links?:
+                | T
+                | {
+                    type?: T;
+                    reference?: T;
+                    url?: T;
+                    text?: T;
+                    id?: T;
+                  };
+              theme?: T;
+              background?: T;
+              id?: T;
+              blockName?: T;
+            };
+      };
+  meta?: T | {};
+  updatedAt?: T;
+  createdAt?: T;
+  _status?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "media_select".
+ */
+export interface MediaSelect<T extends boolean = true> {
+  alt?: T;
+  captionRaw?: T;
+  caption?: T;
+  updatedAt?: T;
+  createdAt?: T;
+  url?: T;
+  thumbnailURL?: T;
+  filename?: T;
+  mimeType?: T;
+  filesize?: T;
+  width?: T;
+  height?: T;
+  focalX?: T;
+  focalY?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "menus_select".
+ */
+export interface MenusSelect<T extends boolean = true> {
+  title?: T;
+  slug?: T;
+  items?:
+    | T
+    | {
+        linkBlock?:
+          | T
+          | {
+              type?: T;
+              reference?: T;
+              url?: T;
+              text?: T;
+              theme?: T;
+              id?: T;
+              blockName?: T;
+            };
+        menuBlock?:
+          | T
+          | {
+              message?: T;
+              theme?: T;
+              id?: T;
+              blockName?: T;
+            };
+        orderBlock?:
+          | T
+          | {
+              message?: T;
+              theme?: T;
+              id?: T;
+              blockName?: T;
+            };
+        reserveBlock?:
+          | T
+          | {
+              message?: T;
+              theme?: T;
+              id?: T;
+              blockName?: T;
+            };
+      };
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "payload-locked-documents_select".
+ */
+export interface PayloadLockedDocumentsSelect<T extends boolean = true> {
+  document?: T;
+  globalSlug?: T;
+  user?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "payload-preferences_select".
+ */
+export interface PayloadPreferencesSelect<T extends boolean = true> {
+  user?: T;
+  key?: T;
+  value?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "payload-migrations_select".
+ */
+export interface PayloadMigrationsSelect<T extends boolean = true> {
+  name?: T;
+  batch?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "site".
  */
 export interface Site {
@@ -360,6 +606,46 @@ export interface String {
     | null;
   updatedAt?: string | null;
   createdAt?: string | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "site_select".
+ */
+export interface SiteSelect<T extends boolean = true> {
+  title?: T;
+  home?: T;
+  description?: T;
+  image?: T;
+  updatedAt?: T;
+  createdAt?: T;
+  globalType?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "footer_select".
+ */
+export interface FooterSelect<T extends boolean = true> {
+  textRaw?: T;
+  text?: T;
+  updatedAt?: T;
+  createdAt?: T;
+  globalType?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "strings_select".
+ */
+export interface StringsSelect<T extends boolean = true> {
+  strings?:
+    | T
+    | {
+        key?: T;
+        value?: T;
+        id?: T;
+      };
+  updatedAt?: T;
+  createdAt?: T;
+  globalType?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema

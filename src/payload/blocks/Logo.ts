@@ -34,6 +34,30 @@ const block: Block = {
                   ],
                   defaultValue: "default",
                 },
+                {
+                  name: "background",
+                  label: "Background",
+                  type: "select",
+                  options: [
+                    {
+                      label: "Default",
+                      value: "default",
+                    },
+                    {
+                      label: "Orange",
+                      value: "orange",
+                    },
+                    {
+                      label: "Blue",
+                      value: "blue",
+                    },
+                    {
+                      label: "None",
+                      value: "none",
+                    },
+                  ],
+                  defaultValue: "default",
+                },
               ],
             },
           ],

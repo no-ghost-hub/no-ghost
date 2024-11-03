@@ -12,8 +12,6 @@ const components: Record<string, any> = {
 };
 
 const Component = ({ blocks }: Props) => {
-  console.log(blocks);
-
   return (
     <div>
       {blocks?.map((block, index) => {

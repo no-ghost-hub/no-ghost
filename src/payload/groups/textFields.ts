@@ -13,9 +13,14 @@ const features: Record<string, any[]> = {
   ],
 };
 
-const fields = ({ name = "text", theme = "default" } = {}): Field[] => [
+const fields = ({
+  name = "text",
+  label = "Text",
+  theme = "default",
+} = {}): Field[] => [
   {
     name: `${name}Raw`,
+    label: label,
     type: "richText",
     editor: lexicalEditor({
       features: ({ rootFeatures }) => [

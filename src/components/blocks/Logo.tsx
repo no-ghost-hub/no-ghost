@@ -4,17 +4,29 @@ import Medium from "@/components/groups/Medium";
 type Props = {
   medium?: any;
   theme?: string;
+  background?: string;
 };
 
-const LogoBlock = ({ medium }: Props) => {
+const LogoBlock = ({ medium, background = "default" }: Props) => {
+  const classes: Record<string, string> = {
+    default: "",
+    orange: "bg-orange",
+    blue: "bg-blue",
+    none: "",
+  };
+
   return (
-    <div className="grid h-screen">
-      <div className="z-10 col-start-1 row-start-1 place-self-center p-xs text-white">
+    <div className={`grid min-h-screen ${classes[background]}`}>
+      <div
+        className={`z-10 col-start-1 row-start-1 place-self-center p-m ${medium ? "text-white" : ""}`}
+      >
         <Logo theme="block" />
       </div>
-      <div className="col-start-1 row-start-1 grid">
-        <Medium {...medium} theme="cover" />
-      </div>
+      {medium && (
+        <div className="col-start-1 row-start-1 grid">
+          <Medium {...medium} theme="cover" />
+        </div>
+      )}
     </div>
   );
 };

@@ -7,31 +7,48 @@ import type { LinkProps } from "next/link";
 type Props = Omit<LinkProps, "href"> & {
   href?: string;
   children: React.ReactNode;
+  background?: string;
   theme?: string;
 };
 
-const Component = ({ href, children, theme = "default" }: Props) => {
-  const path = usePathname();
+const classes: Record<string, string> = {
+  default: "",
+  button: "p-xs mix-blend-multiply text-center",
+};
 
-  const classes: Record<string, string> = {
-    default: "",
-    button: "bg-white p-xs mix-blend-multiply",
-  };
+const backgrounds: Record<string, string> = {
+  default: "",
+  white: "bg-white",
+  orange: "bg-orange",
+  blue: "bg-blue",
+};
+
+const LinkElement = ({
+  href,
+  children,
+  theme = "default",
+  background = "default",
+}: Props) => {
+  const path = usePathname();
 
   return (
     <>
       {href ? (
         <Link
           href={href}
-          className={`${classes[theme]} ${path === href ? "active-link" : ""}`}
+          className={`custom-underline ${classes[theme]} ${backgrounds[background]} ${path === href ? "active-link" : ""}`}
         >
           {children}
         </Link>
       ) : (
-        <button className={classes[theme]}>{children}</button>
+        <button
+          className={`custom-underline ${classes[theme]} ${backgrounds[background]}`}
+        >
+          {children}
+        </button>
       )}
     </>
   );
 };
 
-export default Component;
+export default LinkElement;
