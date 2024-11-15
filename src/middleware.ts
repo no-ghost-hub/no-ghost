@@ -16,7 +16,7 @@ export function middleware(request: NextRequest) {
   if (pathname.startsWith("/menu")) {
     if (!searchParams.has("group")) {
       const currentHour = new Date().getHours();
-      const group = currentHour < 18 ? "Lunch" : "Dinner";
+      const group = currentHour < 18 ? "lunch" : "dinner";
 
       response = NextResponse.redirect(
         new URL(`/menu?group=${group}`, request.url),

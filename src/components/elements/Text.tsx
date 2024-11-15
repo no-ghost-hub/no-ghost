@@ -34,7 +34,7 @@ const Component = ({
   };
 
   const aligns: Record<string, string> = {
-    center: "text-center *:mx-auto",
+    center: "text-center mx-auto *:mx-auto",
   };
 
   return (

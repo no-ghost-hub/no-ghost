@@ -22,14 +22,14 @@ const util = (raw: any, type?: string): any => {
     case "product-thumb": {
       return {
         title: raw.name,
-        image: raw.image,
-        price: raw.price,
-        description: raw.description,
+        image: `data:image;base64,${raw.image_1024}`,
+        price: raw.list_price,
+        description: raw.public_description,
       };
     }
-    case "settings": {
+    case "company": {
       return {
-        currency: raw.business_currency,
+        currency: raw.currency_id[1],
       };
     }
     case "Site": {

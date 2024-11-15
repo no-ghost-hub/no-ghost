@@ -1,31 +1,75 @@
 "use client";
 
-import { useEffect } from "react";
-import { useMeasure } from "react-use";
+import { useMeasure, useDebounce } from "react-use";
 
 import setStyleProperty from "@/utils/setStyleProperty";
+import { useRef, useEffect, useState } from "react";
 
 type Props = {
   name: string;
   height?: boolean;
   width?: boolean;
+  children?: React.ReactNode;
+  scoped?: boolean;
 };
 
-const SizeUtil = ({ name, height = false, width = false }: Props) => {
-  const [el, { height: elHeight, width: elWidth }] =
+const SizeUtil = ({
+  name,
+  height = false,
+  width = false,
+  children,
+  scoped = false,
+}: Props) => {
+  const containerEl = useRef<HTMLDivElement>(null);
+
+  const [el, { width: elWidth, height: elHeight }] =
     useMeasure<HTMLDivElement>();
 
+  const [ready, setReady] = useState(false);
+
   useEffect(() => {
-    if (height) {
-      setStyleProperty(`--h-${name}`, `${elHeight}px`);
-    }
-    if (width) {
-      setStyleProperty(`--h-${name}`, `${elWidth}px`);
-    }
-  }, [elHeight, elWidth]);
+    setReady(false);
+  }, [elWidth, elHeight]);
+
+  useDebounce(
+    () => {
+      if (width) {
+        setStyleProperty(
+          `--w-${name}`,
+          `${elWidth}px`,
+          scoped ? containerEl.current : null,
+        );
+      }
+      if (height) {
+        setStyleProperty(
+          `--h-${name}`,
+          `${elHeight}px`,
+          scoped ? containerEl.current : null,
+        );
+      }
+      if (name === "menu-category") {
+        const minWidth = 160;
+        const maxNumber = 4;
+        setStyleProperty(
+          `--w-item`,
+          `${elWidth / Math.min(Math.floor(elWidth / minWidth), maxNumber)}px`,
+          containerEl.current,
+        );
+      }
+      setReady(true);
+    },
+    100,
+    [elHeight, elWidth],
+  );
 
   return (
-    <div ref={el} className="invisible absolute left-0 top-0 h-full w-full" />
+    <div
+      ref={containerEl}
+      className={`relative ${ready ? "opacity-100" : "opacity-0"} transition-opacity`}
+    >
+      {children}
+      <div ref={el} className="invisible absolute left-0 top-0 h-full w-full" />
+    </div>
   );
 };
 

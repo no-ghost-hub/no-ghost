@@ -1,6 +1,6 @@
 import Text from "@/components/elements/Text";
 import Image from "@/components/elements/Image";
-import getSettings from "@/utils/getSettings";
+import getCompany from "@/utils/getCompany";
 import formatPrice from "@/utils/formatPrice";
 
 type Props = {
@@ -10,13 +10,13 @@ type Props = {
   price: number;
 };
 
-const Component = async ({ title, image, description, price }: Props) => {
-  const { currency } = await getSettings();
+const ProductThumb = async ({ title, image, description, price }: Props) => {
+  const { currency } = await getCompany();
   const formattedPrice = formatPrice(price, currency);
 
   return (
     <div className="grid grid-rows-[auto_minmax(0,1fr)] bg-white">
-      <div className="relative aspect-[1/1]">
+      <div className="relative grid aspect-[1/1]">
         <Image src={image} alt={title} theme="thumb" />
       </div>
       <div className="grid aspect-[1/1] content-between gap-s p-s">
@@ -24,7 +24,7 @@ const Component = async ({ title, image, description, price }: Props) => {
           <Text tag="h2" typo="2" align="center">
             {title}
           </Text>
-          <Text align="center">{description}</Text>
+          <Text align="center" html={description} />
         </div>
         <Text tag="h5" align="center">
           {formattedPrice}
@@ -34,4 +34,4 @@ const Component = async ({ title, image, description, price }: Props) => {
   );
 };
 
-export default Component;
+export default ProductThumb;

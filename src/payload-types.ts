@@ -36,7 +36,8 @@ export interface Config {
     'payload-preferences': PayloadPreference;
     'payload-migrations': PayloadMigration;
   };
-  collectionsSelect?: {
+  collectionsJoins: {};
+  collectionsSelect: {
     users: UsersSelect<false> | UsersSelect<true>;
     pages: PagesSelect<false> | PagesSelect<true>;
     media: MediaSelect<false> | MediaSelect<true>;
@@ -53,7 +54,7 @@ export interface Config {
     footer: Footer;
     strings: String;
   };
-  globalsSelect?: {
+  globalsSelect: {
     site: SiteSelect<false> | SiteSelect<true>;
     footer: FooterSelect<false> | FooterSelect<true>;
     strings: StringsSelect<false> | StringsSelect<true>;

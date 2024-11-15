@@ -11,7 +11,7 @@ type Props = {
 
 const LinksBlock = ({ links }: Props) => {
   return (
-    <div className="grid gap-xs p-xs">
+    <div className="grid gap-xs p-m sm:place-content-center">
       {links?.map((link) => {
         const { href, text } = parsed(link, "link");
         return (

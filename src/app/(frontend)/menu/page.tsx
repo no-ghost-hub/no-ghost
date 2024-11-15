@@ -28,7 +28,7 @@ const Page = async ({
       </header>
       {menu?.map((category: any) => {
         return (
-          <div key={category.id} className="mx-auto max-w-screen-s px-xs pb-l">
+          <div key={category.id} className="pb-l">
             <Category {...parsed(category, "category")} />
           </div>
         );

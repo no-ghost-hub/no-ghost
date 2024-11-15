@@ -24,13 +24,13 @@ const Navigation = async ({}: Props) => {
   const { home } = await getGlobal("Site");
 
   return (
-    <div>
+    <div className="grid">
       {/* <nav className="grid grid-flow-col justify-center bg-green">
         <Link theme="button">Takeway.com</Link>
         <Link theme="button">Deliveroo</Link>
       </nav> */}
-      <div className="relative">
-        <nav className="grid grid-flow-col">
+      <SizeUtil name="nav" height={true}>
+        <nav className="grid grid-flow-col justify-center bg-white">
           {main.items?.map((item) => {
             const Item = components[item.blockType];
             return (
@@ -41,8 +41,7 @@ const Navigation = async ({}: Props) => {
             );
           })}
         </nav>
-        <SizeUtil name="nav" height={true} />
-      </div>
+      </SizeUtil>
     </div>
   );
 };

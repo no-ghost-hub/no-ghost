@@ -19,7 +19,6 @@ export async function GET(
 
   if (endpoint) {
     let response;
-
     response = await fetch(endpoint, {
       method: "POST",
       headers: {

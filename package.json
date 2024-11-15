@@ -16,15 +16,15 @@
     "ci": "pnpm build"
   },
   "dependencies": {
-    "@payloadcms/db-mongodb": "3.0.0-beta.123",
-    "@payloadcms/next": "3.0.0-beta.123",
-    "@payloadcms/richtext-lexical": "3.0.0-beta.123",
-    "@payloadcms/storage-vercel-blob": "3.0.0-beta.123",
+    "@payloadcms/db-mongodb": "3.0.0-beta.131",
+    "@payloadcms/next": "3.0.0-beta.131",
+    "@payloadcms/richtext-lexical": "3.0.0-beta.131",
+    "@payloadcms/storage-vercel-blob": "3.0.0-beta.131",
     "hls.js": "^1.5.17",
-    "next": "15.0.2",
-    "payload": "3.0.0-beta.123",
-    "react": "19.0.0-rc-b7e21579-20241031",
-    "react-dom": "19.0.0-rc-b7e21579-20241031",
+    "next": "15.0.3",
+    "payload": "3.0.0-beta.131",
+    "react": "19.0.0-rc-7ac8e612-20241113",
+    "react-dom": "19.0.0-rc-7ac8e612-20241113",
     "react-use": "^17.5.1",
     "sharp": "^0.33.5",
     "swiper": "^11.1.14",
@@ -32,9 +32,9 @@
     "zustand": "^5.0.1"
   },
   "devDependencies": {
-    "@payloadcms/graphql": "3.0.0-beta.123",
+    "@payloadcms/graphql": "3.0.0-beta.131",
     "@svgr/webpack": "^8.1.0",
-    "@swc/core": "^1.7.42",
+    "@swc/core": "^1.9.2",
     "@tailwindcss/container-queries": "^0.1.1",
     "@types/node": "^22",
     "@types/react": "^18",
@@ -44,7 +44,7 @@
     "postcss": "^8",
     "prettier": "^3.3.3",
     "prettier-plugin-tailwindcss": "^0.6.8",
-    "tailwindcss": "^3.4.14",
+    "tailwindcss": "^3.4.15",
     "typescript": "^5"
   }
 }

@@ -8,6 +8,11 @@ type Props = {
   theme?: string;
 };
 
+const fillThemes = ["thumb", "cover"];
+const classes: Record<string, string> = {
+  default: "w-full",
+};
+
 const ImageElement = ({
   src,
   alt = "",
@@ -15,11 +20,6 @@ const ImageElement = ({
   height,
   theme = "default",
 }: Props) => {
-  const classes: Record<string, string> = {
-    default: "w-full",
-  };
-
-  const fillThemes = ["thumb", "cover"];
   const fill = fillThemes.includes(theme);
 
   return (

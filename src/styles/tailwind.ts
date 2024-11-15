@@ -8,6 +8,10 @@ const config: Partial<Config> = {
     plugin(function ({ addBase, addUtilities, theme }) {
       addBase({
         ":root": {
+          "--screens-sm": "480px",
+          "--screens-md": "1024px",
+          "--screens-lg": "1536px",
+
           "--spacing-0": "0px",
           "--spacing-xs": "clamp(12px, 1.6vw, 16px)",
           "--spacing-s": "clamp(16px, 2vw, 20px)",
@@ -32,7 +36,7 @@ const config: Partial<Config> = {
         },
       });
       addUtilities({
-        ".typo-p,p,h4,h5,h6": {
+        ".typo-p,.prose p,.prose h4,.prose h5,.prose h6": {
           fontFamily: theme("fontFamily.leif"),
           fontSize: "clamp(12px, 1.5vw, 18px)",
           lineHeight: "1.2",
@@ -47,7 +51,7 @@ const config: Partial<Config> = {
             display: "table",
           },
         },
-        ".typo-1,h1,h2": {
+        ".typo-1,.prose h1,.prose h2": {
           fontFamily: theme("fontFamily.leif"),
           fontSize: "clamp(32px, 4vw, 64px)",
           lineHeight: "1",
@@ -64,7 +68,7 @@ const config: Partial<Config> = {
             display: "table",
           },
         },
-        ".typo-2,h3": {
+        ".typo-2,.prose h3": {
           fontFamily: theme("fontFamily.leif"),
           fontSize: "clamp(16px, 2vw, 24px)",
           lineHeight: "1.2",
@@ -88,10 +92,9 @@ const config: Partial<Config> = {
   },
   theme: {
     screens: {
-      s: "1024px",
-    },
-    containers: {
-      s: "1024px",
+      sm: "480px",
+      md: "1024px",
+      lg: "1536px",
     },
     colors: {
       transparent: "transparent",
@@ -114,7 +117,6 @@ const config: Partial<Config> = {
     },
     gridTemplateColumns: {
       ...defaultTheme.gridTemplateColumns,
-      thumbs: "repeat(auto-fill, minmax(200px, 1fr))",
     },
     gridAutoColumns: {
       ...defaultTheme.gridAutoColumns,

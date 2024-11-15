@@ -42,10 +42,10 @@
 
 @layer utilities {
   .custom-underline {
-    @apply bg-gradient-to-r from-black to-black bg-[length:0%_0.1em] bg-left-bottom bg-no-repeat transition-[background-size] duration-200 hover:bg-[length:100%_0.1em];
+    @apply bg-gradient-to-r from-black to-black bg-[length:0%_0.1em] bg-left-bottom bg-no-repeat transition-[background-size] duration-150 hover:bg-[length:100%_0.1em];
   }
   .custom-underline-inverse {
-    @apply bg-gradient-to-r from-black to-black bg-[length:100%_0.1em] bg-left-bottom bg-no-repeat transition-[background-size] duration-200 hover:bg-[length:0%_0.1em];
+    @apply bg-gradient-to-r from-black to-black bg-[length:100%_0.1em] bg-left-bottom bg-no-repeat transition-[background-size] duration-150 hover:bg-[length:0%_0.1em];
   }
 
   .active-link {

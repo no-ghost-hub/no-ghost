@@ -6,7 +6,7 @@ type Props = {};
 
 const MenuBlock = async ({}: Props) => {
   return (
-    <Link href="menu" theme="button" background="white">
+    <Link href="/menu" theme="button" background="white">
       <Text tag="div">{await s("ctas.restaurantMenu")}</Text>
     </Link>
   );
