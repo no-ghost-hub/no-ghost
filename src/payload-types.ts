@@ -63,9 +63,9 @@ export interface Config {
   user: User & {
     collection: 'users';
   };
-  jobs?: {
+  jobs: {
     tasks: unknown;
-    workflows?: unknown;
+    workflows: unknown;
   };
 }
 export interface UserAuthOperations {
@@ -494,7 +494,6 @@ export interface MenusSelect<T extends boolean = true> {
         menuBlock?:
           | T
           | {
-              message?: T;
               theme?: T;
               id?: T;
               blockName?: T;
@@ -502,7 +501,6 @@ export interface MenusSelect<T extends boolean = true> {
         orderBlock?:
           | T
           | {
-              message?: T;
               theme?: T;
               id?: T;
               blockName?: T;
@@ -510,7 +508,6 @@ export interface MenusSelect<T extends boolean = true> {
         reserveBlock?:
           | T
           | {
-              message?: T;
               theme?: T;
               id?: T;
               blockName?: T;

@@ -1,14 +1,14 @@
-import Logo from "@/assets/vectors/logo.svg";
+import LogoSvg from "@/assets/vectors/logo.svg";
 
 type Props = { theme?: string };
 
-const Component = ({ theme = "default" }: Props) => {
+const Logo = ({ theme = "default" }: Props) => {
   const classes: Record<string, string> = {
     default: "w-[clamp(128px,20vw,192px)]",
     block: "w-[clamp(192px,30vw,256px)]",
   };
 
-  return <Logo className={classes[theme]} />;
+  return <LogoSvg className={classes[theme]} />;
 };
 
-export default Component;
+export default Logo;

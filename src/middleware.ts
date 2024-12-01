@@ -1,7 +1,8 @@
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
+import getOdoo from "@/utils/getOdoo";
 
-export function middleware(request: NextRequest) {
+export async function middleware(request: NextRequest) {
   const { pathname, searchParams } = request.nextUrl;
 
   const headers = new Headers(request.headers);
@@ -15,13 +16,20 @@ export function middleware(request: NextRequest) {
 
   if (pathname.startsWith("/menu")) {
     if (!searchParams.has("group")) {
-      const currentHour = new Date().getHours();
-      const group = currentHour < 18 ? "lunch" : "dinner";
+      const menuGroups: any[] = await getOdoo("menu-groups");
+      console.log(menuGroups);
 
-      response = NextResponse.redirect(
-        new URL(`/menu?group=${group}`, request.url),
-        { headers },
+      const currentHour = new Date().getHours();
+      const group = menuGroups.find(
+        ({ hourFrom, hourTo }) =>
+          currentHour >= parseInt(hourFrom) && currentHour < parseInt(hourTo),
       );
+
+      if (group?.url) {
+        response = NextResponse.redirect(new URL(group.url, request.url), {
+          headers,
+        });
+      }
     }
   }
 
