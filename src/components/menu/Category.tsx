@@ -24,7 +24,7 @@ const MenuCategory = async ({ title, products, theme = "default" }: Props) => {
                   key={product.id}
                   className="w-[var(--w-item)] px-[calc(theme('spacing.xs')/2)]"
                 >
-                  <ProductThumb {...parsed(product, "product-thumb")} />
+                  <ProductThumb {...parsed(product, "productThumb")} />
                 </div>
               );
             })}

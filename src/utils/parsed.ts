@@ -1,3 +1,8 @@
+const odooColors: Record<string, string> = {
+  "2": "orange",
+  "8": "blue",
+};
+
 const util = (raw: any, type?: string): any => {
   switch (type) {
     case "linkBlock": {
@@ -13,13 +18,24 @@ const util = (raw: any, type?: string): any => {
         text: raw.text || raw.reference?.value.title,
       };
     }
+    case "menuGroup": {
+      const slug = raw.x_studio_char_field_41e_1icocg5tb;
+      return {
+        name: raw.name,
+        slug,
+        url: `/menu?group=${slug}`,
+        hourFrom: raw.hour_after,
+        hourTo: raw.hour_until,
+        color: odooColors[raw.color],
+      };
+    }
     case "category": {
       return {
         title: raw.name,
         products: raw.products,
       };
     }
-    case "product-thumb": {
+    case "productThumb": {
       return {
         title: raw.name,
         image: `data:image;base64,${raw.image_1024}`,

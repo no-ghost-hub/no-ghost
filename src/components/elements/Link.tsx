@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useSearchParams } from "next/navigation";
 import type { LinkProps } from "next/link";
 
 type Props = Omit<LinkProps, "href"> & {
@@ -30,13 +30,16 @@ const LinkElement = ({
   background = "default",
 }: Props) => {
   const path = usePathname();
+  const searchParams = useSearchParams();
+  const query = searchParams.toString();
+  const fullPath = query ? `${path}?${query}` : path;
 
   return (
     <>
       {href ? (
         <Link
           href={href}
-          className={`custom-underline ${classes[theme]} ${backgrounds[background]} ${path === href ? "active-link" : ""}`}
+          className={`custom-underline ${classes[theme]} ${backgrounds[background]} ${path === href || fullPath === href ? "active-link" : ""}`}
         >
           {children}
         </Link>

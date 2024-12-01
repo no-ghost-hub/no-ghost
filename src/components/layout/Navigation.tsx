@@ -7,6 +7,7 @@ import MenuBlock from "@/components/blocks/Menu";
 import OrderBlock from "@/components/blocks/Order";
 import ReserveBlock from "@/components/blocks/Reserve";
 import SizeUtil from "@/components/utils/Size";
+import MenuGroups from "@/components/layout/MenuGroups";
 
 import type { Menu } from "@/payload-types";
 
@@ -25,10 +26,7 @@ const Navigation = async ({}: Props) => {
 
   return (
     <div className="grid">
-      {/* <nav className="grid grid-flow-col justify-center bg-green">
-        <Link theme="button">Takeway.com</Link>
-        <Link theme="button">Deliveroo</Link>
-      </nav> */}
+      <MenuGroups />
       <SizeUtil name="nav" height={true}>
         <nav className="grid grid-flow-col justify-center bg-white">
           {main.items?.map((item) => {
