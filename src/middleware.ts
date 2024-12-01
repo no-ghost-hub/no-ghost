@@ -17,7 +17,6 @@ export async function middleware(request: NextRequest) {
   if (pathname.startsWith("/menu")) {
     if (!searchParams.has("group")) {
       const menuGroups: any[] = await getOdoo("menu-groups");
-      console.log(menuGroups);
 
       const currentHour = new Date().getHours();
       const group = menuGroups.find(
