@@ -1,7 +1,7 @@
 type Props = {
   children?: React.ReactNode;
   html?: string;
-  tag?: keyof JSX.IntrinsicElements;
+  tag?: keyof React.JSX.IntrinsicElements;
   typo?: "1" | "2" | "p";
   transform?: string;
   align?: "center";

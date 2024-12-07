@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { Analytics } from "@vercel/analytics/next";
 import localFont from "next/font/local";
 import "@/styles/index.css";
 
@@ -30,10 +31,11 @@ const Layout = async ({
     <html lang="en" className={`${leif.variable} selection:bg-yellow`}>
       <body className="bg-grey">
         {children}
-        <div className="sm:place-content-center fixed bottom-0 left-0 right-0 z-20 m-xs grid">
+        <div className="fixed bottom-0 left-0 right-0 z-20 m-xs grid sm:place-content-center">
           <Navigation />
         </div>
         <Footer />
+        <Analytics />
       </body>
     </html>
   );

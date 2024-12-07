@@ -7,13 +7,14 @@ const Page = async ({
   params,
   searchParams,
 }: {
-  params: Promise<{ slug: string }>;
+  params: Promise<{ slug: string[] }>;
   searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
 }) => {
   const { slug } = await params;
-  const { home } = await getGlobal("Site");
 
-  const data = await getEntry("Pages", slug || home.slug);
+  const { home } = await getGlobal("site");
+
+  const data = await getEntry("pages", slug?.[0] || home.slug);
 
   return (
     <main>

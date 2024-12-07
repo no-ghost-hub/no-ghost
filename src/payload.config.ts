@@ -55,7 +55,4 @@ export default buildConfig({
   typescript: {
     outputFile: "./src/payload-types.ts",
   },
-  // graphQL: {
-  //   maxComplexity: 100,
-  // },
 });

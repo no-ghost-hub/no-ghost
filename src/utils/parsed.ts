@@ -3,11 +3,11 @@ const odooColors: Record<string, string> = {
   "8": "blue",
 };
 
-const util = (raw: any, type?: string): any => {
+const parsed = (raw: any, type?: string): any => {
   switch (type) {
     case "linkBlock": {
       return {
-        ...util(raw, "link"),
+        ...parsed(raw, "link"),
       };
     }
     case "link": {
@@ -48,7 +48,7 @@ const util = (raw: any, type?: string): any => {
         currency: raw.currency_id[1],
       };
     }
-    case "Site": {
+    case "site": {
       return {
         title: raw.title,
         home: { slug: raw.home.value.slug, href: `/${raw.home.value.slug}` },
@@ -58,10 +58,10 @@ const util = (raw: any, type?: string): any => {
     case "logoBlock": {
       return {
         medium: raw.medium.length
-          ? util(raw.medium[0], raw.medium[0].blockType)
+          ? parsed(raw.medium[0], raw.medium[0].blockType)
           : undefined,
-        theme: raw.logoTheme,
-        background: raw.logoBackground,
+        theme: raw.theme,
+        background: raw.background,
       };
     }
     case "contentBlock": {
@@ -69,22 +69,22 @@ const util = (raw: any, type?: string): any => {
         text: raw.text,
         links: raw.links,
         medium: raw.medium.length
-          ? util(raw.medium[0], raw.medium[0].blockType)
+          ? parsed(raw.medium[0], raw.medium[0].blockType)
           : undefined,
-        theme: raw.contentTheme,
-        background: raw.contentBackground,
+        theme: raw.theme,
+        background: raw.background,
       };
     }
     case "imageBlock": {
       return {
         type: "image",
-        ...util(raw.image, "image"),
+        ...parsed(raw.image, "image"),
       };
     }
     case "videoBlock": {
       return {
         type: "video",
-        ...util(raw, "video"),
+        ...parsed(raw, "video"),
       };
     }
     case "image": {
@@ -108,4 +108,4 @@ const util = (raw: any, type?: string): any => {
   }
 };
 
-export default util;
+export default parsed;

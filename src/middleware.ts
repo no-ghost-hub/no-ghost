@@ -24,8 +24,11 @@ export async function middleware(request: NextRequest) {
           currentHour >= parseInt(hourFrom) && currentHour < parseInt(hourTo),
       );
 
-      if (group?.url) {
-        response = NextResponse.redirect(new URL(group.url, request.url), {
+      if (group?.slug) {
+        const url = new URL(request.url);
+        url.searchParams.set("group", group.slug);
+
+        response = NextResponse.redirect(url, {
           headers,
         });
       }

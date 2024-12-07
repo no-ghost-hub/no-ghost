@@ -1,5 +1,4 @@
 import getOdoo from "@/utils/getOdoo";
-import parsed from "@/utils/parsed";
 
 import Link from "@/components/elements/Link";
 import Text from "@/components/elements/Text";

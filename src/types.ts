@@ -24,19 +24,10 @@ export type Video = {
   theme?: string;
 };
 
-export type Quote = {
-  title: string;
-  slug: string;
-  role: string;
-  age: number;
-  quote: string;
-  image: Image;
-};
-
 export type Text = {
   children?: ReactNode;
   html?: string;
-  tag?: keyof JSX.IntrinsicElements;
+  tag?: keyof React.JSX.IntrinsicElements;
   typo?: string;
 };
 

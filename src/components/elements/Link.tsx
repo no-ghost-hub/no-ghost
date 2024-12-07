@@ -5,9 +5,10 @@ import { usePathname, useSearchParams } from "next/navigation";
 import type { LinkProps } from "next/link";
 
 type Props = Omit<LinkProps, "href"> & {
-  href?: string;
+  href?: LinkProps["href"];
   children: React.ReactNode;
   background?: string;
+  toggle?: boolean;
   theme?: string;
 };
 
@@ -26,20 +27,32 @@ const backgrounds: Record<string, string> = {
 const LinkElement = ({
   href,
   children,
-  theme = "default",
   background = "default",
+  toggle = false,
+  theme = "default",
 }: Props) => {
   const path = usePathname();
   const searchParams = useSearchParams();
   const query = searchParams.toString();
   const fullPath = query ? `${path}?${query}` : path;
+  const external = href?.toString().startsWith("http");
+
+  const active =
+    typeof href === "string"
+      ? path === href || fullPath === href
+      : href
+        ? Object.entries(href.query || {}).every(
+            ([key, value]) => searchParams.get(key) === value,
+          )
+        : false;
 
   return (
     <>
       {href ? (
         <Link
-          href={href}
-          className={`custom-underline ${classes[theme]} ${backgrounds[background]} ${path === href || fullPath === href ? "active-link" : ""}`}
+          href={toggle && active ? path : href}
+          className={`custom-underline ${classes[theme]} ${backgrounds[background]} ${active ? "active-link" : ""}`}
+          target={external ? "_blank" : undefined}
         >
           {children}
         </Link>

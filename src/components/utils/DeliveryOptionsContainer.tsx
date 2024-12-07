@@ -1,0 +1,27 @@
+"use client";
+
+import { useSearchParams } from "next/navigation";
+
+type Props = {
+  children?: React.ReactNode;
+};
+
+const stateClasses: Record<string, string> = {
+  show: "transform translate-y-0",
+  hide: "transform translate-y-full",
+};
+
+const DeliveryOptionsContainer = ({ children }: Props) => {
+  const searchParams = useSearchParams();
+  const navigation = searchParams.get("navigation");
+
+  return (
+    <div
+      className={`${navigation === "order" ? stateClasses.show : stateClasses.hide} z-10 transition-transform`}
+    >
+      {children}
+    </div>
+  );
+};
+
+export default DeliveryOptionsContainer;
