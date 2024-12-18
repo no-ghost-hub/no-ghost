@@ -6,7 +6,13 @@ type Props = {};
 
 const ReserveBlock = async ({}: Props) => {
   return (
-    <Link theme="button" background="white">
+    <Link
+      theme="button"
+      background="white"
+      href={{ query: { navigation: "reserve" } }}
+      keepQuery
+      toggle
+    >
       <Text tag="div">{await s("ctas.reserve")}</Text>
     </Link>
   );

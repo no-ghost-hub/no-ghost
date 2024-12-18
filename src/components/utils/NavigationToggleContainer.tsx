@@ -3,6 +3,7 @@
 import { useSearchParams } from "next/navigation";
 
 type Props = {
+  value: string;
   children?: React.ReactNode;
 };
 
@@ -11,17 +12,17 @@ const stateClasses: Record<string, string> = {
   hide: "transform translate-y-full",
 };
 
-const DeliveryOptionsContainer = ({ children }: Props) => {
+const NavigationToggleContainer = ({ value, children }: Props) => {
   const searchParams = useSearchParams();
   const navigation = searchParams.get("navigation");
 
   return (
     <div
-      className={`${navigation === "order" ? stateClasses.show : stateClasses.hide} z-10 transition-transform`}
+      className={`${navigation === value ? stateClasses.show : stateClasses.hide} z-10 transition-transform`}
     >
       {children}
     </div>
   );
 };
 
-export default DeliveryOptionsContainer;
+export default NavigationToggleContainer;

@@ -1,3 +1,5 @@
+import formatDecimalTime from "@/utils/formatDecimalTime";
+
 const odooColors: Record<string, string> = {
   "2": "orange",
   "8": "blue",
@@ -46,6 +48,33 @@ const parsed = (raw: any, type?: string): any => {
     case "company": {
       return {
         currency: raw.currency_id[1],
+      };
+    }
+    case "reservationDates": {
+      const weekdays = Array.from(
+        new Set(raw.map((slot: any) => parseInt(slot.weekday) - 1)),
+      );
+      const times = raw.map(
+        ({ start_hour, end_hour, appointment_type_id }: any) => ({
+          from: formatDecimalTime(start_hour),
+          to: formatDecimalTime(end_hour),
+          type: appointment_type_id[0],
+        }),
+      );
+
+      return {
+        weekdays,
+        times,
+      };
+    }
+    case "reservationTypes": {
+      return {
+        maxCapacity: raw.reduce(
+          (acc: number, { resource_total_capacity: capacity }: any) => {
+            return capacity > acc ? capacity : acc;
+          },
+          0,
+        ),
       };
     }
     case "site": {

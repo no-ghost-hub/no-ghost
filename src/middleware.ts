@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
-import getOdoo from "@/utils/getOdoo";
+import useOdoo from "@/utils/useOdoo";
 
 export async function middleware(request: NextRequest) {
   const { pathname, searchParams } = request.nextUrl;
@@ -16,7 +16,9 @@ export async function middleware(request: NextRequest) {
 
   if (pathname.startsWith("/menu")) {
     if (!searchParams.has("group")) {
-      const menuGroups: any[] = await getOdoo("menu-groups");
+      const { data: menuGroups }: { data: any[] } = await useOdoo({
+        route: "menu-groups",
+      });
 
       const currentHour = new Date().getHours();
       const group = menuGroups.find(

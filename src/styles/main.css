@@ -3,6 +3,12 @@
 @tailwind utilities;
 
 @layer base {
+  body {
+    font-family: theme("fontFamily.leif", serif);
+    font-weight: 800;
+    font-size: clamp(12px, 1.5vw, 18px);
+    line-height: 1.2;
+  }
   p,
   h3,
   h4,
@@ -41,16 +47,28 @@
 }
 
 @layer utilities {
-  .custom-underline {
+  .custom-underline:not([data-disabled="true"]) {
     @apply bg-gradient-to-r from-black to-black bg-[length:0%_0.1em] bg-left-bottom bg-no-repeat transition-[background-size] duration-150 hover:bg-[length:100%_0.1em];
   }
   .custom-underline-inverse {
     @apply bg-gradient-to-r from-black to-black bg-[length:100%_0.1em] bg-left-bottom bg-no-repeat transition-[background-size] duration-150 hover:bg-[length:0%_0.1em];
   }
 
-  .active-link {
+  .active-link,
+  [data-selected="true"] {
     &.custom-underline {
       @apply bg-[length:100%_0.1em];
+    }
+  }
+
+  .custom-underline:focus-within {
+    @apply bg-[length:100%_0.1em];
+  }
+
+  [data-invalid="true"] {
+    .custom-underline {
+      @apply bg-[length:100%_0.1em];
+      @apply from-orange to-orange;
     }
   }
 }

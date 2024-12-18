@@ -31,7 +31,7 @@ const ContentBlock = ({
     >
       {text && (
         <div
-          className={`z-10 col-start-1 row-start-1 place-self-center p-m ${medium ? "text-white" : ""}`}
+          className={`z-10 col-start-1 row-start-1 content-center p-m ${medium ? "text-white" : ""}`}
         >
           <Text html={text} align="center" />
         </div>

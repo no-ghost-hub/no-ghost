@@ -1,4 +1,4 @@
-import getOdoo from "@/utils/getOdoo";
+import useOdoo from "@/utils/useOdoo";
 
 import Link from "@/components/elements/Link";
 import Text from "@/components/elements/Text";
@@ -7,7 +7,9 @@ import MenuGroupsContainer from "@/components/utils/MenuGroupsContainer";
 type Props = {};
 
 const MenuGroups = async ({}: Props) => {
-  const menuGroups: any[] = await getOdoo("menu-groups");
+  const { data: menuGroups }: { data: any[] } = await useOdoo({
+    route: "menu-groups",
+  });
 
   return (
     <MenuGroupsContainer

@@ -32,3 +32,10 @@ export type Text = {
 };
 
 export type Link = LinkProps & { children: ReactNode };
+
+export type Reservation = {
+  date: string | null;
+  time: { from: string; to: string; type: number } | null;
+  guests: number | null;
+  info: Record<string, any> | null;
+};

@@ -1,0 +1,97 @@
+import { odooQuery } from "@/utils/odooClient";
+import { NextRequest, NextResponse } from "next/server";
+import parsed from "@/utils/parsed";
+import { Reservation } from "@/types";
+
+export async function GET() {
+  let response;
+  response = await odooQuery({
+    model: "appointment.booking.line",
+    method: "search_read",
+    options: {
+      // fields: ["currency_id"],
+    },
+  });
+
+  const { result: data } = response;
+
+  // if (data) {
+  //   response.result = parsed(data, "reservations");
+  // }
+
+  return NextResponse.json(response);
+}
+
+const customFields: Record<string, string> = {
+  firstName: "x_studio_char_field_3cl_1iep3d50v",
+  lastName: "x_studio_last_name",
+};
+
+export async function POST(request: NextRequest) {
+  const body: Reservation = await request.json();
+  const { guests, date, time, info } = body;
+
+  let response: any;
+
+  try {
+    response = await odooQuery({
+      model: "res.partner",
+      method: "search_read",
+      domain: [[["email", "=", info?.email]]],
+      options: {
+        fields: ["id"],
+      },
+    });
+
+    if (response.result.length) {
+      response.result = response.result[0].id;
+    } else {
+      response = await odooQuery({
+        model: "res.partner",
+        method: "create",
+        domain: [
+          {
+            [customFields.firstName]: info?.firstName,
+            [customFields.lastName]: info?.lastName,
+            name: `${info?.firstName} ${info?.lastName}`,
+            email: info?.email,
+            phone: info?.phone,
+          },
+        ],
+      });
+    }
+
+    response = await odooQuery({
+      model: "calendar.event",
+      method: "create",
+      domain: [
+        {
+          name: `${info?.firstName} ${info?.lastName} - Reservation`,
+          description: info?.message,
+          start: `${date} ${time?.from}`,
+          stop: `${date} ${time?.to}`,
+          appointment_type_id: time?.type,
+          partner_ids: [[4, response.result]],
+        },
+      ],
+    });
+
+    response = await odooQuery({
+      model: "appointment.booking.line",
+      method: "create",
+      domain: [
+        {
+          appointment_type_id: time?.type,
+          appointment_resource_id: 19,
+          capacity_reserved: guests,
+          capacity_used: guests,
+          calendar_event_id: response.result,
+        },
+      ],
+    });
+  } catch (error: any) {
+    return NextResponse.json({ error: error?.message }, { status: 500 });
+  }
+
+  return NextResponse.json({ result: body });
+}

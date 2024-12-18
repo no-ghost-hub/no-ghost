@@ -10,6 +10,7 @@ const OrderBlock = async ({}: Props) => {
       theme="button"
       background="white"
       href={{ query: { navigation: "order" } }}
+      keepQuery
       toggle
     >
       <Text tag="div">{await s("ctas.order")}</Text>
