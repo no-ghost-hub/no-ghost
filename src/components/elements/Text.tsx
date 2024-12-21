@@ -7,6 +7,7 @@ type Props = {
   align?: "center";
   color?: "black" | "white" | "grey" | "orange" | "green" | "blue" | "yellow";
   wrap?: boolean;
+  theme?: string;
 };
 
 const Component = ({
@@ -18,6 +19,7 @@ const Component = ({
   align,
   color,
   wrap = true,
+  theme = "default",
 }: Props) => {
   const Component = tag;
 
