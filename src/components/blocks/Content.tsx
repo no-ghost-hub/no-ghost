@@ -2,7 +2,7 @@ import Text from "@/components/elements/Text";
 import LinksBlock from "@/components/blocks/Links";
 import Medium from "@/components/groups/Medium";
 
-import type { ContentBlockProps } from "@/types";
+// import type { ContentBlockProps } from "@/types";
 
 type Props = any;
 
