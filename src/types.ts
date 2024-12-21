@@ -22,6 +22,7 @@ export type Video = {
   poster: string;
   ratio: { x: number; y: number };
   theme?: string;
+  controls?: boolean;
 };
 
 export type Text = {
@@ -35,7 +36,8 @@ export type Link = LinkProps & { children: ReactNode };
 
 export type Reservation = {
   date: string | null;
-  time: { from: string; to: string; type: number } | null;
+  time: { from: string; to: string; type: number; location?: string } | null;
   guests: number | null;
   info: Record<string, any> | null;
+  location?: string;
 };

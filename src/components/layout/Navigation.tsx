@@ -8,6 +8,7 @@ import MenuBlock from "@/components/blocks/Menu";
 import OrderBlock from "@/components/blocks/Order";
 import ReserveBlock from "@/components/blocks/Reserve";
 import SizeUtil from "@/components/utils/Size";
+import Wrapper from "@/components/utils/Wrapper";
 import MenuGroups from "@/components/layout/MenuGroups";
 import DeliveryOptions from "@/components/layout/DeliveryOptions";
 import Reserve from "@/components/reserve";
@@ -27,7 +28,6 @@ const Navigation = async ({}: Props) => {
   const main: Menu = await getEntry("menus", "main");
   const { home } = await getGlobal("site");
   const { strings } = await getGlobal("strings");
-  const { data: slots } = await useOdoo({ route: "reservation-slots" });
   const { data: reservationTypes } = await useOdoo({
     route: "reservation-types",
   });
@@ -35,18 +35,15 @@ const Navigation = async ({}: Props) => {
   return (
     main && (
       <div className="grid">
-        <div className="grid items-end overflow-hidden *:col-start-1 *:row-start-1">
+        <div className="grid items-end overflow-hidden *:col-start-1 *:row-start-1 [&>*]:pointer-events-auto">
           <MenuGroups />
           <DeliveryOptions />
-          <Reserve
-            maxCapacity={reservationTypes?.maxCapacity}
-            strings={strings}
-            weekdays={slots?.weekdays}
-            times={slots?.times}
-          />
+          <Wrapper type="reserve" context={{ reservationTypes, strings }}>
+            <Reserve />
+          </Wrapper>
         </div>
         <SizeUtil name="nav" height={true}>
-          <nav className="grid grid-flow-col justify-center bg-white">
+          <nav className="pointer-events-auto grid grid-flow-col justify-center bg-white">
             {main.items?.map((item) => {
               const Item = components[item.blockType];
               return (

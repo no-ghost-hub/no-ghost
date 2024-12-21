@@ -23,13 +23,20 @@ const ContentBlock = ({
     default: "min-h-screen",
     fit: "",
     full: "min-h-screen",
+    contain: "min-h-screen",
+  };
+  const themes: Record<string, string> = {
+    default: "cover",
+    fit: "default",
+    full: "cover",
+    contain: "contain",
   };
 
   return (
     <div
       className={`grid ${themeClasses[theme || "default"]} ${backgroundClasses[background || "default"]}`}
     >
-      {text && (
+      {text && text !== "<p></p>" && (
         <div
           className={`z-10 col-start-1 row-start-1 content-center p-m ${medium ? "text-white" : ""}`}
         >
@@ -43,7 +50,7 @@ const ContentBlock = ({
       )}
       {medium && (
         <div className="col-start-1 row-start-1 grid">
-          <Medium {...medium} theme={theme === "fit" ? "default" : "cover"} />
+          <Medium {...medium} theme={themes[theme]} />
         </div>
       )}
     </div>

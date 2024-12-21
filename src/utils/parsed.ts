@@ -50,6 +50,16 @@ const parsed = (raw: any, type?: string): any => {
         currency: raw.currency_id[1],
       };
     }
+    case "reservations": {
+      return raw.map((reservation: any) => parsed(reservation, "reservation"));
+    }
+    case "reservation": {
+      return {
+        from: raw.event_start,
+        to: raw.event_stop,
+        capacity: raw.capacity_reserved,
+      };
+    }
     case "reservationDates": {
       const weekdays = Array.from(
         new Set(raw.map((slot: any) => parseInt(slot.weekday) - 1)),
@@ -69,12 +79,21 @@ const parsed = (raw: any, type?: string): any => {
     }
     case "reservationTypes": {
       return {
+        types: raw.map((type: any) => parsed(type, "reservationType")),
         maxCapacity: raw.reduce(
           (acc: number, { resource_total_capacity: capacity }: any) => {
             return capacity > acc ? capacity : acc;
           },
           0,
         ),
+      };
+    }
+    case "reservationType": {
+      return {
+        id: raw.id,
+        name: raw.name,
+        slug: raw.x_studio_slug,
+        location: raw.location,
       };
     }
     case "site": {
@@ -129,6 +148,8 @@ const parsed = (raw: any, type?: string): any => {
         src: raw.src,
         poster: raw.poster?.url,
         ratio: raw.ratio,
+        theme: raw.theme,
+        controls: raw.controls,
       };
     }
     default: {

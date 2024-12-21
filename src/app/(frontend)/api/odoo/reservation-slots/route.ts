@@ -8,7 +8,7 @@ export async function GET() {
     model: "appointment.slot",
     method: "search_read",
     options: {
-      // fields: ["currency_id"],
+      fields: ["weekday", "start_hour", "end_hour", "appointment_type_id"],
     },
     domain: [
       [

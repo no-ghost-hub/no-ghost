@@ -16,7 +16,7 @@ const LinksBlock = ({ links }: Props) => {
         const { href, text } = parsed(link, "link");
         return (
           <Link key={link.id} href={href} background="blue" theme="button">
-            <Text tag="div" typo="2">
+            <Text tag="div" typo="2" wrap={false}>
               {text}
             </Text>
           </Link>

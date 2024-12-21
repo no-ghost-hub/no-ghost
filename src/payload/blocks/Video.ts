@@ -10,30 +10,56 @@ const block: Block = {
   interfaceName: "VideoBlock",
   fields: [
     {
-      name: "src",
-      type: "text",
-      required: true,
-    },
-    {
-      ...image,
-      name: "poster",
-    },
-    {
-      name: "ratio",
-      type: "group",
-      fields: [
+      type: "tabs",
+      tabs: [
         {
-          type: "row",
+          label: "Block",
           fields: [
             {
-              name: "x",
-              type: "number",
+              name: "src",
+              type: "text",
               required: true,
             },
             {
-              name: "y",
-              type: "number",
-              required: true,
+              ...image,
+              name: "poster",
+            },
+            {
+              name: "ratio",
+              type: "group",
+              fields: [
+                {
+                  type: "row",
+                  fields: [
+                    {
+                      name: "x",
+                      type: "number",
+                      required: true,
+                    },
+                    {
+                      name: "y",
+                      type: "number",
+                      required: true,
+                    },
+                  ],
+                },
+              ],
+            },
+          ],
+        },
+        {
+          label: "Settings",
+          fields: [
+            {
+              type: "row",
+              fields: [
+                {
+                  name: "controls",
+                  label: "Controls",
+                  type: "checkbox",
+                  defaultValue: false,
+                },
+              ],
             },
           ],
         },

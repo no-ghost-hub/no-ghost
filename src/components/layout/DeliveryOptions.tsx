@@ -17,7 +17,9 @@ const DeliveryOptions = ({}: Props) => {
         {options?.map(({ name, url }) => {
           return (
             <Link theme="button" href={url} key={name}>
-              <Text tag="div">{name}</Text>
+              <Text tag="div" wrap={false}>
+                {name}
+              </Text>
             </Link>
           );
         })}

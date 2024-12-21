@@ -4,18 +4,16 @@ import Text from "@/components/elements/Text";
 import Link from "@/components/elements/Link";
 
 import { s } from "@/utils/useClientString";
-import { String } from "@/payload-types";
 import { Reservation } from "@/types";
 import { usePathname } from "next/navigation";
 import formatDate from "@/utils/formatDate";
 
 type Props = {
-  strings: String["strings"];
   reservation?: Reservation;
-  error: string;
+  error?: string;
 };
 
-const ReserveResult = ({ strings, reservation, error }: Props) => {
+const ReserveResult = ({ reservation, error }: Props) => {
   const pathname = usePathname();
 
   return (
@@ -27,7 +25,7 @@ const ReserveResult = ({ strings, reservation, error }: Props) => {
           align="center"
           color={error ? "orange" : "black"}
         >
-          {s(error ? "reserve.error" : "reserve.success", strings)}
+          {s(error ? "reserve.error" : "reserve.success")}
         </Text>
         {error ? (
           <Text typo="note" align="center">
@@ -45,14 +43,14 @@ const ReserveResult = ({ strings, reservation, error }: Props) => {
                 {reservation.time?.from}
               </Text>
               <Text typo="note" align="center">
-                {s("reserve.success.email", strings)}
+                {s("reserve.success.email")}
               </Text>
             </>
           )
         )}
       </div>
       <Link theme="button" background="orange" href={pathname} active={false}>
-        <Text tag="div">{s("ctas.close", strings)}</Text>
+        <Text tag="div">{s("ctas.close")}</Text>
       </Link>
     </div>
   );

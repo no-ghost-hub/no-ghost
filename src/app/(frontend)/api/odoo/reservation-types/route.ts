@@ -8,7 +8,13 @@ export async function GET() {
     model: "appointment.type",
     method: "search_read",
     options: {
-      // fields: ["currency_id"],
+      fields: [
+        "resource_total_capacity",
+        "id",
+        "name",
+        "x_studio_slug",
+        "location",
+      ],
     },
   });
 

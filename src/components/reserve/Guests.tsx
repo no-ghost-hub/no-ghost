@@ -11,35 +11,24 @@ import Text from "@/components/elements/Text";
 import Link from "@/components/elements/Link";
 
 import { s } from "@/utils/useClientString";
-import { String } from "@/payload-types";
 import { Reservation } from "@/types";
-import useOdoo from "@/utils/useOdoo";
-import useSWR from "swr";
+import { useContext } from "react";
+import Context from "@/components/utils/Context";
 
 type Props = {
-  strings: String["strings"];
-  times: { from: number; to: number }[];
   reservation: Reservation;
   setReservation: (value: Reservation) => void;
   onNext: () => void;
 };
 
-const ReserveGuests = ({
-  strings,
-  reservation,
-  setReservation,
-  onNext,
-}: Props) => {
+const ReserveGuests = ({ reservation, setReservation, onNext }: Props) => {
   const locale = "en-BE";
-
-  const { data: reservationTypes } = useSWR(
-    { route: "reservation-types" },
-    useOdoo,
-  );
 
   function handleChange(guests: number) {
     setReservation({ ...reservation, guests });
   }
+
+  const { reservationTypes } = useContext(Context);
 
   return (
     <I18nProvider locale={locale}>
@@ -47,7 +36,7 @@ const ReserveGuests = ({
         <NumberField
           defaultValue={0}
           minValue={0}
-          maxValue={reservationTypes?.maxCapacity}
+          maxValue={reservationTypes.maxCapacity}
           className="place-self-center"
           aria-label="Reservation guests"
           value={reservation.guests || 0}
@@ -81,7 +70,7 @@ const ReserveGuests = ({
           disabled={!reservation.guests}
           onClick={onNext}
         >
-          <Text tag="div">{s("ctas.next", strings)}</Text>
+          <Text tag="div">{s("ctas.next")}</Text>
         </Link>
       </div>
     </I18nProvider>

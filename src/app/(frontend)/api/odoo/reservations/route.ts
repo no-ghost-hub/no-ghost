@@ -9,15 +9,15 @@ export async function GET() {
     model: "appointment.booking.line",
     method: "search_read",
     options: {
-      // fields: ["currency_id"],
+      fields: ["event_start", "event_stop", "capacity_reserved"],
     },
   });
 
   const { result: data } = response;
 
-  // if (data) {
-  //   response.result = parsed(data, "reservations");
-  // }
+  if (data) {
+    response.result = parsed(data, "reservations");
+  }
 
   return NextResponse.json(response);
 }
@@ -26,10 +26,16 @@ const customFields: Record<string, string> = {
   firstName: "x_studio_char_field_3cl_1iep3d50v",
   lastName: "x_studio_last_name",
 };
+const ids: Record<string, number> = {
+  client: 2,
+  marketing: 3,
+  noGhost01Capacity: 19,
+  noGhost01Location: 1,
+};
 
 export async function POST(request: NextRequest) {
   const body: Reservation = await request.json();
-  const { guests, date, time, info } = body;
+  const { guests, date, time, location, info } = body;
 
   let response: any;
 
@@ -56,6 +62,10 @@ export async function POST(request: NextRequest) {
             name: `${info?.firstName} ${info?.lastName}`,
             email: info?.email,
             phone: info?.phone,
+            category_id: [
+              [4, ids.client],
+              ...(info?.marketing === "subscribe" ? [[4, ids.marketing]] : []),
+            ],
           },
         ],
       });
@@ -70,6 +80,7 @@ export async function POST(request: NextRequest) {
           description: info?.message,
           start: `${date} ${time?.from}`,
           stop: `${date} ${time?.to}`,
+          location,
           appointment_type_id: time?.type,
           partner_ids: [[4, response.result]],
         },
@@ -82,7 +93,7 @@ export async function POST(request: NextRequest) {
       domain: [
         {
           appointment_type_id: time?.type,
-          appointment_resource_id: 19,
+          appointment_resource_id: ids.noGhost01Capacity,
           capacity_reserved: guests,
           capacity_used: guests,
           calendar_event_id: response.result,

@@ -20,26 +20,17 @@ import Text from "@/components/elements/Text";
 import Link from "@/components/elements/Link";
 
 import { s } from "@/utils/useClientString";
-import { String } from "@/payload-types";
 import { Reservation } from "@/types";
 import useSWR from "swr";
 import useOdoo from "@/utils/useOdoo";
 
 type Props = {
-  strings: String["strings"];
-  weekdays?: number[];
   reservation: Reservation;
   setReservation: (value: Reservation) => void;
   onNext: () => void;
 };
 
-const ReserveDate = ({
-  strings,
-  weekdays,
-  reservation,
-  setReservation,
-  onNext,
-}: Props) => {
+const ReserveDate = ({ reservation, setReservation, onNext }: Props) => {
   const { data: slots } = useSWR({ route: "reservation-slots" }, useOdoo);
 
   const locale = "en-BE";
@@ -101,7 +92,7 @@ const ReserveDate = ({
           disabled={!reservation.date}
           onClick={onNext}
         >
-          <Text tag="div">{s("ctas.next", strings)}</Text>
+          <Text tag="div">{s("ctas.next")}</Text>
         </Link>
       </div>
     </I18nProvider>

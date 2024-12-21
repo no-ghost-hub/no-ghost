@@ -1,41 +1,42 @@
 "use client";
 
-import { RadioGroup, Radio, Label, I18nProvider } from "react-aria-components";
+import { RadioGroup, Radio, I18nProvider } from "react-aria-components";
 import Text from "@/components/elements/Text";
 import Link from "@/components/elements/Link";
 
 import { s } from "@/utils/useClientString";
-import { String } from "@/payload-types";
 import { Reservation } from "@/types";
 import useSWR from "swr";
 import useOdoo from "@/utils/useOdoo";
+import { useContext } from "react";
+import Context from "@/components/utils/Context";
 
 type Props = {
-  strings: String["strings"];
-  maxCapacity: number;
-  times: { from: number; to: number; type: number }[];
   reservation: Reservation;
   setReservation: (value: Reservation) => void;
   onNext: () => void;
 };
 
-const ReserveTime = ({
-  strings,
-  maxCapacity,
-  times,
-  reservation,
-  setReservation,
-  onNext,
-}: Props) => {
+const ReserveTime = ({ reservation, setReservation, onNext }: Props) => {
   const locale = "en-BE";
 
   const { data: reservations }: { data: any[] } = useSWR(
     { route: "reservations" },
     useOdoo,
   );
+  const { data: slots } = useSWR({ route: "reservation-slots" }, useOdoo);
+
+  const { reservationTypes } = useContext(Context);
 
   function handleChange(time: string) {
-    setReservation({ ...reservation, time: JSON.parse(time) });
+    const parsedTime = JSON.parse(time);
+    setReservation({
+      ...reservation,
+      time: JSON.parse(time),
+      location: reservationTypes.types.find(
+        (t: any) => t.id === parsedTime.type,
+      )?.location,
+    });
   }
 
   const isAvailable = (time: { from: number; to: number }) => {
@@ -43,8 +44,8 @@ const ReserveTime = ({
     const slotEnd = new Date(`${reservation.date}T${time.to}:00`);
 
     const overlapping = reservations?.filter((r) => {
-      const reservationStart = new Date(r.event_start);
-      const reservationEnd = new Date(r.event_stop);
+      const reservationStart = new Date(r.from);
+      const reservationEnd = new Date(r.to);
 
       const isSameDay =
         slotStart.toDateString() === reservationStart.toDateString();
@@ -55,11 +56,13 @@ const ReserveTime = ({
     });
 
     const reservedCapacity = overlapping?.reduce(
-      (acc, r) => acc + r.capacity_reserved,
+      (acc, r) => acc + r.capacity,
       0,
     );
 
-    return reservedCapacity + reservation.guests < maxCapacity;
+    return (
+      reservedCapacity + reservation.guests <= reservationTypes.maxCapacity
+    );
   };
 
   return (
@@ -71,7 +74,7 @@ const ReserveTime = ({
           value={JSON.stringify(reservation.time)}
           onChange={handleChange}
         >
-          {times.map((time) => (
+          {slots.times.map((time: any) => (
             <Radio
               key={time.from}
               value={JSON.stringify(time)}
@@ -82,8 +85,8 @@ const ReserveTime = ({
                 <Text tag="div">{time.from}</Text>
                 <Text tag="div" typo="note" wrap={false}>
                   {isAvailable(time)
-                    ? `${s("reserve.to", strings)} ${time.to}`
-                    : `${s("reserve.booked", strings)}`}
+                    ? `${s("reserve.to")} ${time.to}`
+                    : `${s("reserve.booked")}`}
                 </Text>
               </div>
             </Radio>
@@ -95,7 +98,7 @@ const ReserveTime = ({
           disabled={!reservation.time}
           onClick={onNext}
         >
-          <Text tag="div">{s("ctas.next", strings)}</Text>
+          <Text tag="div">{s("ctas.next")}</Text>
         </Link>
       </div>
     </I18nProvider>

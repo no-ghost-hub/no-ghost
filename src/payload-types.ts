@@ -185,6 +185,7 @@ export interface VideoBlock {
     x: number;
     y: number;
   };
+  controls?: boolean | null;
   id?: string | null;
   blockName?: string | null;
   blockType: 'videoBlock';
@@ -212,7 +213,7 @@ export interface ContentBlock {
   text?: string | null;
   medium?: (ImageBlock | VideoBlock)[] | null;
   links?: LinksBlock;
-  theme?: ('default' | 'fit' | 'full') | null;
+  theme?: ('default' | 'fit' | 'full' | 'contain') | null;
   background?: ('default' | 'orange' | 'blue' | 'none') | null;
   id?: string | null;
   blockName?: string | null;
@@ -413,6 +414,7 @@ export interface VideoBlockSelect<T extends boolean = true> {
         x?: T;
         y?: T;
       };
+  controls?: T;
   id?: T;
   blockName?: T;
 }

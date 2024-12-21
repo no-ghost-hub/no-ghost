@@ -11,6 +11,7 @@ type Props = {
   label?: string;
   ariaLabel?: string;
   options: { text: string; value: string }[];
+  selected?: string[];
   required?: boolean;
 };
 
@@ -19,6 +20,7 @@ const FormsText = ({
   label,
   ariaLabel,
   options,
+  selected = [],
   required = false,
 }: Props) => {
   return (
@@ -27,6 +29,7 @@ const FormsText = ({
       isRequired={required}
       className="grid gap-xs"
       aria-label={ariaLabel}
+      defaultValue={selected}
     >
       {label && <Label className="typo-p">{label}</Label>}
       {options.map(({ text, value }) => (
@@ -39,7 +42,7 @@ const FormsText = ({
                 </div>
               </div>
               <div className="w-min min-w-full">
-                <Text typo="input">{text}</Text>
+                <Text typo="p">{text}</Text>
               </div>
             </div>
           )}
