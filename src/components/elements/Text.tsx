@@ -1,10 +1,12 @@
 type Props = {
   children?: React.ReactNode;
   html?: string;
-  tag?: keyof JSX.IntrinsicElements;
-  typo?: "1" | "2" | "p";
+  tag?: keyof React.JSX.IntrinsicElements;
+  typo?: "1" | "2" | "3" | "p" | "input" | "note";
   transform?: string;
   align?: "center";
+  color?: "black" | "white" | "grey" | "orange" | "green" | "blue" | "yellow";
+  wrap?: boolean;
 };
 
 const Component = ({
@@ -14,6 +16,8 @@ const Component = ({
   typo,
   transform,
   align,
+  color,
+  wrap = true,
 }: Props) => {
   const Component = tag;
 
@@ -30,11 +34,24 @@ const Component = ({
   const typos: Record<string, string> = {
     "1": "typo-1",
     "2": "typo-2",
+    "3": "typo-3",
     p: "typo-p",
+    input: "typo-input",
+    note: "typo-note",
   };
 
   const aligns: Record<string, string> = {
     center: "text-center mx-auto *:mx-auto",
+  };
+
+  const colors: Record<string, string> = {
+    black: "text-black",
+    white: "text-white",
+    grey: "text-darkgrey",
+    orange: "text-orange",
+    green: "text-green",
+    blue: "text-blue",
+    yellow: "text-yellow",
   };
 
   return (
@@ -42,11 +59,11 @@ const Component = ({
       {html ? (
         <div
           dangerouslySetInnerHTML={{ __html: html }}
-          className={`prose ${align ? aligns[align] : ""}`}
+          className={`prose ${align ? aligns[align] : ""} ${wrap ? "w-min min-w-full" : ""}`}
         />
       ) : (
         <Component
-          className={`${typo ? typos[typo] : tags[tag] || "typo-p"} ${transform ? transform : ""} ${align ? aligns[align] : ""}`}
+          className={`${typo ? typos[typo] : tags[tag] || "typo-p"} ${transform ? transform : ""} ${align ? aligns[align] : ""} ${color ? colors[color] : ""} ${wrap ? "w-min min-w-full" : ""}`}
         >
           {children}
         </Component>

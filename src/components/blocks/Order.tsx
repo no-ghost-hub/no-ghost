@@ -6,7 +6,13 @@ type Props = {};
 
 const OrderBlock = async ({}: Props) => {
   return (
-    <Link theme="button" background="white">
+    <Link
+      theme="button"
+      background="white"
+      href={{ query: { navigation: "order" } }}
+      keepQuery
+      toggle
+    >
       <Text tag="div">{await s("ctas.order")}</Text>
     </Link>
   );

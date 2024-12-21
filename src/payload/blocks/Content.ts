@@ -51,6 +51,10 @@ const block: Block = {
                       label: "Full",
                       value: "full",
                     },
+                    {
+                      label: "Contain",
+                      value: "contain",
+                    },
                   ],
                   defaultValue: "default",
                 },

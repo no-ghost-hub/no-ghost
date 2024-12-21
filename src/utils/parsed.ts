@@ -1,13 +1,15 @@
+import formatDecimalTime from "@/utils/formatDecimalTime";
+
 const odooColors: Record<string, string> = {
   "2": "orange",
   "8": "blue",
 };
 
-const util = (raw: any, type?: string): any => {
+const parsed = (raw: any, type?: string): any => {
   switch (type) {
     case "linkBlock": {
       return {
-        ...util(raw, "link"),
+        ...parsed(raw, "link"),
       };
     }
     case "link": {
@@ -48,7 +50,53 @@ const util = (raw: any, type?: string): any => {
         currency: raw.currency_id[1],
       };
     }
-    case "Site": {
+    case "reservations": {
+      return raw.map((reservation: any) => parsed(reservation, "reservation"));
+    }
+    case "reservation": {
+      return {
+        from: raw.event_start,
+        to: raw.event_stop,
+        capacity: raw.capacity_reserved,
+      };
+    }
+    case "reservationDates": {
+      const weekdays = Array.from(
+        new Set(raw.map((slot: any) => parseInt(slot.weekday) - 1)),
+      );
+      const times = raw.map(
+        ({ start_hour, end_hour, appointment_type_id }: any) => ({
+          from: formatDecimalTime(start_hour),
+          to: formatDecimalTime(end_hour),
+          type: appointment_type_id[0],
+        }),
+      );
+
+      return {
+        weekdays,
+        times,
+      };
+    }
+    case "reservationTypes": {
+      return {
+        types: raw.map((type: any) => parsed(type, "reservationType")),
+        maxCapacity: raw.reduce(
+          (acc: number, { resource_total_capacity: capacity }: any) => {
+            return capacity > acc ? capacity : acc;
+          },
+          0,
+        ),
+      };
+    }
+    case "reservationType": {
+      return {
+        id: raw.id,
+        name: raw.name,
+        slug: raw.x_studio_slug,
+        location: raw.location,
+      };
+    }
+    case "site": {
       return {
         title: raw.title,
         home: { slug: raw.home.value.slug, href: `/${raw.home.value.slug}` },
@@ -58,10 +106,10 @@ const util = (raw: any, type?: string): any => {
     case "logoBlock": {
       return {
         medium: raw.medium.length
-          ? util(raw.medium[0], raw.medium[0].blockType)
+          ? parsed(raw.medium[0], raw.medium[0].blockType)
           : undefined,
-        theme: raw.logoTheme,
-        background: raw.logoBackground,
+        theme: raw.theme,
+        background: raw.background,
       };
     }
     case "contentBlock": {
@@ -69,22 +117,22 @@ const util = (raw: any, type?: string): any => {
         text: raw.text,
         links: raw.links,
         medium: raw.medium.length
-          ? util(raw.medium[0], raw.medium[0].blockType)
+          ? parsed(raw.medium[0], raw.medium[0].blockType)
           : undefined,
-        theme: raw.contentTheme,
-        background: raw.contentBackground,
+        theme: raw.theme,
+        background: raw.background,
       };
     }
     case "imageBlock": {
       return {
         type: "image",
-        ...util(raw.image, "image"),
+        ...parsed(raw.image, "image"),
       };
     }
     case "videoBlock": {
       return {
         type: "video",
-        ...util(raw, "video"),
+        ...parsed(raw, "video"),
       };
     }
     case "image": {
@@ -100,6 +148,8 @@ const util = (raw: any, type?: string): any => {
         src: raw.src,
         poster: raw.poster?.url,
         ratio: raw.ratio,
+        theme: raw.theme,
+        controls: raw.controls,
       };
     }
     default: {
@@ -108,4 +158,4 @@ const util = (raw: any, type?: string): any => {
   }
 };
 
-export default util;
+export default parsed;

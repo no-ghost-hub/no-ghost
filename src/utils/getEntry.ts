@@ -1,13 +1,18 @@
-const util = async (type: string, slug: string) => {
-  let response;
+import { CollectionSlug, getPayload } from "payload";
+import config from "@payload-config";
 
-  response = await fetch(
-    `${process.env.NEXT_PUBLIC_SERVER_URL}/api/payload/${type}/${slug}`,
-  );
+import parsed from "@/utils/parsed";
 
-  const { data } = await response.json();
+const getEntry = async (type: CollectionSlug, slug: string) => {
+  const payload = await getPayload({ config });
+  const rawData = await payload.find({
+    collection: type,
+    where: { slug: { equals: slug } },
+  });
+
+  const data = parsed(rawData.docs[0], type);
 
   return data;
 };
 
-export default util;
+export default getEntry;

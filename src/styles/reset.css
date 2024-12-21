@@ -1,3 +1,17 @@
 ::placeholder {
   opacity: 1;
 }
+
+:focus-visible {
+  outline: none !important;
+}
+
+td,
+th {
+  padding: 0;
+}
+
+input,
+textarea {
+  background: none;
+}
