@@ -70,7 +70,7 @@ const VideoElement = ({
         onPlay={() => setPlaying(true)}
         onPause={() => setPlaying(false)}
       />
-      {!playing && (
+      {!autoplay && !playing && (
         <div className="z-10 place-self-center">
           <Link theme="button" background="white" onClick={handleClick}>
             <Text tag="div" wrap={false}>
