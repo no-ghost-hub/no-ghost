@@ -35,6 +35,7 @@ export async function GET(request: Request) {
           "name",
           "image_1024",
           "list_price",
+          "tax_string",
           "public_description",
           "categ_id",
         ],
