@@ -83,6 +83,7 @@ export async function POST(request: NextRequest) {
           location,
           appointment_type_id: time?.type,
           partner_ids: [[4, response.result]],
+          resource_total_capacity_reserved: guests,
         },
       ],
     });
@@ -95,7 +96,6 @@ export async function POST(request: NextRequest) {
           appointment_type_id: time?.type,
           appointment_resource_id: ids.noGhost01Capacity,
           capacity_reserved: guests,
-          capacity_used: guests,
           calendar_event_id: response.result,
         },
       ],

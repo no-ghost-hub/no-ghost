@@ -1,0 +1,118 @@
+<table
+  align="center"
+  border="0"
+  cellpadding="0"
+  cellspacing="0"
+  style="
+    width: 100%;
+    max-width: 600px;
+    margin: 0 auto;
+    background-color: rgb(255, 255, 255);
+    color: rgb(0, 0, 0);
+  "
+>
+  <tr>
+    <td style="padding: 60px">
+      <table style="width: 100%">
+        <tr>
+          <td
+            style="
+              font-family: serif;
+              font-weight: bold;
+              font-size: 24px;
+              text-align: center;
+              padding-bottom: 60px;
+            "
+          >
+            Yo
+            <t t-out="object.common_name or ''">Client</t>!
+            <br />
+            <t t-out="object.event_id.appointment_type_id.name">Reservation</t>
+            was successfully booked.
+          </td>
+        </tr>
+        <tr>
+          <td
+            style="
+              font-family: serif;
+              font-weight: bold;
+              font-size: 18px;
+              text-align: center;
+              padding-bottom: 60px;
+            "
+          >
+            <t t-out="object.event_id.resource_total_capacity_reserved"
+              >Guests</t
+            >
+            guests
+            <br />
+            <t
+              t-out="format_datetime(dt=object.event_id.start, tz=object.mail_tz if not object.event_id.allday else None, dt_format='dd/MM/YYYY', lang_code=object.env.lang) or ''"
+              >Date</t
+            >
+            <br />
+            <t
+              t-out="format_datetime(dt=object.event_id.start, tz=object.mail_tz if not object.event_id.allday else None, dt_format='HH:mm', lang_code=object.env.lang) or ''"
+              >Time</t
+            >
+            <br />
+          </td>
+        </tr>
+        <tr>
+          <td
+            style="
+              font-family: serif;
+              font-weight: bold;
+              font-size: 18px;
+              text-align: center;
+              padding-bottom: 60px;
+            "
+          >
+            <t t-out="object.event_id.location or ''">Location</t>
+            <br />
+            <a
+              target="_blank"
+              t-attf-href="http://maps.google.com/maps?oi=map&amp;q={{object.event_id.location}}"
+              style="text-decoration: underline; color: inherit"
+              >Open in Google Maps
+            </a>
+          </td>
+        </tr>
+        <tr>
+          <td
+            style="
+              font-family: serif;
+              font-weight: bold;
+              font-size: 18px;
+              text-align: center;
+            "
+          >
+            <a
+              t-attf-href="/calendar/meeting/view?token={{object.access_token}}&amp;id={{object.event_id.id}}"
+              style="
+                display: block;
+                background-color: rgb(255, 105, 5);
+                padding: 12px 16px;
+                text-decoration: none;
+                color: inherit;
+              "
+              >Add to calendar</a
+            >
+
+            <a
+              t-attf-href="/calendar/meeting/view?token={{object.access_token}}&amp;id={{object.event_id.id}}"
+              style="
+                display: block;
+                background-color: rgb(255, 255, 255);
+                padding: 12px 16px;
+                text-decoration: underline;
+                color: inherit;
+              "
+              >Cancel your reservation</a
+            >
+          </td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+</table>
