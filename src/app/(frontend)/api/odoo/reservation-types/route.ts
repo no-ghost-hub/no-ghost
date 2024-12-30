@@ -14,6 +14,7 @@ export async function GET() {
         "name",
         "x_studio_slug",
         "location",
+        "appointment_tz",
       ],
     },
   });

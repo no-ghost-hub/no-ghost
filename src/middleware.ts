@@ -5,13 +5,8 @@ import useOdoo from "@/utils/useOdoo";
 export async function middleware(request: NextRequest) {
   const { pathname, searchParams } = request.nextUrl;
 
-  const headers = new Headers(request.headers);
-  headers.set("x-pathname", pathname);
-
   let response = NextResponse.next({
-    request: {
-      headers,
-    },
+    request,
   });
 
   if (pathname.startsWith("/menu")) {
@@ -30,9 +25,7 @@ export async function middleware(request: NextRequest) {
         const url = new URL(request.url);
         url.searchParams.set("group", group.slug);
 
-        response = NextResponse.redirect(url, {
-          headers,
-        });
+        response = NextResponse.redirect(url);
       }
     }
   }

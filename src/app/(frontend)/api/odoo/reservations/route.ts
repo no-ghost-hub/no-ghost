@@ -35,7 +35,7 @@ const ids: Record<string, number> = {
 
 export async function POST(request: NextRequest) {
   const body: Reservation = await request.json();
-  const { guests, date, time, location, info } = body;
+  const { guests, date, time, timeZone, location, info } = body;
 
   let response: any;
 
@@ -71,6 +71,12 @@ export async function POST(request: NextRequest) {
       });
     }
 
+    const utcDate = (dateString: string) => {
+      const date = new Date(dateString);
+      const zonedDate = new Date(date.toLocaleString("en-US", { timeZone }));
+      return zonedDate.toISOString().replace("T", " ").slice(0, -5);
+    };
+
     response = await odooQuery({
       model: "calendar.event",
       method: "create",
@@ -78,8 +84,8 @@ export async function POST(request: NextRequest) {
         {
           name: `${info?.firstName} ${info?.lastName} - Reservation`,
           description: info?.message,
-          start: `${date} ${time?.from}`,
-          stop: `${date} ${time?.to}`,
+          start: utcDate(`${date} ${time?.from}`),
+          stop: utcDate(`${date} ${time?.to}`),
           location,
           appointment_type_id: time?.type,
           partner_ids: [[4, response.result]],

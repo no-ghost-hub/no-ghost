@@ -94,6 +94,7 @@ const parsed = (raw: any, type?: string): any => {
         name: raw.name,
         slug: raw.x_studio_slug,
         location: raw.location,
+        timeZone: raw.appointment_tz,
       };
     }
     case "site": {
