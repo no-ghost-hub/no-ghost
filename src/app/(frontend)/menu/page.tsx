@@ -1,7 +1,7 @@
 import Logo from "@/components/layout/Logo";
 import Category from "@/components/menu/Category";
-import getMenu from "@/utils/getMenu";
 import parsed from "@/utils/parsed";
+import useOdoo from "@/utils/useOdoo";
 
 const Page = async ({
   params,
@@ -16,7 +16,8 @@ const Page = async ({
   let menu;
 
   if (group) {
-    menu = await getMenu(group);
+    const { data } = await useOdoo({ route: `menu?group=${group}` });
+    menu = data;
   }
 
   return (

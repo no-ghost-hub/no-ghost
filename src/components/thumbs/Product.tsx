@@ -1,7 +1,7 @@
 import Text from "@/components/elements/Text";
 import Image from "@/components/elements/Image";
-import getCompany from "@/utils/getCompany";
 import formatPrice from "@/utils/formatPrice";
+import useOdoo from "@/utils/useOdoo";
 
 type Props = {
   title: string;
@@ -11,8 +11,9 @@ type Props = {
 };
 
 const ProductThumb = async ({ title, image, description, price }: Props) => {
-  const { currency } = await getCompany();
-  const formattedPrice = formatPrice(price, currency);
+  const { data } = await useOdoo({ route: "company" });
+
+  const formattedPrice = formatPrice(price, data.currency);
 
   return (
     <div className="grid grid-rows-[auto_minmax(0,1fr)] bg-white">
