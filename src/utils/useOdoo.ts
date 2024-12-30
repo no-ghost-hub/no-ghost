@@ -8,14 +8,23 @@ const useOdoo = async ({
   body?: BodyInit;
 }) => {
   let response;
+  let cookie;
+  let url = "";
 
-  response = await fetch(
-    `${process.env.NEXT_PUBLIC_SERVER_URL}/api/odoo/${route}`,
-    {
-      method,
-      body,
+  if (typeof window === "undefined") {
+    url = process.env.NEXT_PUBLIC_SERVER_URL || "https://eatnoghost.com";
+    const { headers } = await import("next/headers");
+    const headersList = await headers();
+    cookie = headersList.get("cookie");
+  }
+
+  response = await fetch(`${url}/api/odoo/${route}`, {
+    method,
+    body,
+    headers: {
+      cookie: cookie || "",
     },
-  );
+  });
 
   const { result, error } = await response.json();
 

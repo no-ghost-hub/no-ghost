@@ -1,5 +1,3 @@
-import { headers } from "next/headers";
-
 const endpoint = process.env.ODOO_API_ENDPOINT || "";
 const db = process.env.ODOO_DATABASE_NAME;
 const user = process.env.ODOO_API_USER;
@@ -16,13 +14,10 @@ const odooQuery = async ({
   domain?: any[];
   options?: any;
 }) => {
-  const headersList = await headers();
-  const cookie = headersList.get("cookie");
-
   let response;
   response = await fetch(endpoint, {
     method: "POST",
-    headers: { "Content-Type": "application/json", cookie: cookie || "" },
+    headers: { "Content-Type": "application/json" },
     body: JSON.stringify({
       jsonrpc: "2.0",
       method: "call",
