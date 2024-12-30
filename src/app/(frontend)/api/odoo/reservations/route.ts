@@ -72,9 +72,16 @@ export async function POST(request: NextRequest) {
     }
 
     const utcDate = (dateString: string) => {
-      const date = new Date(dateString);
-      const zonedDate = new Date(date.toLocaleString("en-US", { timeZone }));
-      return zonedDate.toISOString().replace("T", " ").slice(0, -5);
+      const offsetFormatter = new Intl.DateTimeFormat("en-US", {
+        timeZone,
+        timeZoneName: "longOffset",
+      });
+      const offsetString = offsetFormatter.format(new Date());
+      const offset = offsetString.split("GMT")[1];
+
+      const date = new Date(`${dateString}${offset}`);
+
+      return date.toISOString().replace("T", " ").slice(0, -5);
     };
 
     response = await odooQuery({

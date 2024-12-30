@@ -34,16 +34,6 @@ const ReserveTime = ({ reservation, setReservation, onNext }: Props) => {
       (t: any) => t.id === parsedTime.type,
     );
 
-    const utcDate = (dateString: string) => {
-      const date = new Date(dateString);
-      console.log(date);
-
-      const zonedDate = new Date(date.toLocaleString("en-US", { timeZone }));
-      return zonedDate.toISOString().replace("T", " ").slice(0, -5);
-    };
-
-    console.log(utcDate(`${reservation.date} ${parsedTime.from}`));
-
     setReservation({
       ...reservation,
       time: parsedTime,
