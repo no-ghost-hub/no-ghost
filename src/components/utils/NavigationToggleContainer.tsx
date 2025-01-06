@@ -1,9 +1,7 @@
 "use client";
 
-import { useSearchParams } from "next/navigation";
-
 type Props = {
-  value: string;
+  show: boolean;
   children?: React.ReactNode;
 };
 
@@ -12,13 +10,10 @@ const stateClasses: Record<string, string> = {
   hide: "transform translate-y-full",
 };
 
-const NavigationToggleContainer = ({ value, children }: Props) => {
-  const searchParams = useSearchParams();
-  const navigation = searchParams.get("navigation");
-
+const NavigationToggleContainer = ({ show, children }: Props) => {
   return (
     <div
-      className={`${navigation === value ? stateClasses.show : stateClasses.hide} z-10 transition-transform`}
+      className={`${show ? stateClasses.show : stateClasses.hide} z-10 transition-transform`}
     >
       {children}
     </div>

@@ -1,6 +1,9 @@
+"use client";
+
 import Link from "@/components/elements/Link";
 import Text from "@/components/elements/Text";
 import NavigationToggleContainer from "@/components/utils/NavigationToggleContainer";
+import { useUiStore } from "@/components/providers/Global";
 
 type Props = {};
 
@@ -11,8 +14,10 @@ const options = [
 ];
 
 const DeliveryOptions = ({}: Props) => {
+  const { navigation } = useUiStore((state) => state);
+
   return (
-    <NavigationToggleContainer value="order">
+    <NavigationToggleContainer show={navigation === "order"}>
       <nav className={`grid grid-flow-col justify-center bg-green`}>
         {options?.map(({ name, url }) => {
           return (

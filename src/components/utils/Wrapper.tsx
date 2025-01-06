@@ -5,12 +5,12 @@ import { useEffect, useState } from "react";
 import Context from "@/components/utils/Context";
 
 type Props = {
-  type: string;
+  type?: string;
   context?: any;
   children?: React.ReactNode;
 };
 
-const Rerenderer = ({ type, context, children }: Props) => {
+const Wrapper = ({ type, context, children }: Props) => {
   const [key, setKey] = useState(0);
   const searchParams = useSearchParams();
 
@@ -32,4 +32,4 @@ const Rerenderer = ({ type, context, children }: Props) => {
   );
 };
 
-export default Rerenderer;
+export default Wrapper;

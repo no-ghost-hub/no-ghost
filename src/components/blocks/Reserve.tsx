@@ -1,19 +1,24 @@
+"use client";
+
 import Link from "@/components/elements/Link";
 import Text from "@/components/elements/Text";
-import { s } from "@/utils/useString";
+import { s } from "@/utils/useClientString";
+import { useUiStore } from "@/components/providers/Global";
 
-type Props = {};
+type Props = {
+  onClick: (s: string) => void;
+};
 
-const ReserveBlock = async ({}: Props) => {
+const ReserveBlock = ({ onClick }: Props) => {
+  const { navigation } = useUiStore((state) => state);
   return (
     <Link
       theme="button"
       background="white"
-      href={{ query: { navigation: "reserve" } }}
-      keepQuery
-      toggle
+      onClick={() => onClick("reserve")}
+      active={navigation === "reserve"}
     >
-      <Text tag="div">{await s("ctas.reserve")}</Text>
+      <Text tag="div">{s("ctas.reserve")}</Text>
     </Link>
   );
 };

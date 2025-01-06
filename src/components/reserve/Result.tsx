@@ -5,8 +5,8 @@ import Link from "@/components/elements/Link";
 
 import { s } from "@/utils/useClientString";
 import { Reservation } from "@/types";
-import { usePathname } from "next/navigation";
 import formatDate from "@/utils/formatDate";
+import { useUiStore } from "@/components/providers/Global";
 
 type Props = {
   reservation?: Reservation;
@@ -14,7 +14,7 @@ type Props = {
 };
 
 const ReserveResult = ({ reservation, error }: Props) => {
-  const pathname = usePathname();
+  const { setNavigation } = useUiStore((state) => state);
 
   return (
     <div className="grid grid-rows-[1fr_auto] gap-s">
@@ -49,7 +49,12 @@ const ReserveResult = ({ reservation, error }: Props) => {
           )
         )}
       </div>
-      <Link theme="button" background="orange" href={pathname} active={false}>
+      <Link
+        theme="button"
+        background="orange"
+        onClick={() => setNavigation("")}
+        active={false}
+      >
         <Text tag="div">{s("ctas.close")}</Text>
       </Link>
     </div>

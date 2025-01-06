@@ -1,9 +1,9 @@
-import { String } from "@/payload-types";
-import Context from "@/components/utils/Context";
+import { Context } from "@/components/providers/Global";
 import { useContext } from "react";
 
 const s = (key: string) => {
-  const { strings }: { strings: String["strings"] } = useContext(Context);
+  const { strings } = useContext(Context);
+
   const string = strings?.find((s) => s.key === key);
   return string?.value || key;
 };

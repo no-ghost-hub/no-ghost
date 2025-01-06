@@ -15,7 +15,7 @@ type Props = {
   required?: boolean;
 };
 
-const FormsText = ({
+const FormsCheckbox = ({
   name,
   label,
   ariaLabel,
@@ -56,4 +56,4 @@ const FormsText = ({
   );
 };
 
-export default FormsText;
+export default FormsCheckbox;

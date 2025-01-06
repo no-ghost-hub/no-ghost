@@ -15,6 +15,7 @@ import useOdoo from "@/utils/useOdoo";
 import { Reservation } from "@/types";
 import { useClickAway } from "react-use";
 import { usePathname, useRouter } from "next/navigation";
+import { useUiStore } from "@/components/providers/Global";
 
 type Props = {};
 
@@ -79,8 +80,15 @@ const Reserve = ({}: Props) => {
   //   router.replace(pathname);
   // });
 
+  const { navigation } = useUiStore((state) => state);
+
+  const stepEl = useRef<HTMLElement>(null);
+  useEffect(() => {
+    stepEl.current?.scrollTo({ top: 0 });
+  }, [stepIndex]);
+
   return (
-    <NavigationToggleContainer value="reserve">
+    <NavigationToggleContainer show={navigation === "reserve"}>
       <div
         ref={el}
         className="grid h-[calc(100svh-var(--h-nav)-theme(spacing.xs)*2)] grid-rows-[auto_1fr] bg-white"
@@ -109,7 +117,7 @@ const Reserve = ({}: Props) => {
             </div>
           )}
         </header>
-        <main className="grid overflow-y-auto p-xs">
+        <main className="grid overflow-y-auto p-xs" ref={stepEl}>
           {result ? (
             <Result reservation={result.data} error={result.error} />
           ) : (
