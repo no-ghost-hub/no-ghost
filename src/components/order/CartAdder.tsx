@@ -4,7 +4,7 @@ import Text from "@/components/elements/Text";
 import Link from "@/components/elements/Link";
 
 import { s } from "@/utils/useClientString";
-import FormsNumber from "../forms/Number";
+import FormsNumber from "@/components/forms/Number";
 import { useCartStore } from "@/components/providers/Global";
 
 type Props = {

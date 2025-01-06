@@ -63,12 +63,13 @@ const parsed = (raw: any, type?: string): any => {
     }
     case "reservationDates": {
       const weekdays = Array.from(
-        new Set(raw.map((slot: any) => parseInt(slot.weekday) - 1)),
+        new Set(raw.map((slot: any) => (parseInt(slot.weekday) + 6) % 7)),
       );
       const times = raw.map(
-        ({ start_hour, end_hour, appointment_type_id }: any) => ({
+        ({ start_hour, end_hour, appointment_type_id, weekday }: any) => ({
           from: formatDecimalTime(start_hour),
           to: formatDecimalTime(end_hour),
+          weekday: parseInt(weekday),
           type: appointment_type_id[0],
         }),
       );

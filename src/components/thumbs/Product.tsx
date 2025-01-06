@@ -1,11 +1,9 @@
 import Text from "@/components/elements/Text";
 import Image from "@/components/elements/Image";
 import CartAdder from "@/components/order/CartAdder";
-import Wrapper from "@/components/utils/Wrapper";
 
 import formatPrice from "@/utils/formatPrice";
 import useOdoo from "@/utils/useOdoo";
-import getGlobal from "@/utils/getGlobal";
 
 type Props = {
   id: number;
@@ -25,7 +23,6 @@ const ProductThumb = async ({
   theme = "default",
 }: Props) => {
   const { data } = await useOdoo({ route: "company" });
-  const { strings } = await getGlobal("strings");
 
   const formattedPrice = formatPrice(price, data.currency);
 
@@ -47,9 +44,7 @@ const ProductThumb = async ({
       </div>
       {(theme === "lunch" || theme === "dinner") && (
         <div className="grid p-xs pt-0">
-          <Wrapper context={{ strings }}>
-            <CartAdder {...{ id, title, price }} theme={theme} />
-          </Wrapper>
+          <CartAdder {...{ id, title, price }} theme={theme} />
         </div>
       )}
     </div>

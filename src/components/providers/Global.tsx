@@ -5,7 +5,6 @@ import { createUiStore, UiStore } from "@/stores/ui";
 import { createCartStore, CartStore } from "@/stores/cart";
 import { StoreApi, useStore } from "zustand";
 import { String } from "@/payload-types";
-import { useSearchParams } from "next/navigation";
 
 type Props = {
   strings: String["strings"];
@@ -22,10 +21,8 @@ export const GlobalProvider = ({ children, strings }: Props) => {
   const uiStoreRef = useRef<StoreApi<UiStore>>(null);
   const cartStoreRef = useRef<StoreApi<CartStore>>(null);
 
-  const searchParams = useSearchParams();
-
   if (!uiStoreRef.current) {
-    uiStoreRef.current = createUiStore(searchParams.get("navigation") || "");
+    uiStoreRef.current = createUiStore("");
   }
   if (!cartStoreRef.current) {
     cartStoreRef.current = createCartStore();

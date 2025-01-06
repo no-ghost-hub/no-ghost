@@ -37,7 +37,7 @@ const ReserveDate = ({ reservation, setReservation, onNext }: Props) => {
 
   const isDateUnavailable = (date: DateValue) => {
     const weekday = getDayOfWeek(date, locale);
-    return !slots?.weekdays?.includes(weekday);
+    return !slots?.weekdays?.includes(weekday) || date.month === 1;
   };
 
   function handleChange(date: DateValue) {

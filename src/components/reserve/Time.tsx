@@ -26,6 +26,12 @@ const ReserveTime = ({ reservation, setReservation, onNext }: Props) => {
   );
   const { data: slots } = useSWR({ route: "reservation-slots" }, useOdoo);
 
+  let daySlots = [];
+  if (reservation.date) {
+    const weekday = new Date(reservation.date).getDay();
+    daySlots = slots.times.filter((t: any) => t.weekday === weekday);
+  }
+
   const { reservationTypes } = useContext(Context);
 
   function handleChange(time: string) {
@@ -77,7 +83,7 @@ const ReserveTime = ({ reservation, setReservation, onNext }: Props) => {
           value={JSON.stringify(reservation.time)}
           onChange={handleChange}
         >
-          {slots.times.map((time: any) => (
+          {daySlots.map((time: any) => (
             <Radio
               key={time.from}
               value={JSON.stringify(time)}

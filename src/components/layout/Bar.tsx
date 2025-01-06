@@ -10,7 +10,7 @@ import SizeUtil from "@/components/utils/Size";
 
 import { Menu } from "@/payload-types";
 import { useUiStore } from "@/components/providers/Global";
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 
 const components = {
@@ -40,22 +40,29 @@ const NavigationBar = ({ main, home }: Props) => {
     }
   }
 
-  useEffect(() => {
-    if (navigation !== navigationParam) {
-      const url = new URL(window.location.href);
+  const initialized = useRef(false);
 
-      if (navigation) {
-        url.searchParams.set("navigation", navigation);
-      } else {
-        url.searchParams.delete("navigation");
-      }
+  useEffect(() => {
+    if (!initialized.current) {
+      return;
+    }
+    const url = new URL(window.location.href);
+
+    if (navigation) {
+      url.searchParams.set("navigation", navigation);
+    } else {
+      url.searchParams.delete("navigation");
+    }
+
+    if (url.toString() !== window.location.href) {
       router.replace(url.toString());
     }
   }, [navigation]);
 
   useEffect(() => {
-    if (!navigationParam) {
-      setNavigation("");
+    if (navigation !== navigationParam) {
+      setNavigation(navigationParam || "");
+      initialized.current = true;
     }
   }, [navigationParam]);
 

@@ -1,8 +1,8 @@
 "use client";
 
-import { useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import Context from "@/components/utils/Context";
+import { useUiStore } from "../providers/Global";
 
 type Props = {
   type?: string;
@@ -12,15 +12,14 @@ type Props = {
 
 const Wrapper = ({ type, context, children }: Props) => {
   const [key, setKey] = useState(0);
-  const searchParams = useSearchParams();
+  const { navigation } = useUiStore((state) => state);
 
   if (type === "reserve") {
-    const navigation = searchParams.get("navigation");
     useEffect(() => {
       if (!navigation) {
         setTimeout(() => {
           setKey((prev) => prev + 1);
-        }, 500);
+        }, 200);
       }
     }, [navigation]);
   }
