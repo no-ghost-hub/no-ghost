@@ -24,7 +24,10 @@ const useOdoo = async ({
     headers: {
       cookie: cookie || "",
     },
-    cache: method === "GET" ? "force-cache" : "default",
+    cache:
+      method === "GET" && process.env.NODE_ENV === "production"
+        ? "force-cache"
+        : "default",
   });
 
   const { result, error } = await response.json();

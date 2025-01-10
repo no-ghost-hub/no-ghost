@@ -23,6 +23,9 @@ import { s } from "@/utils/useClientString";
 import { Reservation } from "@/types";
 import useSWR from "swr";
 import useOdoo from "@/utils/useOdoo";
+import { isSlotAvailable } from "@/utils/isSlotAvailable";
+import { useContext } from "react";
+import Context from "@/components/utils/Context";
 
 type Props = {
   reservation: Reservation;
@@ -32,12 +35,38 @@ type Props = {
 
 const ReserveDate = ({ reservation, setReservation, onNext }: Props) => {
   const { data: slots } = useSWR({ route: "reservation-slots" }, useOdoo);
+  const { data: closingDays }: { data: [{ from: Date; to: Date }] } = useSWR(
+    { route: "closing-days" },
+    useOdoo,
+  );
+  const { data: reservations }: { data: any[] } = useSWR(
+    { route: "reservations" },
+    useOdoo,
+  );
+  const { reservationTypes } = useContext(Context);
 
   const locale = "en-BE";
 
   const isDateUnavailable = (date: DateValue) => {
     const weekday = getDayOfWeek(date, locale);
-    return !slots?.weekdays?.includes(weekday) || date.month === 1;
+    const availableSlots = slots?.times?.filter((t: any) => {
+      const available = isSlotAvailable(
+        reservation.guests || 0,
+        date.toString(),
+        t,
+        reservationTypes.maxCapacity,
+        reservations,
+      );
+
+      return t.weekday === weekday && available;
+    });
+
+    const closed = closingDays?.some(
+      ({ from, to }) =>
+        date.toString() >= from.toString() && date.toString() <= to.toString(),
+    );
+
+    return !availableSlots?.length || closed;
   };
 
   function handleChange(date: DateValue) {
@@ -81,7 +110,7 @@ const ReserveDate = ({ reservation, setReservation, onNext }: Props) => {
             {(date) => (
               <CalendarCell
                 date={date}
-                className="custom-underline p-xs text-center typo-p aria-[disabled]:pointer-events-none aria-[disabled]:text-darkgrey data-[selected]:border-b-black data-[selected]:bg-grey"
+                className="custom-underline p-xs text-center typo-p aria-[disabled]:pointer-events-none aria-[disabled]:text-darkgrey data-[outside-month]:hidden data-[selected]:border-b-black data-[selected]:bg-grey"
               />
             )}
           </CalendarGrid>

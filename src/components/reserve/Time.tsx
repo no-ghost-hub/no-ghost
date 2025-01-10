@@ -10,6 +10,8 @@ import useSWR from "swr";
 import useOdoo from "@/utils/useOdoo";
 import { useContext } from "react";
 import Context from "@/components/utils/Context";
+import { isSlotAvailable } from "@/utils/isSlotAvailable";
+import { getDayOfWeek, parseDate } from "@internationalized/date";
 
 type Props = {
   reservation: Reservation;
@@ -20,15 +22,15 @@ type Props = {
 const ReserveTime = ({ reservation, setReservation, onNext }: Props) => {
   const locale = "en-BE";
 
+  const { data: slots } = useSWR({ route: "reservation-slots" }, useOdoo);
   const { data: reservations }: { data: any[] } = useSWR(
     { route: "reservations" },
     useOdoo,
   );
-  const { data: slots } = useSWR({ route: "reservation-slots" }, useOdoo);
 
   let daySlots = [];
   if (reservation.date) {
-    const weekday = new Date(reservation.date).getDay();
+    const weekday = getDayOfWeek(parseDate(reservation.date), locale);
     daySlots = slots.times.filter((t: any) => t.weekday === weekday);
   }
 
@@ -48,32 +50,6 @@ const ReserveTime = ({ reservation, setReservation, onNext }: Props) => {
     });
   }
 
-  const isAvailable = (time: { from: number; to: number }) => {
-    const slotStart = new Date(`${reservation.date}T${time.from}:00`);
-    const slotEnd = new Date(`${reservation.date}T${time.to}:00`);
-
-    const overlapping = reservations?.filter((r) => {
-      const reservationStart = new Date(r.from);
-      const reservationEnd = new Date(r.to);
-
-      const isSameDay =
-        slotStart.toDateString() === reservationStart.toDateString();
-
-      return (
-        isSameDay && slotStart < reservationEnd && slotEnd > reservationStart
-      );
-    });
-
-    const reservedCapacity = overlapping?.reduce(
-      (acc, r) => acc + r.capacity,
-      0,
-    );
-
-    return (
-      reservedCapacity + reservation.guests <= reservationTypes.maxCapacity
-    );
-  };
-
   return (
     <I18nProvider locale={locale}>
       <div className="grid grid-rows-[1fr_auto] gap-s">
@@ -87,13 +63,27 @@ const ReserveTime = ({ reservation, setReservation, onNext }: Props) => {
             <Radio
               key={time.from}
               value={JSON.stringify(time)}
-              className="custom-underline cursor-pointer data-[disabled]:pointer-events-none data-[disabled]:bg-grey data-[selected]:bg-grey data-[disabled]:text-darkgrey"
-              isDisabled={!isAvailable(time)}
+              className="custom-underline cursor-pointer data-[disabled]:pointer-events-none data-[selected]:bg-grey data-[disabled]:text-darkgrey"
+              isDisabled={
+                !isSlotAvailable(
+                  reservation.guests || 0,
+                  reservation.date || "",
+                  time,
+                  reservationTypes.maxCapacity,
+                  reservations,
+                )
+              }
             >
               <div className="grid grid-flow-col items-end justify-between p-xs">
                 <Text tag="div">{time.from}</Text>
                 <Text tag="div" typo="note" wrap={false}>
-                  {isAvailable(time)
+                  {isSlotAvailable(
+                    reservation.guests || 0,
+                    reservation.date || "",
+                    time,
+                    reservationTypes.maxCapacity,
+                    reservations,
+                  )
                     ? `${s("reserve.to")} ${time.to}`
                     : `${s("reserve.booked")}`}
                 </Text>

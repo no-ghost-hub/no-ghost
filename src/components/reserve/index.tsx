@@ -74,13 +74,13 @@ const Reserve = ({}: Props) => {
   }
 
   const el = useRef<HTMLDivElement>(null);
-  const router = useRouter();
-  const pathname = usePathname();
-  // useClickAway(el, () => {
-  //   router.replace(pathname);
-  // });
 
-  const { navigation } = useUiStore((state) => state);
+  const { navigation, setNavigation } = useUiStore((state) => state);
+  useClickAway(el, () => {
+    if (navigation === "reserve") {
+      setNavigation("");
+    }
+  });
 
   const stepEl = useRef<HTMLElement>(null);
   useEffect(() => {

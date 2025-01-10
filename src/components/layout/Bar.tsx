@@ -55,6 +55,7 @@ const NavigationBar = ({ main, home }: Props) => {
     }
 
     if (url.toString() !== window.location.href) {
+      console.log("lol");
       router.replace(url.toString());
     }
   }, [navigation]);

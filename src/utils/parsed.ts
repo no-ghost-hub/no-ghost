@@ -69,7 +69,7 @@ const parsed = (raw: any, type?: string): any => {
         ({ start_hour, end_hour, appointment_type_id, weekday }: any) => ({
           from: formatDecimalTime(start_hour),
           to: formatDecimalTime(end_hour),
-          weekday: parseInt(weekday),
+          weekday: (parseInt(weekday) + 6) % 7,
           type: appointment_type_id[0],
         }),
       );
@@ -98,6 +98,12 @@ const parsed = (raw: any, type?: string): any => {
         location: raw.location,
         timeZone: raw.appointment_tz,
       };
+    }
+    case "closingDays": {
+      return raw.map((date: any) => ({
+        from: new Date(date.date_from),
+        to: new Date(date.date_to),
+      }));
     }
     case "site": {
       return {
