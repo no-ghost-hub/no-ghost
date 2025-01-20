@@ -6,9 +6,9 @@ import Link from "@/components/elements/Link";
 
 import { s } from "@/utils/useClientString";
 import { Reservation } from "@/types";
-import { useContext } from "react";
-import Context from "@/components/utils/Context";
 import FormsNumber from "@/components/forms/Number";
+import useSWR from "swr";
+import useOdoo from "@/utils/useOdoo";
 
 type Props = {
   reservation: Reservation;
@@ -23,26 +23,36 @@ const ReserveGuests = ({ reservation, setReservation, onNext }: Props) => {
     setReservation({ ...reservation, guests });
   }
 
-  const { reservationTypes } = useContext(Context);
+  const { data: tables, isLoading } = useSWR({ route: "tables" }, useOdoo);
 
   return (
     <I18nProvider locale={locale}>
       <div className="grid grid-rows-[1fr_auto] gap-s">
-        <FormsNumber
-          min={0}
-          max={reservationTypes.maxCapacity}
-          label="Reservation guests"
-          value={reservation.guests || 0}
-          onChange={handleChange}
-        />
-        <Link
-          theme="button"
-          background="orange"
-          disabled={!reservation.guests}
-          onClick={onNext}
-        >
-          <Text tag="div">{s("ctas.next")}</Text>
-        </Link>
+        {!isLoading && (
+          <FormsNumber
+            min={0}
+            max={tables.maxCapacity}
+            label="Reservation guests"
+            value={reservation.guests || 0}
+            onChange={handleChange}
+          />
+        )}
+        <div className="grid gap-s">
+          {!isLoading && (
+            <Text typo="note" align="center">
+              To reserve for more than {tables.maxCapacity} guests, please
+              contact us.
+            </Text>
+          )}
+          <Link
+            theme="button"
+            background="orange"
+            disabled={!reservation.guests}
+            onClick={onNext}
+          >
+            <Text tag="div">{s("ctas.next")}</Text>
+          </Link>
+        </div>
       </div>
     </I18nProvider>
   );

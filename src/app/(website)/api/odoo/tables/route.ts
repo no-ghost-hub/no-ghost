@@ -5,20 +5,20 @@ import parsed from "@/utils/parsed";
 export async function GET() {
   let response;
   response = await odooQuery({
-    model: "appointment.slot",
+    model: "appointment.resource",
     method: "search_read",
     options: {
-      fields: ["weekday", "start_hour", "end_hour", "appointment_type_id"],
+      fields: ["id", "name", "capacity"],
     },
     domain: [
-      [["appointment_type_id.x_studio_slug", "in", ["lunch", "dinner"]]],
+      [["appointment_type_ids.x_studio_slug", "in", ["lunch", "dinner"]]],
     ],
   });
 
   const { result: data } = response;
 
   if (data) {
-    response.result = parsed(data, "reservationDates");
+    response.result = parsed(data, "tables");
   }
 
   return NextResponse.json(response);

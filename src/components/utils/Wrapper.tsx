@@ -1,8 +1,9 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Context from "@/components/utils/Context";
-import { useUiStore } from "../providers/Global";
+import { useUiStore } from "@/components/providers/Global";
+import { useClickAway } from "react-use";
 
 type Props = {
   type?: string;
@@ -12,7 +13,7 @@ type Props = {
 
 const Wrapper = ({ type, context, children }: Props) => {
   const [key, setKey] = useState(0);
-  const { navigation } = useUiStore((state) => state);
+  const { navigation, setNavigation } = useUiStore((state) => state);
 
   if (type === "reserve") {
     useEffect(() => {
@@ -24,9 +25,19 @@ const Wrapper = ({ type, context, children }: Props) => {
     }, [navigation]);
   }
 
+  const el = useRef<HTMLDivElement>(null);
+
+  if (type === "navigation") {
+    useClickAway(el, () => {
+      setNavigation("");
+    });
+  }
+
   return (
     <Context.Provider value={context} key={key}>
-      {children}
+      <div ref={el} className="grid">
+        {children}
+      </div>
     </Context.Provider>
   );
 };

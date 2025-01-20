@@ -1,10 +1,6 @@
 import { odooQuery } from "@/utils/odooClient";
 import { NextResponse } from "next/server";
 
-const customFields = {
-  groupSlug: "x_studio_char_field_41e_1icocg5tb",
-};
-
 export async function GET(request: Request) {
   const { searchParams } = new URL(request.url);
   const groupSlug = searchParams.get("group");
@@ -13,7 +9,7 @@ export async function GET(request: Request) {
   response = await odooQuery({
     model: "pos.category",
     method: "search_read",
-    domain: [[[customFields.groupSlug, "=", groupSlug]]],
+    domain: [[["x_studio_slug", "=", groupSlug]]],
     options: {
       fields: ["id"],
     },

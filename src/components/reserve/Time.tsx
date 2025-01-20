@@ -36,11 +36,13 @@ const ReserveTime = ({ reservation, setReservation, onNext }: Props) => {
 
   const { reservationTypes } = useContext(Context);
 
+  const type = (time: any) => {
+    return reservationTypes.types.find((t: any) => t.id === time.type);
+  };
+
   function handleChange(time: string) {
     const parsedTime = JSON.parse(time);
-    const { timeZone, location } = reservationTypes.types.find(
-      (t: any) => t.id === parsedTime.type,
-    );
+    const { timeZone, location } = type(parsedTime);
 
     setReservation({
       ...reservation,
@@ -69,7 +71,7 @@ const ReserveTime = ({ reservation, setReservation, onNext }: Props) => {
                   reservation.guests || 0,
                   reservation.date || "",
                   time,
-                  reservationTypes.maxCapacity,
+                  type(time).capacity,
                   reservations,
                 )
               }
@@ -81,7 +83,7 @@ const ReserveTime = ({ reservation, setReservation, onNext }: Props) => {
                     reservation.guests || 0,
                     reservation.date || "",
                     time,
-                    reservationTypes.maxCapacity,
+                    type(time).capacity,
                     reservations,
                   )
                     ? `${s("reserve.to")} ${time.to}`

@@ -9,7 +9,7 @@ export async function GET() {
     model: "appointment.booking.line",
     method: "search_read",
     options: {
-      fields: ["event_start", "event_stop", "capacity_reserved"],
+      fields: ["event_start", "event_stop", "capacity_used"],
     },
   });
 
@@ -22,14 +22,9 @@ export async function GET() {
   return NextResponse.json(response);
 }
 
-const customFields: Record<string, string> = {
-  firstName: "x_studio_char_field_3cl_1iep3d50v",
-  lastName: "x_studio_last_name",
-};
 const ids: Record<string, number> = {
   client: 2,
   marketing: 3,
-  noGhost01Capacity: 19,
   noGhost01Location: 1,
 };
 
@@ -57,8 +52,8 @@ export async function POST(request: NextRequest) {
         method: "create",
         domain: [
           {
-            [customFields.firstName]: info?.firstName,
-            [customFields.lastName]: info?.lastName,
+            x_studio_first_name: info?.firstName,
+            x_studio_last_name: info?.lastName,
             name: `${info?.firstName} ${info?.lastName}`,
             email: info?.email,
             phone: info?.phone,
@@ -84,7 +79,7 @@ export async function POST(request: NextRequest) {
       return date.toISOString().replace("T", " ").slice(0, -5);
     };
 
-    response = await odooQuery({
+    const calendarResponse = await odooQuery({
       model: "calendar.event",
       method: "create",
       domain: [
@@ -103,13 +98,55 @@ export async function POST(request: NextRequest) {
 
     response = await odooQuery({
       model: "appointment.booking.line",
+      method: "search_read",
+      options: {
+        fields: ["appointment_resource_id"],
+      },
+      domain: [
+        [
+          ["appointment_type_id", "=", time?.type],
+          ["event_start", "<", utcDate(`${date} ${time?.to}`)],
+          ["event_stop", ">", utcDate(`${date} ${time?.from}`)],
+        ],
+      ],
+    });
+
+    response = await odooQuery({
+      model: "appointment.resource",
+      method: "search_read",
+      options: {
+        fields: ["capacity"],
+      },
+      domain: [
+        [
+          ["appointment_type_ids", "in", time?.type],
+          [
+            "id",
+            "not in",
+            response.result.map((r: any) => r.appointment_resource_id[0]),
+          ],
+        ],
+      ],
+    });
+
+    const resource = response.result
+      .filter((r: any) => r.capacity >= (guests || 0))
+      .reduce((closest: any, current: any) =>
+        Math.abs(current.capacity - (guests || 0)) <
+        Math.abs(closest.capacity - (guests || 0))
+          ? current
+          : closest,
+      );
+
+    response = await odooQuery({
+      model: "appointment.booking.line",
       method: "create",
       domain: [
         {
           appointment_type_id: time?.type,
-          appointment_resource_id: ids.noGhost01Capacity,
+          appointment_resource_id: resource.id,
           capacity_reserved: guests,
-          calendar_event_id: response.result,
+          calendar_event_id: calendarResponse.result,
         },
       ],
     });

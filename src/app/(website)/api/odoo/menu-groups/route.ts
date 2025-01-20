@@ -2,24 +2,15 @@ import { odooQuery } from "@/utils/odooClient";
 import { NextResponse } from "next/server";
 import parsed from "@/utils/parsed";
 
-const customFields = {
-  groupSlug: "x_studio_char_field_41e_1icocg5tb",
-};
-
 export async function GET() {
   let response;
   response = await odooQuery({
     model: "pos.category",
     method: "search_read",
     options: {
-      fields: [
-        "name",
-        customFields.groupSlug,
-        "hour_after",
-        "hour_until",
-        "color",
-      ],
+      fields: ["name", "x_studio_slug", "hour_after", "hour_until", "color"],
     },
+    domain: [[["x_studio_menu", "=", true]]],
   });
 
   const { result: data } = response;

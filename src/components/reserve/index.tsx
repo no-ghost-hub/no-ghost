@@ -13,8 +13,6 @@ import { useEffect, useRef, useState } from "react";
 
 import useOdoo from "@/utils/useOdoo";
 import { Reservation } from "@/types";
-import { useClickAway } from "react-use";
-import { usePathname, useRouter } from "next/navigation";
 import { useUiStore } from "@/components/providers/Global";
 
 type Props = {};
@@ -73,14 +71,7 @@ const Reserve = ({}: Props) => {
     setStepIndex(stepIndex + 1);
   }
 
-  const el = useRef<HTMLDivElement>(null);
-
-  const { navigation, setNavigation } = useUiStore((state) => state);
-  useClickAway(el, () => {
-    if (navigation === "reserve") {
-      setNavigation("");
-    }
-  });
+  const { navigation } = useUiStore((state) => state);
 
   const stepEl = useRef<HTMLElement>(null);
   useEffect(() => {
@@ -89,10 +80,7 @@ const Reserve = ({}: Props) => {
 
   return (
     <NavigationToggleContainer show={navigation === "reserve"}>
-      <div
-        ref={el}
-        className="grid h-[calc(100svh-var(--h-nav)-theme(spacing.xs)*2)] grid-rows-[auto_1fr] bg-white"
-      >
+      <div className="grid h-[calc(100svh-var(--h-nav)-theme(spacing.xs)*2)] grid-rows-[auto_1fr] bg-white">
         <header className="grid gap-xs p-xs">
           <Text tag="h3" align="center">
             {s("reserve.heading")}

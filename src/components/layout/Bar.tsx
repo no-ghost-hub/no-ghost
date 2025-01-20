@@ -11,7 +11,7 @@ import SizeUtil from "@/components/utils/Size";
 import { Menu } from "@/payload-types";
 import { useUiStore } from "@/components/providers/Global";
 import { useEffect, useRef } from "react";
-import { useRouter, useSearchParams } from "next/navigation";
+import { useSearchParams } from "next/navigation";
 
 const components = {
   linkBlock: LinkBlock,
@@ -27,7 +27,6 @@ type Props = {
 
 const NavigationBar = ({ main, home }: Props) => {
   const { navigation, setNavigation } = useUiStore((state) => state);
-  const router = useRouter();
 
   const searchParams = useSearchParams();
   const navigationParam = searchParams.get("navigation");
@@ -46,17 +45,17 @@ const NavigationBar = ({ main, home }: Props) => {
     if (!initialized.current) {
       return;
     }
-    const url = new URL(window.location.href);
+
+    const params = new URLSearchParams(searchParams.toString());
 
     if (navigation) {
-      url.searchParams.set("navigation", navigation);
+      params.set("navigation", navigation);
     } else {
-      url.searchParams.delete("navigation");
+      params.delete("navigation");
     }
 
-    if (url.toString() !== window.location.href) {
-      console.log("lol");
-      router.replace(url.toString());
+    if (params.toString() !== searchParams.toString()) {
+      window.history.replaceState(null, "", `?${params.toString()}`);
     }
   }, [navigation]);
 

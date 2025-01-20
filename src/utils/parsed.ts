@@ -21,11 +21,10 @@ const parsed = (raw: any, type?: string): any => {
       };
     }
     case "menuGroup": {
-      const slug = raw.x_studio_char_field_41e_1icocg5tb;
       return {
         name: raw.name,
-        slug,
-        url: `/menu?group=${slug}`,
+        slug: raw.x_studio_slug,
+        url: `/menu?group=${raw.x_studio_slug}`,
         hourFrom: raw.hour_after,
         hourTo: raw.hour_until,
         color: odooColors[raw.color],
@@ -58,7 +57,7 @@ const parsed = (raw: any, type?: string): any => {
       return {
         from: raw.event_start,
         to: raw.event_stop,
-        capacity: raw.capacity_reserved,
+        capacity: raw.capacity_used,
       };
     }
     case "reservationDates": {
@@ -79,6 +78,13 @@ const parsed = (raw: any, type?: string): any => {
         times,
       };
     }
+    case "tables": {
+      return {
+        maxCapacity: raw.reduce((acc: number, { capacity }: any) => {
+          return capacity > acc ? capacity : acc;
+        }, 0),
+      };
+    }
     case "reservationTypes": {
       return {
         types: raw.map((type: any) => parsed(type, "reservationType")),
@@ -97,6 +103,7 @@ const parsed = (raw: any, type?: string): any => {
         slug: raw.x_studio_slug,
         location: raw.location,
         timeZone: raw.appointment_tz,
+        capacity: raw.resource_total_capacity,
       };
     }
     case "closingDays": {

@@ -1,9 +1,7 @@
 import Image from "@/components/elements/Image";
 import Video from "@/components/elements/Video";
-import Wrapper from "@/components/utils/Wrapper";
 
 import type { Image as ImageType, Video as VideoType } from "@/types";
-import getGlobal from "@/utils/getGlobal";
 
 type Props = { type: "image" | "video"; theme?: string } & (
   | ImageType
@@ -17,13 +15,8 @@ const MediumGroup = async (props: Props) => {
   };
 
   const Component = components[props.type];
-  const { strings } = await getGlobal("strings");
 
-  return (
-    <Wrapper type="medium" context={{ strings }}>
-      <Component {...props} />
-    </Wrapper>
-  );
+  return <Component {...props} />;
 };
 
 export default MediumGroup;
