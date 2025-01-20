@@ -8,9 +8,9 @@ import { useUiStore } from "@/components/providers/Global";
 type Props = {};
 
 const options = [
-  { name: "Takeaway.com", url: "https://takeaway.com" },
+  // { name: "Takeaway.com", url: "https://takeaway.com" },
   // { name: "Deliveroo", url: "https://deliveroo.com" },
-  // { name: "Uber Eats", url: "https://ubereats.com" },
+  { name: "Uber Eats", url: "https://www.ubereats.com/be-en/store/no-ghost/" },
 ];
 
 const DeliveryOptions = ({}: Props) => {
