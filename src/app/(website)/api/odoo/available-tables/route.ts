@@ -16,8 +16,8 @@ export async function POST(request: NextRequest) {
     domain: [
       [
         ["appointment_type_id", "=", time?.type],
-        ["event_start", "<=", utcDate(`${date} ${time?.to}`, timeZone)],
-        ["event_stop", ">=", utcDate(`${date} ${time?.from}`, timeZone)],
+        ["event_start", "<", utcDate(`${date} ${time?.to}`, timeZone)],
+        ["event_stop", ">", utcDate(`${date} ${time?.from}`, timeZone)],
       ],
     ],
   });
