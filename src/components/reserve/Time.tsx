@@ -1,6 +1,6 @@
 "use client";
 
-import { RadioGroup, Radio, I18nProvider } from "react-aria-components";
+import { RadioGroup, I18nProvider } from "react-aria-components";
 import Text from "@/components/elements/Text";
 import Link from "@/components/elements/Link";
 
@@ -10,9 +10,8 @@ import useSWR from "swr";
 import useOdoo from "@/utils/useOdoo";
 import { useContext } from "react";
 import Context from "@/components/utils/Context";
-import { isSlotAvailable } from "@/utils/isSlotAvailable";
 import { getDayOfWeek, parseDate } from "@internationalized/date";
-import TimeSlot from "./TimeSlot";
+import TimeSlot from "@/components/reserve/TimeSlot";
 
 type Props = {
   reservation: Reservation;
