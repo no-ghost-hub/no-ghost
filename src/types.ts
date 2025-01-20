@@ -22,22 +22,23 @@ export type Video = {
   poster: string;
   ratio: { x: number; y: number };
   theme?: string;
-};
-
-export type Quote = {
-  title: string;
-  slug: string;
-  role: string;
-  age: number;
-  quote: string;
-  image: Image;
+  controls?: boolean;
 };
 
 export type Text = {
   children?: ReactNode;
   html?: string;
-  tag?: keyof JSX.IntrinsicElements;
+  tag?: keyof React.JSX.IntrinsicElements;
   typo?: string;
 };
 
 export type Link = LinkProps & { children: ReactNode };
+
+export type Reservation = {
+  date?: string;
+  time?: { from: string; to: string; type: number };
+  guests?: number;
+  info?: Record<string, any>;
+  timeZone?: string;
+  location?: string;
+};

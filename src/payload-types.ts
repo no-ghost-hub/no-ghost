@@ -185,6 +185,7 @@ export interface VideoBlock {
     x: number;
     y: number;
   };
+  controls?: boolean | null;
   id?: string | null;
   blockName?: string | null;
   blockType: 'videoBlock';
@@ -212,7 +213,7 @@ export interface ContentBlock {
   text?: string | null;
   medium?: (ImageBlock | VideoBlock)[] | null;
   links?: LinksBlock;
-  theme?: ('default' | 'fit' | 'full') | null;
+  theme?: ('default' | 'fit' | 'full' | 'contain') | null;
   background?: ('default' | 'orange' | 'blue' | 'none') | null;
   id?: string | null;
   blockName?: string | null;
@@ -367,88 +368,85 @@ export interface PagesSelect<T extends boolean = true> {
   blocks?:
     | T
     | {
-        logoBlock?:
-          | T
-          | {
-              medium?:
-                | T
-                | {
-                    imageBlock?:
-                      | T
-                      | {
-                          image?: T;
-                          id?: T;
-                          blockName?: T;
-                        };
-                    videoBlock?:
-                      | T
-                      | {
-                          src?: T;
-                          poster?: T;
-                          ratio?:
-                            | T
-                            | {
-                                x?: T;
-                                y?: T;
-                              };
-                          id?: T;
-                          blockName?: T;
-                        };
-                  };
-              theme?: T;
-              background?: T;
-              id?: T;
-              blockName?: T;
-            };
-        contentBlock?:
-          | T
-          | {
-              textRaw?: T;
-              text?: T;
-              medium?:
-                | T
-                | {
-                    imageBlock?:
-                      | T
-                      | {
-                          image?: T;
-                          id?: T;
-                          blockName?: T;
-                        };
-                    videoBlock?:
-                      | T
-                      | {
-                          src?: T;
-                          poster?: T;
-                          ratio?:
-                            | T
-                            | {
-                                x?: T;
-                                y?: T;
-                              };
-                          id?: T;
-                          blockName?: T;
-                        };
-                  };
-              links?:
-                | T
-                | {
-                    type?: T;
-                    reference?: T;
-                    url?: T;
-                    text?: T;
-                    id?: T;
-                  };
-              theme?: T;
-              background?: T;
-              id?: T;
-              blockName?: T;
-            };
+        logoBlock?: T | LogoBlockSelect<T>;
+        contentBlock?: T | ContentBlockSelect<T>;
       };
   meta?: T | {};
   updatedAt?: T;
   createdAt?: T;
   _status?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "LogoBlock_select".
+ */
+export interface LogoBlockSelect<T extends boolean = true> {
+  medium?:
+    | T
+    | {
+        imageBlock?: T | ImageBlockSelect<T>;
+        videoBlock?: T | VideoBlockSelect<T>;
+      };
+  theme?: T;
+  background?: T;
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "ImageBlock_select".
+ */
+export interface ImageBlockSelect<T extends boolean = true> {
+  image?: T;
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "VideoBlock_select".
+ */
+export interface VideoBlockSelect<T extends boolean = true> {
+  src?: T;
+  poster?: T;
+  ratio?:
+    | T
+    | {
+        x?: T;
+        y?: T;
+      };
+  controls?: T;
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "ContentBlock_select".
+ */
+export interface ContentBlockSelect<T extends boolean = true> {
+  textRaw?: T;
+  text?: T;
+  medium?:
+    | T
+    | {
+        imageBlock?: T | ImageBlockSelect<T>;
+        videoBlock?: T | VideoBlockSelect<T>;
+      };
+  links?: T | LinksBlockSelect<T>;
+  theme?: T;
+  background?: T;
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "LinksBlock_select".
+ */
+export interface LinksBlockSelect<T extends boolean = true> {
+  type?: T;
+  reference?: T;
+  url?: T;
+  text?: T;
+  id?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -480,41 +478,53 @@ export interface MenusSelect<T extends boolean = true> {
   items?:
     | T
     | {
-        linkBlock?:
-          | T
-          | {
-              type?: T;
-              reference?: T;
-              url?: T;
-              text?: T;
-              theme?: T;
-              id?: T;
-              blockName?: T;
-            };
-        menuBlock?:
-          | T
-          | {
-              theme?: T;
-              id?: T;
-              blockName?: T;
-            };
-        orderBlock?:
-          | T
-          | {
-              theme?: T;
-              id?: T;
-              blockName?: T;
-            };
-        reserveBlock?:
-          | T
-          | {
-              theme?: T;
-              id?: T;
-              blockName?: T;
-            };
+        linkBlock?: T | LinkBlockSelect<T>;
+        menuBlock?: T | MenuBlockSelect<T>;
+        orderBlock?: T | OrderBlockSelect<T>;
+        reserveBlock?: T | ReserveBlockSelect<T>;
       };
   updatedAt?: T;
   createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "LinkBlock_select".
+ */
+export interface LinkBlockSelect<T extends boolean = true> {
+  type?: T;
+  reference?: T;
+  url?: T;
+  text?: T;
+  theme?: T;
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "MenuBlock_select".
+ */
+export interface MenuBlockSelect<T extends boolean = true> {
+  theme?: T;
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "OrderBlock_select".
+ */
+export interface OrderBlockSelect<T extends boolean = true> {
+  theme?: T;
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "ReserveBlock_select".
+ */
+export interface ReserveBlockSelect<T extends boolean = true> {
+  theme?: T;
+  id?: T;
+  blockName?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema

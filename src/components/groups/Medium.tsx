@@ -8,7 +8,7 @@ type Props = { type: "image" | "video"; theme?: string } & (
   | VideoType
 );
 
-const MediumGroup = (props: Props) => {
+const MediumGroup = async (props: Props) => {
   const components: Record<string, any> = {
     image: Image,
     video: Video,

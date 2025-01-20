@@ -1,18 +1,30 @@
 import Text from "@/components/elements/Text";
 import Image from "@/components/elements/Image";
-import getCompany from "@/utils/getCompany";
+import CartAdder from "@/components/order/CartAdder";
+
 import formatPrice from "@/utils/formatPrice";
+import useOdoo from "@/utils/useOdoo";
 
 type Props = {
+  id: number;
   title: string;
   image?: string;
   description?: string;
   price: number;
+  theme?: string;
 };
 
-const ProductThumb = async ({ title, image, description, price }: Props) => {
-  const { currency } = await getCompany();
-  const formattedPrice = formatPrice(price, currency);
+const ProductThumb = async ({
+  id,
+  title,
+  image,
+  description,
+  price,
+  theme = "default",
+}: Props) => {
+  const { data } = await useOdoo({ route: "company" });
+
+  const formattedPrice = formatPrice(price, data.currency);
 
   return (
     <div className="grid grid-rows-[auto_minmax(0,1fr)] bg-white">
@@ -30,6 +42,11 @@ const ProductThumb = async ({ title, image, description, price }: Props) => {
           {formattedPrice}
         </Text>
       </div>
+      {(theme === "lunch" || theme === "dinner") && (
+        <div className="grid p-xs pt-0">
+          <CartAdder {...{ id, title, price }} theme={theme} />
+        </div>
+      )}
     </div>
   );
 };

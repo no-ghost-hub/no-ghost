@@ -1,13 +1,17 @@
-const util = async (type: string) => {
-  let response;
+import { getPayload, GlobalSlug } from "payload";
+import config from "@payload-config";
 
-  response = await fetch(
-    `${process.env.NEXT_PUBLIC_SERVER_URL}/api/payload/globals/${type}`,
-  );
+import parsed from "@/utils/parsed";
 
-  const { data } = await response.json();
+const getGlobal = async (type: GlobalSlug) => {
+  const payload = await getPayload({ config });
+  const rawData = await payload.findGlobal({
+    slug: type,
+  });
+
+  const data = parsed(rawData, type);
 
   return data;
 };
 
-export default util;
+export default getGlobal;

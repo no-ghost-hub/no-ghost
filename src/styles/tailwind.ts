@@ -18,9 +18,12 @@ const config: Partial<Config> = {
           "--spacing-m": "clamp(40px, 6vw, 60px)",
           "--spacing-l": "clamp(80px, 16vw, 160px)",
 
+          "--height-input": "32px",
+
           "--color-black": "rgb(0,0,0)",
           "--color-white": "rgb(255,255,255)",
           "--color-grey": "rgb(245,245,245)",
+          "--color-darkgrey": "rgb(190,190,190)",
           "--color-yellow": "rgb(255,245,165)",
           "--color-green": "rgb(190,240,210)",
           "--color-blue": "rgb(25,155,255)",
@@ -83,6 +86,36 @@ const config: Partial<Config> = {
             display: "table",
           },
         },
+        ".typo-input": {
+          fontFamily: theme("fontFamily.leif"),
+          fontSize: "clamp(16px, 1.5vw, 18px)",
+          lineHeight: "1.2",
+          "&::before": {
+            content: "''",
+            marginBottom: "-0.243em",
+            display: "table",
+          },
+          "&::after": {
+            content: "''",
+            marginTop: "-0.217em",
+            display: "table",
+          },
+        },
+        ".typo-note": {
+          fontFamily: theme("fontFamily.leif"),
+          fontSize: "clamp(12px, 1.5vw, 14px)",
+          lineHeight: "1.2",
+          "&::before": {
+            content: "''",
+            marginBottom: "-0.243em",
+            display: "table",
+          },
+          "&::after": {
+            content: "''",
+            marginTop: "-0.217em",
+            display: "table",
+          },
+        },
       });
     }),
     containerQueriesPlugin,
@@ -102,6 +135,7 @@ const config: Partial<Config> = {
       black: "var(--color-black)",
       white: "var(--color-white)",
       grey: "var(--color-grey)",
+      darkgrey: "var(--color-darkgrey)",
       yellow: "var(--color-yellow)",
       green: "var(--color-green)",
       blue: "var(--color-blue)",

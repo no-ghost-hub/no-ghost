@@ -3,7 +3,6 @@ import { withPayload } from "@payloadcms/next/withPayload";
 import { Config as SVGRConfig } from "@svgr/core";
 
 const nextConfig: NextConfig = {
-  serverExternalPackages: ["graphql"],
   experimental:
     process.env.NODE_ENV === "development"
       ? {

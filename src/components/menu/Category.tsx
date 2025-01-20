@@ -9,9 +9,15 @@ type Props = {
   theme?: string;
 };
 
+const productThemes: Record<string, string> = {
+  default: "default",
+  lunch: "lunch",
+  dinner: "dinner",
+};
+
 const MenuCategory = async ({ title, products, theme = "default" }: Props) => {
   return (
-    <div className="mx-auto max-w-screen-lg px-[calc(theme('spacing.xs')/2)]">
+    <div className="mx-auto max-w-screen-lg px-[calc(theme(spacing.xs)/2)]">
       <SizeUtil name="menu-category" width scoped>
         <div className={`grid gap-m`}>
           <Text tag="h3" align="center" transform="uppercase">
@@ -22,9 +28,12 @@ const MenuCategory = async ({ title, products, theme = "default" }: Props) => {
               return (
                 <div
                   key={product.id}
-                  className="w-[var(--w-item)] px-[calc(theme('spacing.xs')/2)]"
+                  className="w-[var(--w-item)] px-[calc(theme(spacing.xs)/2)]"
                 >
-                  <ProductThumb {...parsed(product, "productThumb")} />
+                  <ProductThumb
+                    {...parsed(product, "productThumb")}
+                    theme={productThemes[theme]}
+                  />
                 </div>
               );
             })}

@@ -1,15 +1,12 @@
-import { create } from "zustand";
+import { createStore } from "zustand/vanilla";
 
-type State = {
-  strings?: Record<string, string>;
-  setStrings: (strings: Record<string, string>) => void;
-  s: (key: string) => string;
+export type UiStore = {
+  navigation: string;
+  setNavigation: (s: string) => void;
 };
 
-const useUiStore = create<State>((set, get) => ({
-  strings: undefined,
-  setStrings: (strings: Record<string, string>) => set({ strings }),
-  s: (key: string) => get().strings?.[key] || key,
-}));
-
-export default useUiStore;
+export const createUiStore = (initial: string) =>
+  createStore<UiStore>()((set) => ({
+    navigation: initial,
+    setNavigation: (s) => set((state) => ({ navigation: s })),
+  }));

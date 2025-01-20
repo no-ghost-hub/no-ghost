@@ -1,23 +1,24 @@
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
-import getOdoo from "@/utils/getOdoo";
+import useOdoo from "@/utils/useOdoo";
 
 export async function middleware(request: NextRequest) {
+  const hostname = request.headers.get("host");
   const { pathname, searchParams } = request.nextUrl;
 
-  const headers = new Headers(request.headers);
-  headers.set("x-pathname", pathname);
-
   let response = NextResponse.next({
-    request: {
-      headers,
-    },
+    request,
   });
+
+  if (hostname?.startsWith("order.")) {
+    response = NextResponse.rewrite(new URL(`/order${pathname}`, request.url));
+  }
 
   if (pathname.startsWith("/menu")) {
     if (!searchParams.has("group")) {
-      const menuGroups: any[] = await getOdoo("menu-groups");
-      console.log(menuGroups);
+      const { data: menuGroups }: { data: any[] } = await useOdoo({
+        route: "menu-groups",
+      });
 
       const currentHour = new Date().getHours();
       const group = menuGroups.find(
@@ -25,10 +26,11 @@ export async function middleware(request: NextRequest) {
           currentHour >= parseInt(hourFrom) && currentHour < parseInt(hourTo),
       );
 
-      if (group?.url) {
-        response = NextResponse.redirect(new URL(group.url, request.url), {
-          headers,
-        });
+      if (group?.slug) {
+        const url = new URL(request.url);
+        url.searchParams.set("group", group.slug);
+
+        response = NextResponse.redirect(url);
       }
     }
   }

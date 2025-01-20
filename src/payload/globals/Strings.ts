@@ -3,9 +3,6 @@ import { GlobalConfig } from "payload";
 const global: GlobalConfig = {
   label: "Strings",
   slug: "strings",
-  graphQL: {
-    name: "Strings",
-  },
   access: {
     read: () => true,
   },

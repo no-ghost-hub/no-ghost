@@ -1,0 +1,95 @@
+<t t-name="mail.mail_notification_light">
+  <html t-att-lang="lang">
+    <head>
+      <meta http-equiv="Content-Type" content="text/html charset=UTF-8" />
+    </head>
+    <body
+      style="
+        background-color: rgb(245, 245, 245);
+        font-family: serif;
+        color: rgb(0, 0, 0);
+      "
+    >
+      <t t-set="subtype_internal" t-value="False" />
+      <t t-call="mail.notification_preview" />
+      <table
+        role="presentation"
+        border="0"
+        cellpadding="0"
+        cellspacing="0"
+        width="100%"
+        style="background-color: rgb(245, 245, 245)"
+      >
+        <tr>
+          <td align="center">
+            <table
+              role="presentation"
+              border="0"
+              cellpadding="0"
+              cellspacing="0"
+              width="600"
+              style="padding: 20px; border-collapse: separate"
+            >
+              <tbody>
+                <!-- HEADER -->
+                <tr>
+                  <td
+                    align="center"
+                    t-if="company and not company.uses_default_logo"
+                    style="padding-bottom: 20px"
+                  >
+                    <img
+                      t-att-src="'/logo.png?company=%s' % company.id"
+                      style="padding: 0px; margin: 0px; height: 72px"
+                      t-att-alt="'%s' % company.name"
+                    />
+                  </td>
+                </tr>
+                <!-- CONTENT -->
+                <tr>
+                  <td>
+                    <t t-out="message.body" />
+                  </td>
+                </tr>
+                <!-- FOOTER -->
+                <!-- <tr>
+                  <td
+                    align="center"
+                    style="
+                      min-width: 590px;
+                      padding: 0 8px 0 8px;
+                      font-size: 11px;
+                    "
+                  >
+                    <b t-out="company.name" /><br />
+                    <div style="color: #999999">
+                      <t t-out="company.phone" />
+                      <t t-if="company.email and company.phone"> |</t>
+                      <a
+                        t-if="company.email"
+                        t-att-href="'mailto:%s' % company.email"
+                        style="text-decoration: none; color: #999999"
+                        t-out="company.email"
+                      />
+                      <t
+                        t-if="company.website and (company.phone or company.email)"
+                      >
+                        |</t
+                      >
+                      <a
+                        t-if="company.website"
+                        t-att-href="'%s' % company.website"
+                        style="text-decoration: none; color: #999999"
+                        t-out="company.website"
+                      />
+                    </div>
+                  </td>
+                </tr> -->
+              </tbody>
+            </table>
+          </td>
+        </tr>
+      </table>
+    </body>
+  </html>
+</t>

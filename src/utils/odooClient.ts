@@ -30,6 +30,10 @@ const odooQuery = async ({
     }),
   });
   response = await response.json();
+
+  if (response.error) {
+    throw new Error(response.error.data.message);
+  }
   return response;
 };
 

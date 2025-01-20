@@ -5,15 +5,21 @@ import { usePathname, useSearchParams } from "next/navigation";
 import type { LinkProps } from "next/link";
 
 type Props = Omit<LinkProps, "href"> & {
-  href?: string;
+  href?: LinkProps["href"];
   children: React.ReactNode;
   background?: string;
+  toggle?: boolean;
+  keepQuery?: boolean;
+  disabled?: boolean;
+  active?: boolean;
+  onClick?: () => void;
   theme?: string;
 };
 
 const classes: Record<string, string> = {
   default: "",
-  button: "p-xs mix-blend-multiply text-center",
+  button:
+    "p-xs mix-blend-multiply text-center disabled:pointer-events-none disabled:bg-grey disabled:text-darkgrey",
 };
 
 const backgrounds: Record<string, string> = {
@@ -24,28 +30,61 @@ const backgrounds: Record<string, string> = {
 };
 
 const LinkElement = ({
-  href,
+  href: hrefProp,
   children,
-  theme = "default",
   background = "default",
+  toggle = false,
+  keepQuery = false,
+  disabled = false,
+  active: activeProp,
+  onClick,
+  theme = "default",
 }: Props) => {
   const path = usePathname();
   const searchParams = useSearchParams();
   const query = searchParams.toString();
   const fullPath = query ? `${path}?${query}` : path;
+  const external = hrefProp?.toString().startsWith("http");
+
+  const active =
+    typeof activeProp === "boolean"
+      ? activeProp
+      : typeof hrefProp === "string"
+        ? path === hrefProp || fullPath === hrefProp
+        : hrefProp
+          ? Object.entries(hrefProp.query || {}).every(
+              ([key, value]) => searchParams.get(key) === value,
+            )
+          : false;
+
+  const href =
+    keepQuery &&
+    hrefProp &&
+    typeof hrefProp === "object" &&
+    typeof hrefProp.query === "object"
+      ? {
+          query: {
+            ...Object.fromEntries(searchParams.entries()),
+            ...hrefProp.query,
+          },
+        }
+      : hrefProp;
 
   return (
     <>
       {href ? (
         <Link
-          href={href}
-          className={`custom-underline ${classes[theme]} ${backgrounds[background]} ${path === href || fullPath === href ? "active-link" : ""}`}
+          href={toggle && active ? path : href}
+          className={`custom-underline ${classes[theme]} ${backgrounds[background]} ${active ? "active-link" : ""}`}
+          target={external ? "_blank" : undefined}
         >
           {children}
         </Link>
       ) : (
         <button
-          className={`custom-underline ${classes[theme]} ${backgrounds[background]}`}
+          className={`custom-underline ${classes[theme]} ${backgrounds[background]} ${active ? "active-link" : ""} `}
+          disabled={disabled}
+          onClick={onClick}
         >
           {children}
         </button>
