@@ -12,6 +12,7 @@ import { useContext } from "react";
 import Context from "@/components/utils/Context";
 import { isSlotAvailable } from "@/utils/isSlotAvailable";
 import { getDayOfWeek, parseDate } from "@internationalized/date";
+import TimeSlot from "./TimeSlot";
 
 type Props = {
   reservation: Reservation;
@@ -23,10 +24,6 @@ const ReserveTime = ({ reservation, setReservation, onNext }: Props) => {
   const locale = "en-BE";
 
   const { data: slots } = useSWR({ route: "reservation-slots" }, useOdoo);
-  const { data: reservations }: { data: any[] } = useSWR(
-    { route: "reservations" },
-    useOdoo,
-  );
 
   let daySlots = [];
   if (reservation.date) {
@@ -62,35 +59,13 @@ const ReserveTime = ({ reservation, setReservation, onNext }: Props) => {
           onChange={handleChange}
         >
           {daySlots.map((time: any) => (
-            <Radio
+            <TimeSlot
               key={time.from}
-              value={JSON.stringify(time)}
-              className="custom-underline cursor-pointer data-[disabled]:pointer-events-none data-[selected]:bg-grey data-[disabled]:text-darkgrey"
-              isDisabled={
-                !isSlotAvailable(
-                  reservation.guests || 0,
-                  reservation.date || "",
-                  time,
-                  type(time).capacity,
-                  reservations,
-                )
-              }
-            >
-              <div className="grid grid-flow-col items-end justify-between p-xs">
-                <Text tag="div">{time.from}</Text>
-                <Text tag="div" typo="note" wrap={false}>
-                  {isSlotAvailable(
-                    reservation.guests || 0,
-                    reservation.date || "",
-                    time,
-                    type(time).capacity,
-                    reservations,
-                  )
-                    ? `${s("reserve.to")} ${time.to}`
-                    : `${s("reserve.booked")}`}
-                </Text>
-              </div>
-            </Radio>
+              guests={reservation.guests || 0}
+              date={reservation.date || ""}
+              time={time}
+              timeZone={type(time).timeZone}
+            />
           ))}
         </RadioGroup>
         <Link

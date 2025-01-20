@@ -19,10 +19,10 @@ type Props = {};
 
 const Reserve = ({}: Props) => {
   const [reservation, setReservation] = useState<Reservation>({
-    date: null,
-    time: null,
-    guests: null,
-    info: null,
+    date: undefined,
+    time: undefined,
+    guests: undefined,
+    info: undefined,
   });
 
   const steps: {
@@ -56,6 +56,7 @@ const Reserve = ({}: Props) => {
           route: "reservations",
           method: "POST",
           body: JSON.stringify(reservation),
+          type: "create",
         });
 
         setResult(result);

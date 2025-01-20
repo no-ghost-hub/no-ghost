@@ -2,10 +2,12 @@ const useOdoo = async ({
   route,
   method = "GET",
   body,
+  type = "read",
 }: {
   route: string;
   method?: string;
   body?: BodyInit;
+  type?: "create" | "read" | "update" | "delete";
 }) => {
   let response;
   let cookie;
@@ -25,14 +27,14 @@ const useOdoo = async ({
       cookie: cookie || "",
     },
     cache:
-      method === "GET" && process.env.NODE_ENV === "production"
+      type === "read" && process.env.NODE_ENV === "production"
         ? "force-cache"
         : "default",
   });
 
   const { result, error } = await response.json();
 
-  if (typeof window !== "undefined" && method === "GET") {
+  if (typeof window !== "undefined" && type === "read") {
     if (error) {
       throw new Error(error);
     }

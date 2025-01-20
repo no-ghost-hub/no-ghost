@@ -23,9 +23,6 @@ import { s } from "@/utils/useClientString";
 import { Reservation } from "@/types";
 import useSWR from "swr";
 import useOdoo from "@/utils/useOdoo";
-import { isSlotAvailable } from "@/utils/isSlotAvailable";
-import { useContext } from "react";
-import Context from "@/components/utils/Context";
 
 type Props = {
   reservation: Reservation;
@@ -39,26 +36,13 @@ const ReserveDate = ({ reservation, setReservation, onNext }: Props) => {
     { route: "closing-days" },
     useOdoo,
   );
-  const { data: reservations }: { data: any[] } = useSWR(
-    { route: "reservations" },
-    useOdoo,
-  );
-  const { reservationTypes } = useContext(Context);
 
   const locale = "en-BE";
 
   const isDateUnavailable = (date: DateValue) => {
     const weekday = getDayOfWeek(date, locale);
     const availableSlots = slots?.times?.filter((t: any) => {
-      const available = isSlotAvailable(
-        reservation.guests || 0,
-        date.toString(),
-        t,
-        reservationTypes.maxCapacity,
-        reservations,
-      );
-
-      return t.weekday === weekday && available;
+      return t.weekday === weekday;
     });
 
     const closed = closingDays?.some(

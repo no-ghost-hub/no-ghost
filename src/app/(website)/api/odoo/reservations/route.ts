@@ -2,6 +2,7 @@ import { odooQuery } from "@/utils/odooClient";
 import { NextRequest, NextResponse } from "next/server";
 import parsed from "@/utils/parsed";
 import { Reservation } from "@/types";
+import { utcDate } from "@/utils/utcDate";
 
 export async function GET() {
   let response;
@@ -66,19 +67,6 @@ export async function POST(request: NextRequest) {
       });
     }
 
-    const utcDate = (dateString: string) => {
-      const offsetFormatter = new Intl.DateTimeFormat("en-US", {
-        timeZone,
-        timeZoneName: "longOffset",
-      });
-      const offsetString = offsetFormatter.format(new Date());
-      const offset = offsetString.split("GMT")[1];
-
-      const date = new Date(`${dateString}${offset}`);
-
-      return date.toISOString().replace("T", " ").slice(0, -5);
-    };
-
     const calendarResponse = await odooQuery({
       model: "calendar.event",
       method: "create",
@@ -86,8 +74,8 @@ export async function POST(request: NextRequest) {
         {
           name: `${info?.firstName} ${info?.lastName} - Reservation`,
           description: info?.message,
-          start: utcDate(`${date} ${time?.from}`),
-          stop: utcDate(`${date} ${time?.to}`),
+          start: utcDate(`${date} ${time?.from}`, timeZone),
+          stop: utcDate(`${date} ${time?.to}`, timeZone),
           location,
           appointment_type_id: time?.type,
           partner_ids: [[4, response.result]],
