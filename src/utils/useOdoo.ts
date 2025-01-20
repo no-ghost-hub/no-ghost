@@ -28,7 +28,7 @@ const useOdoo = async ({
     },
     cache:
       type === "read" && process.env.NODE_ENV === "production"
-        ? "force-cache"
+        ? "default"
         : "default",
   });
 
