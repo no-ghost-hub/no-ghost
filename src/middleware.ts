@@ -14,26 +14,26 @@ export async function middleware(request: NextRequest) {
     response = NextResponse.rewrite(new URL(`/order${pathname}`, request.url));
   }
 
-  if (pathname.startsWith("/menu")) {
-    if (!searchParams.has("group")) {
-      const { data: menuGroups }: { data: any[] } = await useOdoo({
-        route: "menu-groups",
-      });
+  // if (pathname.startsWith("/menu")) {
+  //   if (!searchParams.has("group")) {
+  //     const { data: menuGroups }: { data: any[] } = await useOdoo({
+  //       route: "menu-groups",
+  //     });
 
-      const currentHour = new Date().getHours();
-      const group = menuGroups.find(
-        ({ hourFrom, hourTo }) =>
-          currentHour >= parseInt(hourFrom) && currentHour < parseInt(hourTo),
-      );
+  //     const currentHour = new Date().getHours();
+  //     const group = menuGroups.find(
+  //       ({ hourFrom, hourTo }) =>
+  //         currentHour >= parseInt(hourFrom) && currentHour < parseInt(hourTo),
+  //     );
 
-      if (group?.slug) {
-        const url = new URL(request.url);
-        url.searchParams.set("group", group.slug);
+  //     if (group?.slug) {
+  //       const url = new URL(request.url);
+  //       url.searchParams.set("group", group.slug);
 
-        response = NextResponse.redirect(url);
-      }
-    }
-  }
+  //       response = NextResponse.redirect(url);
+  //     }
+  //   }
+  // }
 
   return response;
 }

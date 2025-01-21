@@ -28,9 +28,11 @@ const ProductThumb = async ({
 
   return (
     <div className="grid grid-rows-[auto_minmax(0,1fr)] bg-white">
-      <div className="relative grid aspect-[1/1]">
-        <Image src={image} alt={title} theme="thumb" />
-      </div>
+      {image && (
+        <div className="relative grid aspect-[1/1]">
+          <Image src={image} alt={title} theme="thumb" />
+        </div>
+      )}
       <div className="grid aspect-[1/1] content-between gap-s p-s">
         <div className="grid gap-s">
           <Text tag="h2" typo="2" align="center">
