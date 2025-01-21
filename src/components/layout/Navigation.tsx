@@ -23,7 +23,7 @@ const Navigation = async ({}: Props) => {
     <div className="grid">
       <Wrapper type="navigation">
         <div className="grid items-end overflow-hidden *:col-start-1 *:row-start-1 [&>*]:pointer-events-auto">
-          <MenuGroups />
+          {/* <MenuGroups /> */}
           <DeliveryOptions />
           <Wrapper type="reserve" context={{ reservationTypes }}>
             <Reserve />

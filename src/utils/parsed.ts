@@ -40,7 +40,7 @@ const parsed = (raw: any, type?: string): any => {
       return {
         id: raw.id,
         title: raw.name,
-        image: `data:image;base64,${raw.image_1024}`,
+        image: raw.image_1024 ? `data:image;base64,${raw.image_1024}` : "",
         price: raw.tax_string.match(/-?\d*\.?\d+/)?.[0] || raw.list_price,
         description: raw.public_description,
       };

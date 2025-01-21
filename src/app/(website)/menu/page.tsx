@@ -13,12 +13,9 @@ const Page = async ({
   const { slug } = await params;
   const { group } = await searchParams;
 
-  let menu;
-
-  if (group) {
-    const { data } = await useOdoo({ route: `menu?group=${group}` });
-    menu = data;
-  }
+  // if (group) {
+  const { data: menu } = await useOdoo({ route: `menu?group=menu` });
+  // }
 
   return (
     <main>
