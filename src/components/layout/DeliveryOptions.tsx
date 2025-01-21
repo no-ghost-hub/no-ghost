@@ -10,7 +10,10 @@ type Props = {};
 const options = [
   // { name: "Takeaway.com", url: "https://takeaway.com" },
   // { name: "Deliveroo", url: "https://deliveroo.com" },
-  { name: "Uber Eats", url: "https://www.ubereats.com/be-en/store/no-ghost/" },
+  {
+    name: "Uber Eats",
+    url: "https://www.ubereats.com/be-en/store/no-ghost/CUXON6tpXYC4smwKWYpFpQ",
+  },
 ];
 
 const DeliveryOptions = ({}: Props) => {
