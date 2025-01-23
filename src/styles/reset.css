@@ -15,3 +15,16 @@ input,
 textarea {
   background: none;
 }
+
+svg {
+  fill: currentColor;
+}
+
+video[poster] {
+  object-fit: cover;
+}
+
+[role="button"],
+button {
+  cursor: pointer;
+}

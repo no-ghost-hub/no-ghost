@@ -17,18 +17,18 @@ const ReserveResult = ({ reservation, error }: Props) => {
   const { setNavigation } = useUiStore((state) => state);
 
   return (
-    <div className="grid grid-rows-[1fr_auto] gap-s">
-      <div className="grid gap-s self-center">
+    <div className="gap-s grid grid-rows-[1fr_auto]">
+      <div className="gap-s grid self-center">
         <Text
           tag="h2"
-          typo="p"
+          typo="base"
           align="center"
           color={error ? "orange" : "black"}
         >
           {s(error ? "reserve.error" : "reserve.success")}
         </Text>
         {error ? (
-          <Text typo="note" align="center">
+          <Text typo="sm" align="center">
             {error}
           </Text>
         ) : (
@@ -42,7 +42,7 @@ const ReserveResult = ({ reservation, error }: Props) => {
                 <br />
                 {reservation.time?.from}
               </Text>
-              <Text typo="note" align="center">
+              <Text typo="base" align="center">
                 {s("reserve.success.email")}
               </Text>
             </>

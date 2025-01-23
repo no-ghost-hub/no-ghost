@@ -30,13 +30,13 @@ const ProductThumb = async ({
   return (
     <div className="grid grid-rows-[auto_minmax(0,1fr)] bg-white">
       {image && (
-        <div className="relative grid aspect-[1/1]">
+        <div className="relative grid aspect-1/1">
           <Image src={image} alt={title} theme="thumb" />
         </div>
       )}
-      <div className="grid aspect-[1/1] content-between gap-s p-s">
-        <div className="grid gap-s">
-          <Text tag="h2" typo="2" align="center">
+      <div className="gap-s p-s grid aspect-1/1 content-between">
+        <div className="gap-s grid">
+          <Text tag="h2" typo="md" align="center">
             {title}
           </Text>
           <Text align="center" html={description} />
@@ -46,7 +46,7 @@ const ProductThumb = async ({
         </Text>
       </div>
       {theme === "order" && (
-        <div className="grid p-xs pt-0">
+        <div className="p-xs grid pt-0">
           <CartAdder {...{ id, title, price }} theme={color} />
         </div>
       )}

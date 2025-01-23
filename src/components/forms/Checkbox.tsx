@@ -27,30 +27,30 @@ const FormsCheckbox = ({
     <CheckboxGroup
       name={name}
       isRequired={required}
-      className="grid gap-xs"
+      className="gap-xs grid"
       aria-label={ariaLabel}
       defaultValue={selected}
     >
-      {label && <Label className="typo-p">{label}</Label>}
+      {label && <Label className="text-base">{label}</Label>}
       {options.map(({ text, value }) => (
         <Checkbox value={value} key={value} className="cursor-pointer">
           {({ isSelected }) => (
-            <div className="grid grid-flow-col grid-cols-[auto_1fr] items-center gap-xs">
+            <div className="gap-xs grid grid-flow-col grid-cols-[auto_1fr] items-center">
               <div className="bg-grey p-xs">
                 <div className={isSelected ? "visible" : "invisible"}>
                   <Text typo="input">√</Text>
                 </div>
               </div>
               <div className="w-min min-w-full">
-                <Text typo="p">{text}</Text>
+                <Text typo="base">{text}</Text>
               </div>
             </div>
           )}
         </Checkbox>
       ))}
-      <div className="grid [&>*]:col-start-1 [&>*]:row-start-1">
-        <div className="typo-note">&nbsp;</div>
-        <FieldError className="text-orange typo-note" />
+      <div className="grid *:col-start-1 *:row-start-1">
+        <div className="text-sm">&nbsp;</div>
+        <FieldError className="text-orange text-sm" />
       </div>
     </CheckboxGroup>
   );

@@ -54,7 +54,7 @@ const VideoElement = ({
   }
 
   return (
-    <figure className="relative grid [&>*]:col-start-1 [&>*]:row-start-1">
+    <figure className="relative grid *:col-start-1 *:row-start-1">
       <video
         className={classes[theme]}
         autoPlay={autoplay}

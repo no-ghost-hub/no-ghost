@@ -27,7 +27,7 @@ const ReserveGuests = ({ reservation, setReservation, onNext }: Props) => {
 
   return (
     <I18nProvider locale={locale}>
-      <div className="grid grid-rows-[1fr_auto] gap-s">
+      <div className="gap-s grid grid-rows-[1fr_auto]">
         {!isLoading && (
           <FormsNumber
             min={0}
@@ -37,9 +37,9 @@ const ReserveGuests = ({ reservation, setReservation, onNext }: Props) => {
             onChange={handleChange}
           />
         )}
-        <div className="grid gap-s">
+        <div className="gap-s grid">
           {!isLoading && (
-            <Text typo="note" align="center">
+            <Text typo="sm" align="center">
               To reserve for more than {tables.maxCapacity} guests, please
               contact us.
             </Text>

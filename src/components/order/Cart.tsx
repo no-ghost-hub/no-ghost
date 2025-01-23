@@ -18,7 +18,7 @@ const Cart = ({}: Props) => {
 
   return (
     <NavigationToggleContainer show={navigation === "cart"}>
-      <div className="grid h-[calc(100svh-var(--h-nav)-theme(spacing.xs)*2)] grid-rows-[auto_1fr] bg-white shadow">
+      <div className="grid h-[calc(100svh-var(--h-nav)-(var(--spacing-xs))*2)] grid-rows-[auto_1fr] bg-white shadow">
         <header className="grid gap-xs p-xs">
           <Text tag="h3" align="center">
             {s("cart")}

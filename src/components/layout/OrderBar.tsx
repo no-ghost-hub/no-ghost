@@ -26,7 +26,7 @@ const OrderBar = ({}: Props) => {
   return (
     <div className="pointer-events-auto grid">
       <Wrapper type="navigation">
-        <div className="-m-xs -mb-0 grid items-end overflow-hidden p-xs pb-0 *:col-start-1 *:row-start-1 [&>*]:pointer-events-auto">
+        <div className="-m-xs -mb-0 grid items-end overflow-hidden p-xs pb-0 *:col-start-1 *:row-start-1 *:pointer-events-auto">
           <Cart />
         </div>
         <SizeUtil name="nav" height={true}>

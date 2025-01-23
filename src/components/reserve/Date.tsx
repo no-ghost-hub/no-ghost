@@ -59,9 +59,9 @@ const ReserveDate = ({ reservation, setReservation, onNext }: Props) => {
 
   return (
     <I18nProvider locale={locale}>
-      <div className="grid grid-rows-[1fr_auto] gap-s">
+      <div className="gap-s grid grid-rows-[1fr_auto]">
         <Calendar
-          className="calendar grid gap-s self-center"
+          className="calendar gap-s grid self-center"
           isDateUnavailable={isDateUnavailable}
           minValue={today(getLocalTimeZone())}
           value={reservation.date ? parseDate(reservation.date) : null}
@@ -71,30 +71,30 @@ const ReserveDate = ({ reservation, setReservation, onNext }: Props) => {
           <header className="grid grid-flow-col grid-cols-7 items-center">
             <Button
               slot="previous"
-              className="hover:text-orange data-[disabled]:text-darkgrey"
+              className="hover:text-orange data-disabled:text-darkgrey"
             >
-              <Text tag="div" typo="2">
+              <Text tag="div" typo="md">
                 ←
               </Text>
             </Button>
-            <Heading level={4} className="col-span-5 text-center typo-p" />
+            <Heading level={4} className="typo-base col-span-5 text-center" />
             <Button
               slot="next"
-              className="hover:text-orange data-[disabled]:text-darkgrey"
+              className="hover:text-orange data-disabled:text-darkgrey"
             >
-              <Text tag="div" typo="2">
+              <Text tag="div" typo="md">
                 →
               </Text>
             </Button>
           </header>
           <CalendarGrid
             weekdayStyle="narrow"
-            className="[&_th]:grid [&_th]:place-items-center [&_th]:p-xs [&_tr]:grid [&_tr]:grid-cols-7"
+            className="[&_th]:p-xs [&_th]:grid [&_th]:place-items-center [&_tr]:grid [&_tr]:grid-cols-7"
           >
             {(date) => (
               <CalendarCell
                 date={date}
-                className="custom-underline p-xs text-center typo-p aria-[disabled]:pointer-events-none aria-[disabled]:text-darkgrey data-[outside-month]:hidden data-[selected]:border-b-black data-[selected]:bg-grey"
+                className="custom-underline p-xs typo-base aria-[disabled]:text-darkgrey data-selected:bg-grey text-center aria-[disabled]:pointer-events-none data-outside-month:hidden data-selected:border-b-black"
               />
             )}
           </CalendarGrid>
