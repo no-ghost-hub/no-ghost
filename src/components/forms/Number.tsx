@@ -23,18 +23,18 @@ const FormsNumber = ({ min, max, label, value, onChange }: Props) => {
       <Group className="grid grid-flow-col">
         <Button
           slot="decrement"
-          className="px-s hover:text-orange disabled:text-darkgrey"
+          className="px-xs hover:text-orange disabled:text-darkgrey"
         >
           <Text tag="div" typo="2">
             –
           </Text>
         </Button>
-        <div className="p-xs typo-input">
+        <div className="py-xs typo-input">
           <Input size={1} className="text-center" />
         </div>
         <Button
           slot="increment"
-          className="px-s hover:text-orange disabled:text-darkgrey"
+          className="px-xs hover:text-orange disabled:text-darkgrey"
         >
           <Text tag="div" typo="2">
             +

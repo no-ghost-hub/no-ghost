@@ -21,7 +21,7 @@
     "@payloadcms/storage-vercel-blob": "3.18.0",
     "@vercel/analytics": "^1.4.1",
     "hls.js": "^1.5.20",
-    "next": "15.1.5",
+    "next": "15.1.6",
     "payload": "3.18.0",
     "react": "19.0.0",
     "react-aria-components": "^1.6.0",

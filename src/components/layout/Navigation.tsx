@@ -6,7 +6,7 @@ import DeliveryOptions from "@/components/layout/DeliveryOptions";
 import Reserve from "@/components/reserve";
 
 import { Menu } from "@/payload-types";
-import NavigationBar from "@/components/layout/Bar";
+import NavigationBar from "@/components/layout/NavigationBar";
 import getEntry from "@/utils/getEntry";
 import getGlobal from "@/utils/getGlobal";
 

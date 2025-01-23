@@ -9,10 +9,11 @@ type Props = {
   theme?: string;
 };
 
-const productThemes: Record<string, string> = {
-  default: "default",
-  lunch: "lunch",
-  dinner: "dinner",
+const productColors: Record<string, string> = {
+  default: "orange",
+  lunch: "orange",
+  dinner: "blue",
+  menu: "orange",
 };
 
 const MenuCategory = async ({ title, products, theme = "default" }: Props) => {
@@ -32,7 +33,8 @@ const MenuCategory = async ({ title, products, theme = "default" }: Props) => {
                 >
                   <ProductThumb
                     {...parsed(product, "productThumb")}
-                    theme={productThemes[theme]}
+                    theme="order"
+                    color={productColors[theme]}
                   />
                 </div>
               );

@@ -6,7 +6,8 @@ import "@/styles/index.css";
 import getGlobal from "@/utils/getGlobal";
 
 import OrderBar from "@/components/layout/OrderBar";
-import Wrapper from "@/components/utils/Wrapper";
+import { GlobalProvider } from "@/components/providers/Global";
+import useOdoo from "@/utils/useOdoo";
 
 const leif = localFont({
   src: [
@@ -30,16 +31,17 @@ const Layout = async ({
   children: React.ReactNode;
 }>) => {
   const { strings } = await getGlobal("strings");
+  const { data: companyData } = await useOdoo({ route: "company" });
 
   return (
     <html lang="en" className={`${leif.variable} selection:bg-yellow`}>
       <body className="bg-grey">
-        {children}
-        <div className="pointer-events-none fixed bottom-0 left-0 right-0 z-20 m-xs grid sm:place-content-center">
-          <Wrapper context={{ strings }}>
+        <GlobalProvider {...{ strings }} currency={companyData.currency}>
+          {children}
+          <div className="pointer-events-none fixed bottom-0 left-0 right-0 z-20 m-xs grid sm:place-content-center">
             <OrderBar />
-          </Wrapper>
-        </div>
+          </div>
+        </GlobalProvider>
         <Analytics />
       </body>
     </html>

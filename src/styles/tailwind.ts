@@ -13,6 +13,7 @@ const config: Partial<Config> = {
           "--screens-lg": "1536px",
 
           "--spacing-0": "0px",
+          "--spacing-xxs": "4px",
           "--spacing-xs": "clamp(12px, 1.6vw, 16px)",
           "--spacing-s": "clamp(16px, 2vw, 20px)",
           "--spacing-m": "clamp(40px, 6vw, 60px)",
@@ -141,8 +142,12 @@ const config: Partial<Config> = {
       blue: "var(--color-blue)",
       orange: "var(--color-orange)",
     },
+    boxShadow: {
+      DEFAULT: "0px 0px var(--spacing-xs) 0px rgba(0,0,0,0.08)",
+    },
     spacing: {
       0: "var(--spacing-0)",
+      xxs: "var(--spacing-xxs)",
       xs: "var(--spacing-xs)",
       s: "var(--spacing-s)",
       m: "var(--spacing-m)",
