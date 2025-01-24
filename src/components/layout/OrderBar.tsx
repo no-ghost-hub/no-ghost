@@ -16,6 +16,7 @@ type Props = {};
 
 const OrderBar = ({}: Props) => {
   const { setNavigation, navigation } = useUiStore((state) => state);
+
   function handleClick() {
     if (navigation === "cart") {
       setNavigation("");
@@ -24,31 +25,34 @@ const OrderBar = ({}: Props) => {
     }
   }
   return (
-    <div className="pointer-events-auto grid">
+    <div className={`grid`}>
       <Wrapper type="navigation">
-        <div className="-m-xs -mb-0 grid items-end overflow-hidden p-xs pb-0 *:col-start-1 *:row-start-1 *:pointer-events-auto">
-          <Cart />
-        </div>
+        <Wrapper type="order">
+          <div className="-m-xs p-xs -mb-0 grid items-end overflow-hidden pb-0">
+            <Cart />
+          </div>
+        </Wrapper>
         <SizeUtil name="nav" height={true}>
-          <nav className="grid bg-white shadow *:col-start-1 *:row-start-1">
-            <div className="grid place-content-center">
-              <Link
-                theme="button"
-                onClick={handleClick}
-                active={navigation === "cart"}
-              >
-                <Text wrap={false}>{s("ctas.cart")}</Text>
-              </Link>
-            </div>
-            <div className="pointer-events-none grid grid-flow-col items-center justify-between gap-xs">
-              <div className="pointer-events-auto p-xs">
-                <Text>{totalQuantity()}</Text>
+          <nav className="nav pointer-events-auto grid bg-white *:col-start-1 *:row-start-1">
+            <Link
+              theme="button"
+              onClick={handleClick}
+              active={navigation === "cart"}
+            >
+              <Text wrap={false} tag="div">
+                {s("ctas.cart")}
+              </Text>
+            </Link>
+            <div
+              className={`${totalQuantity() > 0 ? "grid" : "hidden"} grid-flow-col justify-between`}
+            >
+              <div className="p-xs">
+                <Text tag="div">{totalQuantity()}</Text>
               </div>
-              <div className="invisible">
-                <Text wrap={false}>{s("ctas.cart")}</Text>
-              </div>
-              <div className="pointer-events-auto p-xs">
-                <Text>{formatPrice(totalPrice(), useCurrency())}</Text>
+              <div className="p-xs">
+                <Text tag="div">
+                  {formatPrice(totalPrice(), useCurrency())}
+                </Text>
               </div>
             </div>
           </nav>

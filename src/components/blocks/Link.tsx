@@ -8,7 +8,7 @@ type Props = {
 
 const LinkBlock = ({ href, text }: Props) => {
   return (
-    <Link href={href} theme="button" background="white">
+    <Link href={href} theme="button" background="white" shadow={false}>
       <Text tag="div">{text}</Text>
     </Link>
   );

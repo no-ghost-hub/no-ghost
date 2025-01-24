@@ -1,4 +1,5 @@
 const endpoint = process.env.ODOO_API_ENDPOINT || "";
+const orderEndpoint = process.env.ODOO_API_ORDER_ENDPOINT || "";
 const db = process.env.ODOO_DATABASE_NAME;
 const user = process.env.ODOO_API_USER;
 const token = process.env.ODOO_API_TOKEN;
@@ -37,4 +38,36 @@ const odooQuery = async ({
   return response;
 };
 
-export { odooQuery };
+const odooOrder = async ({
+  token,
+  order,
+  table,
+}: {
+  token: string;
+  order: any;
+  table: string;
+}) => {
+  let response;
+  response = await fetch(orderEndpoint, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      jsonrpc: "2.0",
+      method: "call",
+      params: {
+        access_token: token,
+        table_identifier: table,
+        order,
+      },
+      id: new Date().getTime(),
+    }),
+  });
+  response = await response.json();
+
+  if (response.error) {
+    throw new Error(response.error.data.message);
+  }
+  return response;
+};
+
+export { odooQuery, odooOrder };

@@ -12,6 +12,8 @@ export async function middleware(request: NextRequest) {
 
   if (hostname?.startsWith("order.")) {
     response = NextResponse.rewrite(new URL(`/order${pathname}`, request.url));
+  } else if (pathname.startsWith("/order")) {
+    response = NextResponse.redirect(new URL("/", request.url));
   }
 
   // if (pathname.startsWith("/menu")) {

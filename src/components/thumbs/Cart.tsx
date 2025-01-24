@@ -6,27 +6,38 @@ import { CartItem } from "@/stores/cart";
 import useCurrency from "@/utils/useCurrency";
 import formatPrice from "@/utils/formatPrice";
 import CartAdder from "@/components/order/CartAdder";
+import SizeUtil from "@/components/utils/Size";
 
 type Props = CartItem & { theme?: string };
 
-const CartThumb = ({ id, price, quantity, title }: Props) => {
+const CartThumb = ({
+  id,
+  price,
+  taxedPrice,
+  taxId,
+  quantity,
+  title,
+}: Props) => {
   return (
-    <div className="grid bg-white shadow *:col-start-1 *:row-start-1">
-      <div className="grid place-content-center p-xs">
-        <Text wrap={false} align="center">
+    <div className="gap-xs grid grid-flow-col grid-cols-[auto_1fr_auto] items-center bg-white shadow">
+      <div className="grid justify-start *:col-start-1 *:row-start-1">
+        <SizeUtil name="adder" width>
+          <CartAdder {...{ id, price, taxedPrice, taxId, title }} />
+        </SizeUtil>
+        <div className="w-(--w-quantity)" />
+      </div>
+      <div className="p-xs">
+        <Text wrap={true} align="center">
           {title}
         </Text>
       </div>
-      <div className="pointer-events-none grid grid-flow-col items-center justify-between gap-m">
-        <div className="pointer-events-auto">
-          <CartAdder {...{ id, price, title }} />
+      <div className="grid justify-end *:col-start-1 *:row-start-1">
+        <div className="p-xs grid justify-end">
+          <SizeUtil name="quantity" width>
+            <Text>{formatPrice(taxedPrice * quantity, useCurrency())}</Text>
+          </SizeUtil>
         </div>
-        <div className="invisible">
-          <Text wrap={false}>{title}</Text>
-        </div>
-        <div className="pointer-events-auto p-xs">
-          <Text>{formatPrice(price * quantity, useCurrency())}</Text>
-        </div>
+        <div className="w-(--w-adder)" />
       </div>
     </div>
   );

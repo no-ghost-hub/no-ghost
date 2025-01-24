@@ -41,7 +41,11 @@ const parsed = (raw: any, type?: string): any => {
         id: raw.id,
         title: raw.name,
         image: raw.image_1024 ? `data:image;base64,${raw.image_1024}` : "",
-        price: raw.tax_string.match(/-?\d*\.?\d+/)?.[0] || raw.list_price,
+        price: raw.list_price,
+        taxedPrice:
+          parseFloat(raw.tax_string.match(/-?\d*\.?\d+/)?.[0]) ||
+          raw.list_price,
+        taxId: raw.taxes_id[0],
         description: raw.public_description,
       };
     }
@@ -83,6 +87,17 @@ const parsed = (raw: any, type?: string): any => {
         maxCapacity: raw.reduce((acc: number, { capacity }: any) => {
           return capacity > acc ? capacity : acc;
         }, 0),
+      };
+    }
+    case "order": {
+      return {
+        id: raw["pos.order"][0].id,
+        token: raw["pos.order"][0].access_token,
+        lines: raw["pos.order.line"].map((line: any) => ({
+          title: line.display_name,
+          quantity: line.qty,
+          price: line.price_subtotal_incl,
+        })),
       };
     }
     case "reservationTypes": {

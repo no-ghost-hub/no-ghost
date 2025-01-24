@@ -12,6 +12,7 @@ type Props = Omit<LinkProps, "href"> & {
   keepQuery?: boolean;
   disabled?: boolean;
   active?: boolean;
+  shadow?: boolean;
   onClick?: () => void;
   theme?: string;
 };
@@ -19,7 +20,7 @@ type Props = Omit<LinkProps, "href"> & {
 const classes: Record<string, string> = {
   default: "",
   button:
-    "p-xs mix-blend-multiply text-center disabled:pointer-events-none disabled:bg-grey disabled:text-darkgrey",
+    "p-xs mix-blend-multiply text-center disabled:pointer-events-none disabled:bg-grey disabled:text-darkgrey shadow disabled:shadow-none",
 };
 
 const backgrounds: Record<string, string> = {
@@ -33,6 +34,7 @@ const LinkElement = ({
   href: hrefProp,
   children,
   background = "default",
+  shadow = true,
   toggle = false,
   keepQuery = false,
   disabled = false,
@@ -75,14 +77,14 @@ const LinkElement = ({
       {href ? (
         <Link
           href={toggle && active ? path : href}
-          className={`custom-underline ${classes[theme]} ${backgrounds[background]} ${active ? "active-link" : ""}`}
+          className={`custom-underline ${classes[theme]} ${shadow === false ? "shadow-none" : ""} ${backgrounds[background]} ${active ? "active-link" : ""}`}
           target={external ? "_blank" : undefined}
         >
           {children}
         </Link>
       ) : (
         <button
-          className={`custom-underline ${classes[theme]} ${backgrounds[background]} ${active ? "active-link" : ""} `}
+          className={`custom-underline ${classes[theme]} ${shadow === false ? "shadow-none" : ""} ${backgrounds[background]} ${active ? "active-link" : ""} `}
           disabled={disabled}
           onClick={onClick}
         >

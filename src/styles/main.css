@@ -27,20 +27,26 @@
   --color-orange: rgb(255, 105, 5);
 
   --shadow: 0px 0px var(--spacing-xs) 0px rgba(0, 0, 0, 0.08);
+  --shadow-md: 0px 0px var(--spacing-xs) 0px rgba(0, 0, 0, 0.12);
+
+  --default-transition-duration: 200ms;
 }
 
 @utility custom-underline {
   &:not([data-disabled="true"]) {
-    @apply bg-linear-to-r from-black to-black bg-[length:0%_0.1em] bg-left-bottom bg-no-repeat transition-[background-size] duration-300 hover:bg-[length:100%_0.1em];
+    @apply bg-linear-to-r from-black to-black bg-[length:0%_0.1em] bg-bottom bg-no-repeat transition-[background-size] duration-300 hover:bg-[length:100%_0.1em];
   }
 }
 
 @utility custom-underline-inverse {
-  @apply bg-linear-to-r from-black to-black bg-[length:100%_0.1em] bg-left-bottom bg-no-repeat transition-[background-size] duration-300 hover:bg-[length:0%_0.1em];
+  @apply bg-linear-to-r from-black to-black bg-[length:100%_0.1em] bg-bottom bg-no-repeat transition-[background-size] duration-300 hover:bg-[length:0%_0.1em];
 }
 
 @utility active-link {
   &.custom-underline {
     @apply bg-[length:100%_0.1em];
   }
+}
+.shadow:not(.shadow-none) {
+  @apply transition-[background_size,box_shadow] duration-200 hover:shadow-md;
 }

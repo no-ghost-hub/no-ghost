@@ -11,10 +11,19 @@ type Props = {
   id: number;
   title: string;
   price: number;
+  taxedPrice: number;
+  taxId: number;
   theme?: string;
 };
 
-const CartAdder = ({ id, title, price, theme = "default" }: Props) => {
+const CartAdder = ({
+  id,
+  title,
+  price,
+  taxedPrice,
+  taxId,
+  theme = "default",
+}: Props) => {
   const { cart, add, update, remove } = useCartStore((state) => state);
   const inCart = cart.find((item) => item.id === id);
 
@@ -35,7 +44,7 @@ const CartAdder = ({ id, title, price, theme = "default" }: Props) => {
     />
   ) : (
     <Link
-      onClick={() => add({ id, title, price, quantity: 1 })}
+      onClick={() => add({ id, title, price, taxedPrice, taxId, quantity: 1 })}
       theme="button"
       background={theme}
     >

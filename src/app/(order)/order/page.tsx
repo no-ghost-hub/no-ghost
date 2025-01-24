@@ -39,7 +39,8 @@ const Page = async ({
           <div key={category.id} className="pb-l">
             <Category
               {...parsed(category, "category")}
-              theme={group?.slug || "default"}
+              color={group?.slug || "default"}
+              theme="order"
             />
           </div>
         );

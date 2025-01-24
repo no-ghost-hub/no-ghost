@@ -25,9 +25,12 @@ const TimeSlot = ({ guests = 0, date = "", time, timeZone }: Props) => {
 
   const [hours, minutes] = time.from.split(":").map(Number);
   const now = new Date();
+  const future = new Date(date).toDateString() > now.toDateString();
+
   const past =
-    now.getHours() > hours ||
-    (now.getHours() === hours && now.getMinutes() >= minutes);
+    !future &&
+    (now.getHours() > hours ||
+      (now.getHours() === hours && now.getMinutes() >= minutes));
 
   return (
     <Radio

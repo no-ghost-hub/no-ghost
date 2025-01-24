@@ -6,6 +6,8 @@ export type CartItem = {
   id: number;
   title: string;
   price: number;
+  taxedPrice: number;
+  taxId: number;
   quantity: number;
 };
 
@@ -50,7 +52,7 @@ const totalQuantity = () =>
 
 const totalPrice = () =>
   useCartStore((state) =>
-    state.cart.reduce((acc, item) => acc + item.price * item.quantity, 0),
+    state.cart.reduce((acc, item) => acc + item.taxedPrice * item.quantity, 0),
   );
 
 export { totalQuantity, totalPrice };

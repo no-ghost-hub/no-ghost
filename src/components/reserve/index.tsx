@@ -81,8 +81,8 @@ const Reserve = ({}: Props) => {
 
   return (
     <NavigationToggleContainer show={navigation === "reserve"}>
-      <div className="grid h-[calc(100svh-var(--h-nav)-(var(--spacing-xs))*2)] grid-rows-[auto_1fr] bg-white">
-        <header className="grid gap-xs p-xs">
+      <div className="pointer-events-auto grid h-[calc(100svh-var(--h-nav)-(var(--spacing-xs))*2)] grid-rows-[auto_1fr] bg-white">
+        <header className="gap-xs p-xs grid">
           <Text tag="h3" align="center">
             {s("reserve.heading")}
           </Text>
@@ -96,6 +96,7 @@ const Reserve = ({}: Props) => {
                     onClick={() => setStepIndex(index)}
                     disabled={!reservation[handle] && index !== stepIndex}
                     active={index === stepIndex}
+                    shadow={false}
                   >
                     <Text tag="div" wrap={false}>
                       {`${index + 1}. ${s(`reserve.${handle}`)}`}
@@ -106,7 +107,7 @@ const Reserve = ({}: Props) => {
             </div>
           )}
         </header>
-        <main className="grid overflow-y-auto p-xs" ref={stepEl}>
+        <main className="p-xs grid overflow-y-auto" ref={stepEl}>
           {result ? (
             <Result reservation={result.data} error={result.error} />
           ) : (

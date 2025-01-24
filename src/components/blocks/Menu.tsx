@@ -6,7 +6,7 @@ type Props = {};
 
 const MenuBlock = ({}: Props) => {
   return (
-    <Link href="/menu" theme="button" background="white">
+    <Link href="/menu" theme="button" background="white" shadow={false}>
       <Text tag="div">{s("ctas.restaurantMenu")}</Text>
     </Link>
   );
