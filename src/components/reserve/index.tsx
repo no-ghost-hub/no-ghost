@@ -81,7 +81,7 @@ const Reserve = ({}: Props) => {
 
   return (
     <NavigationToggleContainer show={navigation === "reserve"}>
-      <div className="pointer-events-auto grid h-[calc(100svh-var(--h-nav)-(var(--spacing-xs))*2)] grid-rows-[auto_1fr] bg-white">
+      <div className="pointer-events-auto grid h-[calc(100svh-var(--h-nav)-(var(--spacing-xs))*2)] grid-rows-[auto_1fr] bg-white shadow">
         <header className="gap-xs p-xs grid">
           <Text tag="h3" align="center">
             {s("reserve.heading")}
