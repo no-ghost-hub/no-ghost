@@ -68,7 +68,7 @@ const Cart = ({}: Props) => {
               <Link
                 theme="button"
                 background="white"
-                onClick={() => handleClick}
+                onClick={() => handleClick(false)}
                 disabled={!cart.length}
               >
                 <Text tag="div">{s("ctas.order.send")}</Text>
