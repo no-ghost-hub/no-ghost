@@ -9,7 +9,7 @@ import { useCartStore } from "@/components/providers/Global";
 import { s } from "@/utils/useClientString";
 import CartThumb from "@/components/thumbs/Cart";
 import useOdoo from "@/utils/useOdoo";
-import { useSearchParams } from "next/navigation";
+import { redirect, useSearchParams } from "next/navigation";
 import { useState } from "react";
 
 type Props = {};
@@ -23,7 +23,7 @@ const Cart = ({}: Props) => {
 
   const [result, setResult] = useState<{ data?: any; error?: string }>();
 
-  async function handleClick() {
+  async function handleClick(payment: boolean = false) {
     const result = await useOdoo({
       route: "order",
       method: "POST",
@@ -35,8 +35,14 @@ const Cart = ({}: Props) => {
     });
 
     setResult(result);
+
     if (result.data) {
       clear();
+      if (payment) {
+        redirect(
+          `${process.env.NEXT_PUBLIC_ODOO_PAY_ENDPOINT || "https://noghost.odoo.com/pos/pay"}/${result.data.id}?access_token=${result.data.token}`,
+        );
+      }
     }
   }
 
@@ -62,7 +68,7 @@ const Cart = ({}: Props) => {
               <Link
                 theme="button"
                 background="white"
-                onClick={handleClick}
+                onClick={() => handleClick}
                 disabled={!cart.length}
               >
                 <Text tag="div">{s("ctas.order.send")}</Text>
@@ -70,7 +76,7 @@ const Cart = ({}: Props) => {
               <Link
                 theme="button"
                 background="orange"
-                onClick={handleClick}
+                onClick={() => handleClick(true)}
                 disabled={!cart.length}
               >
                 <Text tag="div">{s("ctas.order.pay")}</Text>
