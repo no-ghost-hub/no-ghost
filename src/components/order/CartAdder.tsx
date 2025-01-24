@@ -11,21 +11,28 @@ type Props = {
   id: number;
   title: string;
   price: number;
+  taxedPrice: number;
+  taxId: number;
   theme?: string;
 };
 
-const colors: Record<string, string> = {
-  default: "orange",
-  lunch: "orange",
-  dinner: "blue",
-};
-
-const CartAdder = ({ id, title, price, theme = "default" }: Props) => {
-  const { cart, add } = useCartStore((state) => state);
+const CartAdder = ({
+  id,
+  title,
+  price,
+  taxedPrice,
+  taxId,
+  theme = "default",
+}: Props) => {
+  const { cart, add, update, remove } = useCartStore((state) => state);
   const inCart = cart.find((item) => item.id === id);
 
   function handleQuantity(quantity: number) {
-    console.log(quantity);
+    if (quantity > 0) {
+      update(id, quantity);
+    } else {
+      remove(id);
+    }
   }
 
   return inCart ? (
@@ -37,9 +44,9 @@ const CartAdder = ({ id, title, price, theme = "default" }: Props) => {
     />
   ) : (
     <Link
-      onClick={() => add({ id, title, price, quantity: 1 })}
+      onClick={() => add({ id, title, price, taxedPrice, taxId, quantity: 1 })}
       theme="button"
-      background={colors[theme]}
+      background={theme}
     >
       <Text>{s("ctas.cart.add")}</Text>
     </Link>

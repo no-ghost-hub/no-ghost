@@ -68,7 +68,7 @@ const NavigationBar = ({ main, home }: Props) => {
 
   return (
     <SizeUtil name="nav" height={true}>
-      <nav className="pointer-events-auto grid grid-flow-col justify-center bg-white">
+      <nav className="pointer-events-auto grid grid-flow-col justify-center bg-white shadow">
         {main.items?.map((item) => {
           const Item = components[item.blockType];
           return (

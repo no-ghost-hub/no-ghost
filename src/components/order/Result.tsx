@@ -4,20 +4,18 @@ import Text from "@/components/elements/Text";
 import Link from "@/components/elements/Link";
 
 import { s } from "@/utils/useClientString";
-import { Reservation } from "@/types";
-import formatDate from "@/utils/formatDate";
+import { Order } from "@/types";
 import { useUiStore } from "@/components/providers/Global";
 
 type Props = {
-  reservation?: Reservation;
+  order?: Order;
   error?: string;
 };
 
-const ReserveResult = ({ reservation, error }: Props) => {
+const OrderResult = ({ order, error }: Props) => {
   const { setNavigation } = useUiStore((state) => state);
-
   return (
-    <div className="gap-s grid grid-rows-[1fr_auto]">
+    <main className="gap-s p-xs grid grid-rows-[1fr] overflow-y-auto">
       <div className="gap-s grid self-center">
         <Text
           tag="h2"
@@ -25,27 +23,22 @@ const ReserveResult = ({ reservation, error }: Props) => {
           align="center"
           color={error ? "orange" : "black"}
         >
-          {s(error ? "reserve.error" : "reserve.success")}
+          {s(error ? "order.error" : "order.success")}
         </Text>
         {error ? (
           <Text typo="sm" align="center">
             {error}
           </Text>
         ) : (
-          reservation && (
-            <>
-              <Text align="center">
-                <br />
-                {`${reservation.guests} guests`}
-                <br />
-                {formatDate(reservation.date || "")}
-                <br />
-                {reservation.time?.from}
-              </Text>
-              <Text typo="base" align="center">
-                {s("reserve.success.email")}
-              </Text>
-            </>
+          order && (
+            <Text typo="sm" align="center">
+              {order.lines.map(({ title, quantity }) => (
+                <>
+                  {quantity}x {title}
+                  <br />
+                </>
+              ))}
+            </Text>
           )
         )}
       </div>
@@ -57,8 +50,8 @@ const ReserveResult = ({ reservation, error }: Props) => {
       >
         <Text tag="div">{s("ctas.close")}</Text>
       </Link>
-    </div>
+    </main>
   );
 };
 
-export default ReserveResult;
+export default OrderResult;

@@ -15,7 +15,7 @@ const Wrapper = ({ type, context, children }: Props) => {
   const [key, setKey] = useState(0);
   const { navigation, setNavigation } = useUiStore((state) => state);
 
-  if (type === "reserve") {
+  if (type === "reserve" || type === "order") {
     useEffect(() => {
       if (!navigation) {
         setTimeout(() => {

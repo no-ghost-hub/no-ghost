@@ -49,7 +49,7 @@ const SizeUtil = ({
       }
       if (name === "menu-category") {
         const minWidth = 160;
-        const maxNumber = 4;
+        const maxNumber = 6;
         setStyleProperty(
           `--w-item`,
           `${elWidth / Math.min(Math.floor(elWidth / minWidth), maxNumber)}px`,
@@ -68,7 +68,7 @@ const SizeUtil = ({
       className={`relative ${ready ? "opacity-100" : "opacity-0"} transition-opacity`}
     >
       {children}
-      <div ref={el} className="invisible absolute left-0 top-0 h-full w-full" />
+      <div ref={el} className="invisible absolute top-0 left-0 h-full w-full" />
     </div>
   );
 };

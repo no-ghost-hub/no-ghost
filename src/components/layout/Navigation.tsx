@@ -6,7 +6,7 @@ import DeliveryOptions from "@/components/layout/DeliveryOptions";
 import Reserve from "@/components/reserve";
 
 import { Menu } from "@/payload-types";
-import NavigationBar from "@/components/layout/Bar";
+import NavigationBar from "@/components/layout/NavigationBar";
 import getEntry from "@/utils/getEntry";
 import getGlobal from "@/utils/getGlobal";
 
@@ -22,7 +22,7 @@ const Navigation = async ({}: Props) => {
   return (
     <div className="grid">
       <Wrapper type="navigation">
-        <div className="grid items-end overflow-hidden *:col-start-1 *:row-start-1 [&>*]:pointer-events-auto">
+        <div className="grid items-end overflow-hidden *:col-start-1 *:row-start-1">
           {/* <MenuGroups /> */}
           <DeliveryOptions />
           <Wrapper type="reserve" context={{ reservationTypes }}>

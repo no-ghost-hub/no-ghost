@@ -6,33 +6,41 @@ import parsed from "@/utils/parsed";
 type Props = {
   title: string;
   products: any[];
+  menu?: string;
   theme?: string;
 };
 
-const productThemes: Record<string, string> = {
-  default: "default",
-  lunch: "lunch",
-  dinner: "dinner",
+const colors: Record<string, string> = {
+  default: "orange",
+  lunch: "orange",
+  dinner: "blue",
+  menu: "orange",
 };
 
-const MenuCategory = async ({ title, products, theme = "default" }: Props) => {
+const MenuCategory = async ({
+  title,
+  products,
+  menu = "default",
+  theme = "default",
+}: Props) => {
   return (
-    <div className="mx-auto max-w-screen-lg px-[calc(theme(spacing.xs)/2)]">
+    <div className="mx-auto max-w-(--breakpoint-lg) px-[calc(var(--spacing-xs)/2)]">
       <SizeUtil name="menu-category" width scoped>
-        <div className={`grid gap-m`}>
+        <div className="gap-m grid">
           <Text tag="h3" align="center" transform="uppercase">
             {title}
           </Text>
-          <div className="flex flex-wrap justify-center gap-y-m">
+          <div className="gap-y-xs flex flex-wrap justify-center">
             {[...products]?.map((product) => {
               return (
                 <div
                   key={product.id}
-                  className="w-[var(--w-item)] px-[calc(theme(spacing.xs)/2)]"
+                  className="w-(--w-item) px-[calc(var(--spacing-xs)/2)]"
                 >
                   <ProductThumb
                     {...parsed(product, "productThumb")}
-                    theme={productThemes[theme]}
+                    theme={theme}
+                    color={colors[menu]}
                   />
                 </div>
               );

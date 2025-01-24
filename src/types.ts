@@ -42,3 +42,9 @@ export type Reservation = {
   timeZone?: string;
   location?: string;
 };
+
+export type Order = {
+  id: number;
+  token: string;
+  lines: { title: string; quantity: number; price: number }[];
+};

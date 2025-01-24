@@ -17,6 +17,7 @@ const OrderBlock = ({ onClick }: Props) => {
       background="white"
       onClick={() => onClick("order")}
       active={navigation === "order"}
+      shadow={false}
     >
       <Text tag="div">{s("ctas.order")}</Text>
     </Link>

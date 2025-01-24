@@ -8,6 +8,7 @@ import { String } from "@/payload-types";
 
 type Props = {
   strings: String["strings"];
+  currency: string;
   children?: React.ReactNode;
 };
 
@@ -15,9 +16,10 @@ export const Context = createContext<{
   uiStore: StoreApi<UiStore> | null;
   cartStore: StoreApi<CartStore> | null;
   strings: String["strings"];
-}>({ uiStore: null, cartStore: null, strings: [] });
+  currency: string;
+}>({ uiStore: null, cartStore: null, strings: [], currency: "" });
 
-export const GlobalProvider = ({ children, strings }: Props) => {
+export const GlobalProvider = ({ children, strings, currency }: Props) => {
   const uiStoreRef = useRef<StoreApi<UiStore>>(null);
   const cartStoreRef = useRef<StoreApi<CartStore>>(null);
 
@@ -34,6 +36,7 @@ export const GlobalProvider = ({ children, strings }: Props) => {
         uiStore: uiStoreRef.current,
         cartStore: cartStoreRef.current,
         strings,
+        currency,
       }}
     >
       {children}

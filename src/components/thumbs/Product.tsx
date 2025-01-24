@@ -11,6 +11,9 @@ type Props = {
   image?: string;
   description?: string;
   price: number;
+  taxedPrice: number;
+  taxId: number;
+  color?: string;
   theme?: string;
 };
 
@@ -20,22 +23,24 @@ const ProductThumb = async ({
   image,
   description,
   price,
+  taxedPrice,
+  taxId,
+  color = "orange",
   theme = "default",
 }: Props) => {
-  const { data } = await useOdoo({ route: "company" });
-
-  const formattedPrice = formatPrice(price, data.currency);
+  const { data: companyData } = await useOdoo({ route: "company" });
+  const formattedPrice = formatPrice(taxedPrice, companyData.currency);
 
   return (
-    <div className="grid grid-rows-[auto_minmax(0,1fr)] bg-white">
+    <div className="grid grid-rows-[auto_minmax(0,1fr)] bg-white shadow">
       {image && (
-        <div className="relative grid aspect-[1/1]">
+        <div className="relative grid aspect-1/1">
           <Image src={image} alt={title} theme="thumb" />
         </div>
       )}
-      <div className="grid aspect-[1/1] content-between gap-s p-s">
-        <div className="grid gap-s">
-          <Text tag="h2" typo="2" align="center">
+      <div className="gap-s p-s grid aspect-1/1 content-between">
+        <div className="gap-s grid">
+          <Text tag="h2" typo="md" align="center">
             {title}
           </Text>
           <Text align="center" html={description} />
@@ -44,9 +49,12 @@ const ProductThumb = async ({
           {formattedPrice}
         </Text>
       </div>
-      {(theme === "lunch" || theme === "dinner") && (
-        <div className="grid p-xs pt-0">
-          <CartAdder {...{ id, title, price }} theme={theme} />
+      {theme === "order" && (
+        <div className="p-xs grid pt-0">
+          <CartAdder
+            {...{ id, title, price, taxedPrice, taxId }}
+            theme={color}
+          />
         </div>
       )}
     </div>

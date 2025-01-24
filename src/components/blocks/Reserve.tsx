@@ -17,6 +17,7 @@ const ReserveBlock = ({ onClick }: Props) => {
       background="white"
       onClick={() => onClick("reserve")}
       active={navigation === "reserve"}
+      shadow={false}
     >
       <Text tag="div">{s("ctas.reserve")}</Text>
     </Link>

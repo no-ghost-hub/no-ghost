@@ -1,76 +1,52 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import "tailwindcss";
 
-@layer base {
-  body {
-    font-family: theme("fontFamily.leif", serif);
-    font-weight: 800;
-    font-size: clamp(12px, 1.5vw, 18px);
-    line-height: 1.2;
-  }
-  p,
-  h3,
-  h4,
-  h5,
-  h6 {
-    max-width: 50ch;
-  }
+@theme {
+  --*: initial;
 
-  h1,
-  h2 {
-    max-width: 25ch;
-  }
+  --breakpoint-sm: 480px;
+  --breakpoint-md: 1024px;
+  --breakpoint-lg: 1536px;
 
-  video[poster] {
-    object-fit: cover;
-  }
+  --spacing-0: 0px;
+  --spacing-xxs: 4px;
+  --spacing-xs: clamp(12px, 1.6vw, 16px);
+  --spacing-s: clamp(16px, 2vw, 20px);
+  --spacing-m: clamp(40px, 6vw, 60px);
+  --spacing-l: clamp(80px, 16vw, 160px);
+  --spacing-full: 100%;
 
-  .prose {
-    > * + * {
-      margin-top: 2.4em;
-    }
-    h4 + * {
-      margin-top: 0.8em;
-    }
+  --color-transparent: transparent;
+  --color-current: currentColor;
+  --color-black: rgb(0, 0, 0);
+  --color-white: rgb(255, 255, 255);
+  --color-grey: rgb(245, 245, 245);
+  --color-darkgrey: rgb(190, 190, 190);
+  --color-yellow: rgb(255, 245, 165);
+  --color-green: rgb(190, 240, 210);
+  --color-blue: rgb(25, 155, 255);
+  --color-orange: rgb(255, 105, 5);
 
-    h4 {
-      > a + a {
-        margin-left: calc(var(--spacing-xs) * 2);
-      }
-    }
+  --shadow: 0px 0px var(--spacing-xs) 0px rgba(0, 0, 0, 0.08);
+  --shadow-md: 0px 0px var(--spacing-xs) 0px rgba(0, 0, 0, 0.12);
 
-    a {
-      @apply custom-underline-inverse;
-    }
+  --default-transition-duration: 200ms;
+}
+
+@utility custom-underline {
+  &:not([data-disabled="true"]) {
+    @apply bg-linear-to-r from-black to-black bg-[length:0%_0.1em] bg-bottom bg-no-repeat transition-[background-size] duration-300 hover:bg-[length:100%_0.1em];
   }
 }
 
-@layer utilities {
-  .custom-underline:not([data-disabled="true"]) {
-    @apply bg-gradient-to-r from-black to-black bg-[length:0%_0.1em] bg-left-bottom bg-no-repeat transition-[background-size] duration-300 hover:bg-[length:100%_0.1em];
-  }
-  .custom-underline-inverse {
-    @apply bg-gradient-to-r from-black to-black bg-[length:100%_0.1em] bg-left-bottom bg-no-repeat transition-[background-size] duration-300 hover:bg-[length:0%_0.1em];
-  }
+@utility custom-underline-inverse {
+  @apply bg-linear-to-r from-black to-black bg-[length:100%_0.1em] bg-bottom bg-no-repeat transition-[background-size] duration-300 hover:bg-[length:0%_0.1em];
+}
 
-  .active-link,
-  [data-selected="true"] {
-    &.custom-underline {
-      @apply bg-[length:100%_0.1em];
-    }
+@utility active-link {
+  &.custom-underline {
+    @apply bg-[length:100%_0.1em];
   }
-
-  form {
-    .custom-underline:focus-within {
-      @apply bg-[length:100%_0.1em];
-    }
-  }
-
-  [data-invalid="true"] {
-    .custom-underline {
-      @apply bg-[length:100%_0.1em];
-      @apply from-orange to-orange;
-    }
-  }
+}
+.shadow:not(.shadow-none) {
+  @apply transition-[background_size,box_shadow] duration-200 hover:shadow-md;
 }
