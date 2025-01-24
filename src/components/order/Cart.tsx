@@ -39,9 +39,11 @@ const Cart = ({}: Props) => {
     if (result.data) {
       clear();
       if (payment) {
-        redirect(
-          `${process.env.NEXT_PUBLIC_ODOO_PAY_ENDPOINT || "https://noghost.odoo.com/pos/pay"}/${result.data.id}?access_token=${result.data.token}`,
-        );
+        setTimeout(() => {
+          redirect(
+            `${process.env.NEXT_PUBLIC_ODOO_PAY_ENDPOINT || "https://noghost.odoo.com/pos/pay"}/${result.data.id}?access_token=${result.data.token}`,
+          );
+        }, 3000);
       }
     }
   }
@@ -68,7 +70,7 @@ const Cart = ({}: Props) => {
               <Link
                 theme="button"
                 background="white"
-                onClick={() => handleClick}
+                onClick={() => handleClick(false)}
                 disabled={!cart.length}
               >
                 <Text tag="div">{s("ctas.order.send")}</Text>
