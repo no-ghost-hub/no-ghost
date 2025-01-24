@@ -3,8 +3,6 @@ import { NextRequest, NextResponse } from "next/server";
 import parsed from "@/utils/parsed";
 import { CartItem } from "@/stores/cart";
 
-// https://order.eatnoghost.com/?table_identifier=1bad19f0
-
 export async function POST(request: NextRequest) {
   const body: { table: string; lines: CartItem[] } = await request.json();
   const { table, lines } = body;

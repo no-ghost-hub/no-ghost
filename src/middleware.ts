@@ -14,7 +14,10 @@ export async function middleware(request: NextRequest) {
     const url = new URL(`/order`, request.url);
     url.search = searchParams.toString();
     response = NextResponse.rewrite(url);
-  } else if (pathname.startsWith("/order")) {
+  } else if (
+    pathname.startsWith("/order") &&
+    process.env.NODE_ENV === "production"
+  ) {
     response = NextResponse.redirect(new URL("/", request.url));
   }
 
