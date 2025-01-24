@@ -43,7 +43,7 @@ const Cart = ({}: Props) => {
           redirect(
             `${process.env.NEXT_PUBLIC_ODOO_PAY_ENDPOINT || "https://noghost.odoo.com/pos/pay"}/${result.data.id}?access_token=${result.data.token}`,
           );
-        }, 1000);
+        }, 3000);
       }
     }
   }
