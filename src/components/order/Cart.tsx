@@ -39,9 +39,11 @@ const Cart = ({}: Props) => {
     if (result.data) {
       clear();
       if (payment) {
-        redirect(
-          `${process.env.NEXT_PUBLIC_ODOO_PAY_ENDPOINT || "https://noghost.odoo.com/pos/pay"}/${result.data.id}?access_token=${result.data.token}`,
-        );
+        setTimeout(() => {
+          redirect(
+            `${process.env.NEXT_PUBLIC_ODOO_PAY_ENDPOINT || "https://noghost.odoo.com/pos/pay"}/${result.data.id}?access_token=${result.data.token}`,
+          );
+        }, 1000);
       }
     }
   }
