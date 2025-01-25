@@ -56,6 +56,7 @@ export async function POST(request: NextRequest) {
             price_unit: line.price,
             price_subtotal: line.price * line.quantity,
             price_subtotal_incl: line.taxedPrice * line.quantity,
+            attribute_value_ids: line.attributes,
             qty: line.quantity,
             tax_ids: [line.taxId],
           },

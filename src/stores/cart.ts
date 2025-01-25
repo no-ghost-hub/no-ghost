@@ -8,6 +8,7 @@ export type CartItem = {
   price: number;
   taxedPrice: number;
   taxId: number;
+  attributes?: number[];
   quantity: number;
 };
 

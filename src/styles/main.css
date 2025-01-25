@@ -30,6 +30,18 @@
   --shadow-md: 0px 0px var(--spacing-xs) 0px rgba(0, 0, 0, 0.12);
 
   --default-transition-duration: 200ms;
+
+  --animate-slide-in: slide 200ms;
+  --animate-slide-out: slide 200ms reverse;
+
+  @keyframes slide {
+    0% {
+      transform: translateY(100%);
+    }
+    100% {
+      transform: translateY(0);
+    }
+  }
 }
 
 @utility custom-underline {
@@ -42,7 +54,8 @@
   @apply bg-linear-to-r from-black to-black bg-[length:100%_0.1em] bg-bottom bg-no-repeat transition-[background-size] duration-300 hover:bg-[length:0%_0.1em];
 }
 
-@utility active-link {
+.active-link,
+[data-selected="true"] {
   &.custom-underline {
     @apply bg-[length:100%_0.1em];
   }

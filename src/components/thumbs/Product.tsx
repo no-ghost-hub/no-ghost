@@ -31,6 +31,15 @@ const ProductThumb = async ({
   const { data: companyData } = await useOdoo({ route: "company" });
   const formattedPrice = formatPrice(taxedPrice, companyData.currency);
 
+  const attributes = [];
+  if (theme === "order") {
+    const { data: attributesData } = await useOdoo({
+      route: `product-attributes?id=${id}`,
+    });
+
+    attributes.push(...attributesData);
+  }
+
   return (
     <div className="grid grid-rows-[auto_minmax(0,1fr)] bg-white shadow">
       {image && (
@@ -52,7 +61,7 @@ const ProductThumb = async ({
       {theme === "order" && (
         <div className="p-xs grid pt-0">
           <CartAdder
-            {...{ id, title, price, taxedPrice, taxId }}
+            {...{ id, title, price, taxedPrice, taxId, attributes }}
             theme={color}
           />
         </div>
