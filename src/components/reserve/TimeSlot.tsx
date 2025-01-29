@@ -36,7 +36,7 @@ const TimeSlot = ({ guests = 0, date = "", time, timeZone }: Props) => {
     <Radio
       value={JSON.stringify(time)}
       className="custom-underline data-selected:bg-grey data-disabled:text-darkgrey cursor-pointer data-disabled:pointer-events-none"
-      isDisabled={!availableTables?.length || past}
+      isDisabled={!availableTables?.length}
     >
       <div className="p-xs grid grid-flow-col items-end justify-between">
         <Text tag="div">{time.from}</Text>
