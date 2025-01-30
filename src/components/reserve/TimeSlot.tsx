@@ -25,7 +25,7 @@ const TimeSlot = ({ guests = 0, date = "", time, timeZone }: Props) => {
 
   const [hours, minutes] = time.from.split(":").map(Number);
   const now = new Date();
-  const future = new Date(date).toDateString() > now.toDateString();
+  const future = new Date(date).getTime() > now.getTime();
 
   const past =
     !future &&

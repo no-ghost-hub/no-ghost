@@ -40,7 +40,7 @@ const OrderBar = ({}: Props) => {
               active={navigation === "cart"}
             >
               <Text wrap={false} tag="div">
-                {s("ctas.cart")}
+                {s(navigation === "cart" ? "ctas.close" : "ctas.cart")}
               </Text>
             </Link>
             <div

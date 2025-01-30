@@ -13,7 +13,7 @@ export async function GET(request: NextRequest) {
       model: "product.template.attribute.value",
       method: "search_read",
       options: {
-        // fields: ["appointment_resource_id"],
+        fields: ["id", "name", "price_extra", "attribute_line_id"],
       },
       domain: [[["product_tmpl_id", "=", parseInt(id || "")]]],
     });
@@ -35,7 +35,11 @@ export async function GET(request: NextRequest) {
           options: [],
         };
       }
-      acc[id].options.push(item);
+      acc[id].options.push({
+        id: item.id,
+        name: item.name,
+        price: item.price_extra,
+      });
       return acc;
     }, {}),
   );

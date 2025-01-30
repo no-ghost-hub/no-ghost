@@ -43,10 +43,11 @@ export async function GET(request: NextRequest) {
     const { result: productsData } = response;
 
     const categories: Record<string, any> = {};
+    const taxes: Record<string, any> = {};
     response.result = await Promise.all(
       productsData.map(async (product) => {
-        const { categ_id } = product;
-        if (!categories[categ_id]) {
+        const { categ_id, taxes_id } = product;
+        if (!categories[categ_id[0]]) {
           const { result: categoryData } = await odooQuery({
             model: "product.category",
             method: "search_read",
@@ -55,9 +56,24 @@ export async function GET(request: NextRequest) {
               fields: ["id", "name", "x_studio_sequence"],
             },
           });
-          categories[categ_id] = categoryData[0];
+          categories[categ_id[0]] = categoryData[0];
         }
-        return { ...product, category: categories[categ_id] };
+        if (!taxes[taxes_id[0]]) {
+          const { result: taxData } = await odooQuery({
+            model: "account.tax",
+            method: "search_read",
+            domain: [[["id", "=", taxes_id[0]]]],
+            options: {
+              fields: ["id", "amount"],
+            },
+          });
+          taxes[taxes_id[0]] = taxData[0];
+        }
+        return {
+          ...product,
+          category: categories[categ_id[0]],
+          tax: taxes[taxes_id[0]],
+        };
       }),
     );
 

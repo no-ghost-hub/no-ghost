@@ -12,7 +12,7 @@ type Props = {
   description?: string;
   price: number;
   taxedPrice: number;
-  taxId: number;
+  tax: { id: number; amount: number };
   color?: string;
   theme?: string;
 };
@@ -24,7 +24,7 @@ const ProductThumb = async ({
   description,
   price,
   taxedPrice,
-  taxId,
+  tax,
   color = "orange",
   theme = "default",
 }: Props) => {
@@ -61,7 +61,7 @@ const ProductThumb = async ({
       {theme === "order" && (
         <div className="p-xs grid pt-0">
           <CartAdder
-            {...{ id, title, price, taxedPrice, taxId, attributes }}
+            {...{ productId: id, title, price, taxedPrice, tax, attributes }}
             theme={color}
           />
         </div>

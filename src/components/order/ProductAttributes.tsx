@@ -6,18 +6,16 @@ import { useState } from "react";
 import type { Key } from "react-aria-components";
 import formatPrice from "@/utils/formatPrice";
 import useCurrency from "@/utils/useCurrency";
+import type { ProductAttribute } from "@/types";
 
 type ProductAttributesProps = {
   title: string;
-  attributes: any[];
+  attributes: ProductAttribute[];
   onAdd: (attributes: number[]) => void;
 };
 
-type ProductAttributeProps = {
-  id: number;
-  name: string;
-  options: any[];
-  value: Key[];
+type ProductAttributeProps = ProductAttribute & {
+  value: Set<Key>;
   onChange: (selected: Set<Key>) => void;
 };
 
@@ -26,14 +24,14 @@ const ProductAttributes = ({
   attributes,
   onAdd,
 }: ProductAttributesProps) => {
-  const [selected, setSelected] = useState<Record<string, Set<Key>>>(
-    attributes.reduce((acc, attribute) => {
+  const [selected, setSelected] = useState(
+    attributes.reduce((acc: Record<number, Set<Key>>, attribute) => {
       acc[attribute.id] = new Set();
       return acc;
     }, {}),
   );
 
-  const onChange = (key: string, ids: Set<Key>) => {
+  const onChange = (key: number, ids: Set<Key>) => {
     setSelected((prev) => ({
       ...prev,
       [key]: ids,
@@ -55,7 +53,7 @@ const ProductAttributes = ({
           {title}
         </Text>
       </header>
-      <main className="p-xs gap-m grid overflow-y-auto">
+      <main className="p-xs gap-m grid grid-rows-[1fr] overflow-y-auto">
         <div className="gap-s grid content-center">
           {attributes.map((attribute) => (
             <ProductAttribute
@@ -95,7 +93,7 @@ const ProductAttribute = ({
         onSelectionChange={onChange}
         className="grid"
       >
-        {options.map(({ id, name, price_extra }) => (
+        {options.map(({ id, name, price }) => (
           <ToggleButton
             key={id}
             id={id}
@@ -106,8 +104,8 @@ const ProductAttribute = ({
                 {name}
               </Text>
               <Text tag="div" typo="sm" wrap={false}>
-                {price_extra
-                  ? formatPrice(price_extra, useCurrency())
+                {price
+                  ? formatPrice(price, useCurrency())
                   : s("attribute.free")}
               </Text>
             </div>

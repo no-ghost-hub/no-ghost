@@ -48,3 +48,9 @@ export type Order = {
   token: string;
   lines: { title: string; quantity: number; price: number }[];
 };
+
+export type ProductAttribute = {
+  id: number;
+  name: string;
+  options: { id: number; name: string; price: number }[];
+};

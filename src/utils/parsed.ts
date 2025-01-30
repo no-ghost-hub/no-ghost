@@ -45,7 +45,7 @@ const parsed = (raw: any, type?: string): any => {
         taxedPrice:
           parseFloat(raw.tax_string.match(/-?\d*\.?\d+/)?.[0]) ||
           raw.list_price,
-        taxId: raw.taxes_id[0],
+        tax: raw.tax,
         description: raw.public_description,
       };
     }
