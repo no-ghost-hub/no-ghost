@@ -116,7 +116,7 @@ const CartAdder = ({
       )}
       {attributes && attributes.length > 0 && (
         <Modal show={show} onShowChange={setShow} label="Product attributes">
-          <ProductAttributes {...{ title, attributes, onAdd }} />
+          <ProductAttributes {...{ title, attributes, tax, onAdd }} />
         </Modal>
       )}
     </>
