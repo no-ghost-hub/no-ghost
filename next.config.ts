@@ -53,20 +53,17 @@ const nextConfig: NextConfig = {
     ],
   },
 
-  async rewrites() {
-    return {
-      beforeFiles: [
-        {
-          source: "/:path*",
-          has: [
-            { type: "host", value: process.env.NEXT_PUBLIC_RESERVE_URL || "" },
-          ],
-          destination: "/:path*?navigation=reserve",
-        },
-      ],
-      afterFiles: [],
-      fallback: [],
-    };
+  async redirects() {
+    return [
+      {
+        source: "/:path*",
+        has: [
+          { type: "host", value: process.env.NEXT_PUBLIC_RESERVE_URL || "" },
+        ],
+        permanent: true,
+        destination: "/:path*?navigation=reserve",
+      },
+    ];
   },
 };
 
