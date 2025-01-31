@@ -58,7 +58,7 @@ const nextConfig: NextConfig = {
       {
         source: "/:path*",
         has: [
-          { type: "host", value: process.env.NEXT_PUBLIC_RESERVE_URL || "" },
+          { type: "host", value: process.env.NEXT_PUBLIC_RESERVE_HOST || "" },
         ],
         permanent: true,
         destination: "/:path*?navigation=reserve",
