@@ -52,6 +52,22 @@ const nextConfig: NextConfig = {
       },
     ],
   },
+
+  async rewrites() {
+    return {
+      beforeFiles: [
+        {
+          source: "/:path*",
+          has: [
+            { type: "host", value: process.env.NEXT_PUBLIC_RESERVE_URL || "" },
+          ],
+          destination: "/:path*?navigation=reserve",
+        },
+      ],
+      afterFiles: [],
+      fallback: [],
+    };
+  },
 };
 
 export default withPayload(nextConfig);
