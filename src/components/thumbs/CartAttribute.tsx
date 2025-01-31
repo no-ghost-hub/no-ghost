@@ -24,7 +24,7 @@ const CartAttributeThumb = ({ id, name, price, tax, onRemove }: Props) => {
       className="gap-xs bg-yellow grid grid-flow-col grid-cols-[auto_1fr_auto] items-center"
       ref={el}
     >
-      <div className="grid justify-items-start *:col-start-1 *:row-start-1">
+      <div className="invisible grid justify-items-start *:col-start-1 *:row-start-1">
         <SizeUtil name="remover" width scoped scopedEl={el}>
           <FormsNumber
             value={1}

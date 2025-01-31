@@ -1,7 +1,7 @@
 import { odooQuery, odooOrder } from "@/utils/odooClient";
 import { NextRequest, NextResponse } from "next/server";
 import parsed from "@/utils/parsed";
-import { CartItem } from "@/stores/cart";
+import { attributesPrice, CartItem } from "@/stores/cart";
 
 export async function POST(request: NextRequest) {
   const body: { table: string; lines: CartItem[] } = await request.json();
@@ -48,19 +48,25 @@ export async function POST(request: NextRequest) {
         amount_paid: 0,
         amount_return: 0,
         customer_count: 1,
-        lines: lines.map((line) => [
-          0,
-          0,
-          {
-            product_id: line.id,
-            price_unit: line.price,
-            price_subtotal: line.price * line.quantity,
-            price_subtotal_incl: line.taxedPrice * line.quantity,
-            attribute_value_ids: line.attributes,
-            qty: line.quantity,
-            tax_ids: [line.tax.id],
-          },
-        ]),
+        lines: lines.map(
+          ({ productId, price, attributes, quantity, taxedPrice, tax }) => [
+            0,
+            0,
+            {
+              product_id: productId,
+              price_unit: price,
+              price_extra: attributesPrice(attributes),
+              price_subtotal: (price + attributesPrice(attributes)) * quantity,
+              price_subtotal_incl:
+                (taxedPrice +
+                  attributesPrice(attributes) * (1 + tax.amount / 100)) *
+                quantity,
+              attribute_value_ids: attributes?.map(({ id }) => id),
+              qty: quantity,
+              tax_ids: [tax.id],
+            },
+          ],
+        ),
       },
     });
   } catch (error: any) {

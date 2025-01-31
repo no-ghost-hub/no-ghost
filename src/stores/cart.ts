@@ -17,10 +17,15 @@ export type CartStore = {
   cart: CartItem[];
   add: (item: Omit<CartItem, "id">) => void;
   update: (id: string, quantity: number) => void;
-  remove: (id: string) => void;
   removeAttribute: (id: string, attributeId: number) => void;
   clear: () => void;
 };
+
+const uniqueId = (id: number, attributes: { id: number }[] = []) =>
+  `${id}${attributes.length ? attributes.reduce((string, { id }) => `${string}-${id}`, "") : ""}`;
+
+export const attributesPrice = (attributes?: { price: number }[]) =>
+  attributes?.reduce((sum, { price }) => sum + price, 0) || 0;
 
 export const createCartStore = () =>
   createStore<CartStore>()(
@@ -32,7 +37,7 @@ export const createCartStore = () =>
             cart: [
               ...state.cart,
               {
-                id: `${item.productId}${item.attributes?.length ? item.attributes.reduce((string, { id }) => `${string}-${id}`, "") : ""}`,
+                id: uniqueId(item.productId, item.attributes),
                 ...item,
                 quantity: 1,
               },
@@ -40,13 +45,12 @@ export const createCartStore = () =>
           })),
         update: (id, quantity) =>
           set((state) => ({
-            cart: state.cart.map((item) =>
-              item.id === id ? { ...item, quantity } : item,
-            ),
-          })),
-        remove: (id) =>
-          set((state) => ({
-            cart: state.cart.filter((item) => item.id !== id),
+            cart:
+              quantity > 0
+                ? state.cart.map((item) =>
+                    item.id === id ? { ...item, quantity } : item,
+                  )
+                : state.cart.filter((item) => item.id !== id),
           })),
         removeAttribute: (id, attributeId) =>
           set((state) => ({
@@ -70,6 +74,15 @@ export const createCartStore = () =>
     ),
   );
 
+const productQuantity = (id: number) =>
+  useCartStore((state) =>
+    state.cart.reduce(
+      (acc, { productId, quantity }) =>
+        productId === id ? acc + quantity : acc,
+      0,
+    ),
+  );
+
 const totalQuantity = () =>
   useCartStore((state) =>
     state.cart.reduce((acc, { quantity }) => acc + quantity, 0),
@@ -80,12 +93,10 @@ const totalPrice = () =>
     state.cart.reduce(
       (acc, { taxedPrice, attributes, tax, quantity }) =>
         acc +
-        (taxedPrice +
-          (attributes?.reduce((sum, { price }) => sum + price, 0) || 0) *
-            (1 + tax.amount / 100)) *
+        (taxedPrice + attributesPrice(attributes) * (1 + tax.amount / 100)) *
           quantity,
       0,
     ),
   );
 
-export { totalQuantity, totalPrice };
+export { totalQuantity, totalPrice, productQuantity };

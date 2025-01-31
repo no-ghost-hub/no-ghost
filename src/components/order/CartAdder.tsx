@@ -10,6 +10,7 @@ import { useState } from "react";
 import Modal from "@/components/modals/Modal";
 import ProductAttributes from "@/components/order/ProductAttributes";
 import { ProductAttribute } from "@/types";
+import { productQuantity } from "@/stores/cart";
 
 type Props = {
   id?: string;
@@ -32,18 +33,30 @@ const CartAdder = ({
   attributes,
   theme = "default",
 }: Props) => {
-  const { cart, add, update, remove } = useCartStore((state) => state);
-  const inCart = cart.find((item) => item.id === (id || `${productId}`));
+  const { cart, add, update } = useCartStore((state) => state);
+
+  const inCart = cart.find((item) =>
+    id ? item.id === id : item.productId === productId,
+  );
+
+  const currentQuantity = id
+    ? inCart?.quantity || 0
+    : productQuantity(productId);
 
   function handleQuantity(quantity: number) {
-    if (quantity > 0) {
-      if (inCart && attributes?.length && quantity > inCart.quantity) {
+    if (attributes?.length && !id) {
+      if (quantity > currentQuantity) {
         setShow(true);
       } else {
-        update(id, quantity);
+        const lastAdded = cart.findLast((item) => item.productId === productId);
+        if (lastAdded) {
+          update(lastAdded.id, lastAdded.quantity - 1);
+        }
       }
     } else {
-      remove(id);
+      if (inCart) {
+        update(inCart.id, quantity);
+      }
     }
   }
 
@@ -62,13 +75,17 @@ const CartAdder = ({
       ?.flatMap(({ options }) => options)
       .filter(({ id }) => attributesIds.includes(id));
 
-    const alreadyAttributes = inCart?.attributes?.map(({ id }) => id) || [];
-    if (
-      inCart &&
-      attributesIds.length === alreadyAttributes.length &&
-      attributesIds.every((item) => alreadyAttributes.includes(item))
-    ) {
-      update(id, inCart?.quantity || 0 + 1);
+    const already = cart.find(
+      (item) =>
+        item.productId === productId &&
+        item.attributes?.length === attributesIds.length &&
+        attributesIds.every((id) =>
+          item.attributes?.some((attr) => attr.id === id),
+        ),
+    );
+
+    if (already) {
+      update(already.id, already.quantity + 1);
     } else {
       add({
         productId,
@@ -85,21 +102,19 @@ const CartAdder = ({
 
   return (
     <>
-      {inCart ? (
+      {currentQuantity ? (
         <FormsNumber
           min={0}
           label="Cart item quantity"
-          value={inCart.quantity}
+          value={currentQuantity}
           onChange={handleQuantity}
         />
       ) : (
-        <>
-          <Link onClick={handleAdd} theme="button" background={theme}>
-            <Text tag="div">{s("ctas.cart.add")}</Text>
-          </Link>
-        </>
+        <Link onClick={handleAdd} theme="button" background={theme}>
+          <Text tag="div">{s("ctas.cart.add")}</Text>
+        </Link>
       )}
-      {attributes?.length && (
+      {attributes && attributes.length > 0 && (
         <Modal show={show} onShowChange={setShow} label="Product attributes">
           <ProductAttributes {...{ title, attributes, onAdd }} />
         </Modal>

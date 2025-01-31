@@ -41,9 +41,9 @@ const Cart = ({}: Props) => {
       if (payment) {
         setTimeout(() => {
           redirect(
-            `${process.env.NEXT_PUBLIC_ODOO_PAY_ENDPOINT || "https://noghost.odoo.com/pos/pay"}/${result.data.id}?access_token=${result.data.token}`,
+            `${process.env.NEXT_PUBLIC_ODOO_PAY_ENDPOINT || ""}/${result.data.id}?access_token=${result.data.token}&exit_route=${process.env.NEXT_PUBLIC_SERVER_URL}/order`,
           );
-        }, 3000);
+        }, 2000);
       }
     }
   }
