@@ -52,6 +52,19 @@ const nextConfig: NextConfig = {
       },
     ],
   },
+
+  async redirects() {
+    return [
+      {
+        source: "/:path*",
+        has: [
+          { type: "host", value: process.env.NEXT_PUBLIC_RESERVE_HOST || "" },
+        ],
+        permanent: true,
+        destination: "/:path*?navigation=reserve",
+      },
+    ];
+  },
 };
 
 export default withPayload(nextConfig);
