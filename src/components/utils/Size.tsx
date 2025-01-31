@@ -3,7 +3,7 @@
 import { useMeasure, useDebounce } from "react-use";
 
 import setStyleProperty from "@/utils/setStyleProperty";
-import { useRef, useEffect, useState } from "react";
+import { useRef, useEffect, useState, RefObject } from "react";
 
 type Props = {
   name: string;
@@ -11,6 +11,7 @@ type Props = {
   width?: boolean;
   children?: React.ReactNode;
   scoped?: boolean;
+  scopedEl?: RefObject<HTMLDivElement | null>;
 };
 
 const SizeUtil = ({
@@ -19,6 +20,7 @@ const SizeUtil = ({
   width = false,
   children,
   scoped = false,
+  scopedEl,
 }: Props) => {
   const containerEl = useRef<HTMLDivElement>(null);
 
@@ -37,14 +39,14 @@ const SizeUtil = ({
         setStyleProperty(
           `--w-${name}`,
           `${elWidth}px`,
-          scoped ? containerEl.current : null,
+          scoped ? scopedEl?.current || containerEl.current : null,
         );
       }
       if (height) {
         setStyleProperty(
           `--h-${name}`,
           `${elHeight}px`,
-          scoped ? containerEl.current : null,
+          scoped ? scopedEl?.current || containerEl.current : null,
         );
       }
       if (name === "menu-category") {

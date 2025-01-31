@@ -29,17 +29,21 @@ const FormsNumber = ({ min, max, label, value, onChange }: Props) => {
             –
           </Text>
         </Button>
-        <div className="py-xs text-base">
-          <Input size={1} className="text-center" />
-        </div>
-        <Button
-          slot="increment"
-          className="px-xs hover:text-orange disabled:text-darkgrey"
-        >
-          <Text tag="div" typo="md">
-            +
-          </Text>
-        </Button>
+        {(!max || max > 1) && (
+          <>
+            <div className="py-xs text-base">
+              <Input size={1} className="text-center" />
+            </div>
+            <Button
+              slot="increment"
+              className="px-xs hover:text-orange disabled:text-darkgrey"
+            >
+              <Text tag="div" typo="md">
+                +
+              </Text>
+            </Button>
+          </>
+        )}
       </Group>
     </NumberField>
   );

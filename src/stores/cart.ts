@@ -3,21 +3,29 @@ import { createStore } from "zustand";
 import { createJSONStorage, persist } from "zustand/middleware";
 
 export type CartItem = {
-  id: number;
+  id: string;
+  productId: number;
   title: string;
   price: number;
   taxedPrice: number;
-  taxId: number;
+  tax: { id: number; amount: number };
+  attributes?: { id: number; name: string; price: number }[];
   quantity: number;
 };
 
 export type CartStore = {
   cart: CartItem[];
-  add: (item: CartItem) => void;
-  update: (id: number, quantity: number) => void;
-  remove: (id: number) => void;
+  add: (item: Omit<CartItem, "id">) => void;
+  update: (id: string, quantity: number) => void;
+  removeAttribute: (id: string, attributeId: number) => void;
   clear: () => void;
 };
+
+const uniqueId = (id: number, attributes: { id: number }[] = []) =>
+  `${id}${attributes.length ? attributes.reduce((string, { id }) => `${string}-${id}`, "") : ""}`;
+
+export const attributesPrice = (attributes?: { price: number }[]) =>
+  attributes?.reduce((sum, { price }) => sum + price, 0) || 0;
 
 export const createCartStore = () =>
   createStore<CartStore>()(
@@ -25,16 +33,37 @@ export const createCartStore = () =>
       (set) => ({
         cart: [],
         add: (item) =>
-          set((state) => ({ cart: [...state.cart, { ...item, quantity: 1 }] })),
+          set((state) => ({
+            cart: [
+              ...state.cart,
+              {
+                id: uniqueId(item.productId, item.attributes),
+                ...item,
+                quantity: 1,
+              },
+            ],
+          })),
         update: (id, quantity) =>
           set((state) => ({
-            cart: state.cart.map((item) =>
-              item.id === id ? { ...item, quantity } : item,
-            ),
+            cart:
+              quantity > 0
+                ? state.cart.map((item) =>
+                    item.id === id ? { ...item, quantity } : item,
+                  )
+                : state.cart.filter((item) => item.id !== id),
           })),
-        remove: (id) =>
+        removeAttribute: (id, attributeId) =>
           set((state) => ({
-            cart: state.cart.filter((item) => item.id !== id),
+            cart: state.cart.map((item) =>
+              item.id === id
+                ? {
+                    ...item,
+                    attributes: item.attributes?.filter(
+                      ({ id }) => id !== attributeId,
+                    ),
+                  }
+                : item,
+            ),
           })),
         clear: () => set({ cart: [] }),
       }),
@@ -45,14 +74,29 @@ export const createCartStore = () =>
     ),
   );
 
+const productQuantity = (id: number) =>
+  useCartStore((state) =>
+    state.cart.reduce(
+      (acc, { productId, quantity }) =>
+        productId === id ? acc + quantity : acc,
+      0,
+    ),
+  );
+
 const totalQuantity = () =>
   useCartStore((state) =>
-    state.cart.reduce((acc, item) => acc + item.quantity, 0),
+    state.cart.reduce((acc, { quantity }) => acc + quantity, 0),
   );
 
 const totalPrice = () =>
   useCartStore((state) =>
-    state.cart.reduce((acc, item) => acc + item.taxedPrice * item.quantity, 0),
+    state.cart.reduce(
+      (acc, { taxedPrice, attributes, tax, quantity }) =>
+        acc +
+        (taxedPrice + attributesPrice(attributes) * (1 + tax.amount / 100)) *
+          quantity,
+      0,
+    ),
   );
 
-export { totalQuantity, totalPrice };
+export { totalQuantity, totalPrice, productQuantity };

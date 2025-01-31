@@ -12,7 +12,7 @@ type Props = {
   description?: string;
   price: number;
   taxedPrice: number;
-  taxId: number;
+  tax: { id: number; amount: number };
   color?: string;
   theme?: string;
 };
@@ -24,12 +24,21 @@ const ProductThumb = async ({
   description,
   price,
   taxedPrice,
-  taxId,
+  tax,
   color = "orange",
   theme = "default",
 }: Props) => {
   const { data: companyData } = await useOdoo({ route: "company" });
   const formattedPrice = formatPrice(taxedPrice, companyData.currency);
+
+  const attributes = [];
+  if (theme === "order") {
+    const { data: attributesData } = await useOdoo({
+      route: `product-attributes?id=${id}`,
+    });
+
+    attributes.push(...attributesData);
+  }
 
   return (
     <div className="grid grid-rows-[auto_minmax(0,1fr)] bg-white shadow">
@@ -52,7 +61,7 @@ const ProductThumb = async ({
       {theme === "order" && (
         <div className="p-xs grid pt-0">
           <CartAdder
-            {...{ id, title, price, taxedPrice, taxId }}
+            {...{ productId: id, title, price, taxedPrice, tax, attributes }}
             theme={color}
           />
         </div>

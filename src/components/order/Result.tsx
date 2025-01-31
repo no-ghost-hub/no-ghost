@@ -33,10 +33,10 @@ const OrderResult = ({ order, error }: Props) => {
           order && (
             <Text typo="sm" align="center">
               {order.lines.map(({ title, quantity }) => (
-                <>
+                <span key={title}>
                   {quantity}x {title}
                   <br />
-                </>
+                </span>
               ))}
             </Text>
           )

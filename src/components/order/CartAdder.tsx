@@ -6,50 +6,120 @@ import Link from "@/components/elements/Link";
 import { s } from "@/utils/useClientString";
 import FormsNumber from "@/components/forms/Number";
 import { useCartStore } from "@/components/providers/Global";
+import { useState } from "react";
+import Modal from "@/components/modals/Modal";
+import ProductAttributes from "@/components/order/ProductAttributes";
+import { ProductAttribute } from "@/types";
+import { productQuantity } from "@/stores/cart";
 
 type Props = {
-  id: number;
+  id?: string;
+  productId: number;
   title: string;
   price: number;
   taxedPrice: number;
-  taxId: number;
+  tax: { id: number; amount: number };
+  attributes?: ProductAttribute[];
   theme?: string;
 };
 
 const CartAdder = ({
-  id,
+  id = "",
+  productId,
   title,
   price,
   taxedPrice,
-  taxId,
+  tax,
+  attributes,
   theme = "default",
 }: Props) => {
-  const { cart, add, update, remove } = useCartStore((state) => state);
-  const inCart = cart.find((item) => item.id === id);
+  const { cart, add, update } = useCartStore((state) => state);
+
+  const inCart = cart.find((item) =>
+    id ? item.id === id : item.productId === productId,
+  );
+
+  const currentQuantity = id
+    ? inCart?.quantity || 0
+    : productQuantity(productId);
 
   function handleQuantity(quantity: number) {
-    if (quantity > 0) {
-      update(id, quantity);
+    if (attributes?.length && !id) {
+      if (quantity > currentQuantity) {
+        setShow(true);
+      } else {
+        const lastAdded = cart.findLast((item) => item.productId === productId);
+        if (lastAdded) {
+          update(lastAdded.id, lastAdded.quantity - 1);
+        }
+      }
     } else {
-      remove(id);
+      if (inCart) {
+        update(inCart.id, quantity);
+      }
     }
   }
 
-  return inCart ? (
-    <FormsNumber
-      min={0}
-      label="Cart item quantity"
-      value={inCart.quantity}
-      onChange={handleQuantity}
-    />
-  ) : (
-    <Link
-      onClick={() => add({ id, title, price, taxedPrice, taxId, quantity: 1 })}
-      theme="button"
-      background={theme}
-    >
-      <Text>{s("ctas.cart.add")}</Text>
-    </Link>
+  const [show, setShow] = useState(false);
+
+  function handleAdd() {
+    if (attributes?.length) {
+      setShow(true);
+    } else {
+      add({ productId, title, price, taxedPrice, tax, quantity: 1 });
+    }
+  }
+
+  function onAdd(attributesIds: number[]) {
+    const selectedAttributes = attributes
+      ?.flatMap(({ options }) => options)
+      .filter(({ id }) => attributesIds.includes(id));
+
+    const already = cart.find(
+      (item) =>
+        item.productId === productId &&
+        item.attributes?.length === attributesIds.length &&
+        attributesIds.every((id) =>
+          item.attributes?.some((attr) => attr.id === id),
+        ),
+    );
+
+    if (already) {
+      update(already.id, already.quantity + 1);
+    } else {
+      add({
+        productId,
+        title,
+        price,
+        taxedPrice,
+        tax,
+        attributes: selectedAttributes,
+        quantity: 1,
+      });
+    }
+    setShow(false);
+  }
+
+  return (
+    <>
+      {currentQuantity ? (
+        <FormsNumber
+          min={0}
+          label="Cart item quantity"
+          value={currentQuantity}
+          onChange={handleQuantity}
+        />
+      ) : (
+        <Link onClick={handleAdd} theme="button" background={theme}>
+          <Text tag="div">{s("ctas.cart.add")}</Text>
+        </Link>
+      )}
+      {attributes && attributes.length > 0 && (
+        <Modal show={show} onShowChange={setShow} label="Product attributes">
+          <ProductAttributes {...{ title, attributes, onAdd }} />
+        </Modal>
+      )}
+    </>
   );
 };
 

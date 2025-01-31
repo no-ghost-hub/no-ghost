@@ -1,5 +1,10 @@
 @layer base {
-  body,
+  body {
+    font-family: var(--font-leif, serif);
+    font-weight: 800;
+    font-size: clamp(12px, 1.5vw, 18px);
+    line-height: 1.2;
+  }
   .text-base,
   .prose p,
   .prose h4,
