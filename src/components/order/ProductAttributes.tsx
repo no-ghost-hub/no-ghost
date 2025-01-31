@@ -11,17 +11,20 @@ import type { ProductAttribute } from "@/types";
 type ProductAttributesProps = {
   title: string;
   attributes: ProductAttribute[];
+  tax: { id: number; amount: number };
   onAdd: (attributes: number[]) => void;
 };
 
 type ProductAttributeProps = ProductAttribute & {
   value: Set<Key>;
+  tax: { id: number; amount: number };
   onChange: (selected: Set<Key>) => void;
 };
 
 const ProductAttributes = ({
   title,
   attributes,
+  tax,
   onAdd,
 }: ProductAttributesProps) => {
   const [selected, setSelected] = useState(
@@ -59,6 +62,7 @@ const ProductAttributes = ({
             <ProductAttribute
               key={attribute.id}
               {...attribute}
+              tax={tax}
               value={selected[attribute.id]}
               onChange={(value) => onChange(attribute.id, value)}
             />
@@ -67,7 +71,7 @@ const ProductAttributes = ({
         <footer className="grid">
           <Link theme="button" background="orange" onClick={handleAdd}>
             <Text tag="div" wrap={false}>
-              <Text tag="div">{s("ctas.cart.add")}</Text>
+              {s("ctas.cart.add")}
             </Text>
           </Link>
         </footer>
@@ -80,6 +84,7 @@ const ProductAttribute = ({
   name,
   options,
   value,
+  tax,
   onChange,
 }: ProductAttributeProps) => {
   return (
@@ -105,7 +110,7 @@ const ProductAttribute = ({
               </Text>
               <Text tag="div" typo="sm" wrap={false}>
                 {price
-                  ? formatPrice(price, useCurrency())
+                  ? formatPrice(price * (1 + tax.amount / 100), useCurrency())
                   : s("attribute.free")}
               </Text>
             </div>
