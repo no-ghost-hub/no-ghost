@@ -10,9 +10,10 @@ import { useUiStore } from "@/components/providers/Global";
 type Props = {
   order?: Order;
   error?: string;
+  payment?: boolean;
 };
 
-const OrderResult = ({ order, error }: Props) => {
+const OrderResult = ({ order, error, payment }: Props) => {
   const { setNavigation } = useUiStore((state) => state);
   return (
     <main className="gap-s p-xs grid grid-rows-[1fr] overflow-y-auto">
@@ -23,7 +24,13 @@ const OrderResult = ({ order, error }: Props) => {
           align="center"
           color={error ? "orange" : "black"}
         >
-          {s(error ? "order.error" : "order.success")}
+          {s(
+            error
+              ? "order.error"
+              : payment
+                ? "order.payment.success"
+                : "order.success",
+          )}
         </Text>
         {error ? (
           <Text typo="sm" align="center">
@@ -31,10 +38,10 @@ const OrderResult = ({ order, error }: Props) => {
           </Text>
         ) : (
           order && (
-            <Text typo="sm" align="center">
+            <Text align="center">
               {order.lines.map(({ title, quantity }) => (
                 <span key={title}>
-                  {quantity}x {title}
+                  <span className="text-orange"> {quantity}</span> {title}
                   <br />
                 </span>
               ))}
@@ -42,14 +49,14 @@ const OrderResult = ({ order, error }: Props) => {
           )
         )}
       </div>
-      <Link
+      {/* <Link
         theme="button"
         background="orange"
         onClick={() => setNavigation("")}
         active={false}
       >
         <Text tag="div">{s("ctas.close")}</Text>
-      </Link>
+      </Link> */}
     </main>
   );
 };

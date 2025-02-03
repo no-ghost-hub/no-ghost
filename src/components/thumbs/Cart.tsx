@@ -2,7 +2,6 @@
 
 import Text from "@/components/elements/Text";
 import { CartItem } from "@/stores/cart";
-import useCurrency from "@/utils/useCurrency";
 import formatPrice from "@/utils/formatPrice";
 import CartAdder from "@/components/order/CartAdder";
 import SizeUtil from "@/components/utils/Size";
@@ -46,7 +45,7 @@ const CartThumb = ({
         <div className="grid justify-items-end *:col-start-1 *:row-start-1">
           <SizeUtil name="price" width scoped scopedEl={mainEl}>
             <div className="p-xs">
-              <Text>{formatPrice(taxedPrice * quantity, useCurrency())}</Text>
+              <Text>{formatPrice(taxedPrice * quantity)}</Text>
             </div>
           </SizeUtil>
           <div className="w-(--w-adder)" />

@@ -14,10 +14,11 @@
   --spacing-m: clamp(40px, 6vw, 60px);
   --spacing-l: clamp(80px, 16vw, 160px);
   --spacing-full: 100%;
+  --spacing-content: 0px;
 
   --color-transparent: transparent;
   --color-current: currentColor;
-  --color-black: rgb(0, 0, 0);
+  --color-black: rgb(35, 30, 30);
   --color-white: rgb(255, 255, 255);
   --color-grey: rgb(245, 245, 245);
   --color-darkgrey: rgb(190, 190, 190);
@@ -33,6 +34,7 @@
 
   --animate-slide-in: slide 200ms;
   --animate-slide-out: slide 200ms reverse;
+  --animate-fill: fill 2000ms infinite;
 
   @keyframes slide {
     0% {
@@ -40,6 +42,15 @@
     }
     100% {
       transform: translateY(0);
+    }
+  }
+
+  @keyframes fill {
+    from {
+      background-position: 0% 0%;
+    }
+    to {
+      background-position: 0 100%;
     }
   }
 }
@@ -62,4 +73,16 @@
 }
 .shadow:not(.shadow-none) {
   @apply transition-[background_size,box_shadow] duration-200 hover:shadow-md;
+}
+
+@utility loading {
+  background: linear-gradient(
+    to top,
+    var(--color-orange) 0%,
+    var(--color-orange) 50%,
+    var(--color-black) 50%,
+    var(--color-black) 100%
+  );
+  background-size: 100% 200%;
+  @apply animate-fill;
 }

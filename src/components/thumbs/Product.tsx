@@ -28,8 +28,7 @@ const ProductThumb = async ({
   color = "orange",
   theme = "default",
 }: Props) => {
-  const { data: companyData } = await useOdoo({ route: "company" });
-  const formattedPrice = formatPrice(taxedPrice, companyData.currency);
+  const formattedPrice = formatPrice(taxedPrice);
 
   const attributes = [];
   if (theme === "order") {
@@ -37,7 +36,9 @@ const ProductThumb = async ({
       route: `product-attributes?id=${id}`,
     });
 
-    attributes.push(...attributesData);
+    if (attributesData) {
+      attributes.push(...attributesData);
+    }
   }
 
   return (

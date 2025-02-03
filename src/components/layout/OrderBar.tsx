@@ -9,7 +9,6 @@ import { useUiStore } from "@/components//providers/Global";
 import { totalQuantity, totalPrice } from "@/stores/cart";
 import { s } from "@/utils/useClientString";
 import formatPrice from "@/utils/formatPrice";
-import useCurrency from "@/utils/useCurrency";
 import Cart from "@/components/order/Cart";
 
 type Props = {};
@@ -50,9 +49,7 @@ const OrderBar = ({}: Props) => {
                 <Text tag="div">{totalQuantity()}</Text>
               </div>
               <div className="p-xs">
-                <Text tag="div">
-                  {formatPrice(totalPrice(), useCurrency())}
-                </Text>
+                <Text tag="div">{formatPrice(totalPrice())}</Text>
               </div>
             </div>
           </nav>

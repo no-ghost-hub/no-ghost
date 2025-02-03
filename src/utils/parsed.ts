@@ -93,11 +93,16 @@ const parsed = (raw: any, type?: string): any => {
       return {
         id: raw["pos.order"][0].id,
         token: raw["pos.order"][0].access_token,
-        lines: raw["pos.order.line"].map((line: any) => ({
-          title: line.display_name,
-          quantity: line.qty,
-          price: line.price_subtotal_incl,
-        })),
+        lines: raw["pos.order.line"].map((line: any) =>
+          parsed(line, "orderLine"),
+        ),
+      };
+    }
+    case "orderLine": {
+      return {
+        title: raw.display_name,
+        quantity: raw.qty,
+        price: raw.price_subtotal_incl,
       };
     }
     case "reservationTypes": {

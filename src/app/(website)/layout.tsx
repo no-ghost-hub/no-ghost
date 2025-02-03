@@ -32,14 +32,13 @@ const Layout = async ({
   children: React.ReactNode;
 }>) => {
   const { strings } = await getGlobal("strings");
-  const { data: companyData } = await useOdoo({ route: "company" });
 
   return (
     <html lang="en" className={`${leif.variable} selection:bg-yellow`}>
       <body className="bg-grey">
-        <GlobalProvider {...{ strings }} currency={companyData.currency}>
+        <GlobalProvider {...{ strings }} currency="EUR">
           {children}
-          <div className="pointer-events-none fixed bottom-0 left-0 right-0 z-20 m-xs grid sm:place-content-center">
+          <div className="m-xs pointer-events-none fixed right-0 bottom-0 left-0 z-20 grid sm:place-content-center">
             <Navigation />
           </div>
           {/* <Footer /> */}

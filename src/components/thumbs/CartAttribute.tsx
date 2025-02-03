@@ -1,7 +1,6 @@
 "use client";
 
 import Text from "@/components/elements/Text";
-import useCurrency from "@/utils/useCurrency";
 import formatPrice from "@/utils/formatPrice";
 import SizeUtil from "@/components/utils/Size";
 import FormsNumber from "@/components/forms/Number";
@@ -43,7 +42,7 @@ const CartAttributeThumb = ({ id, name, price, tax, onRemove }: Props) => {
           <div className="p-xs">
             <Text typo="sm">
               {price
-                ? formatPrice(price * (1 + tax.amount / 100), useCurrency())
+                ? formatPrice(price * (1 + tax.amount / 100))
                 : s("attribute.free")}
             </Text>
           </div>

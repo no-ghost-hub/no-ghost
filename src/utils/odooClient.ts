@@ -30,11 +30,16 @@ const odooQuery = async ({
       id: new Date().getTime(),
     }),
   });
+  if (!response.ok) {
+    throw new Error(`Response status: ${response.status}`);
+  }
+
   response = await response.json();
 
   if (response.error) {
     throw new Error(response.error.data.message);
   }
+
   return response;
 };
 

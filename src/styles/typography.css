@@ -4,6 +4,7 @@
     font-weight: 800;
     font-size: clamp(12px, 1.5vw, 18px);
     line-height: 1.2;
+    color: var(--color-black);
   }
   .text-base,
   .prose p,

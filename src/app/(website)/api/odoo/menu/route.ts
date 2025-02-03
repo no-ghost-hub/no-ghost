@@ -5,14 +5,15 @@ export async function GET(request: NextRequest) {
   const { searchParams } = new URL(request.url);
   const groupSlug = searchParams.get("group");
 
+  const delay = (ms: number = 200) =>
+    new Promise((resolve) => setTimeout(resolve, ms));
+
   let response: { result: any[] };
   response = await odooQuery({
     model: "pos.category",
     method: "search_read",
     domain: [[["x_studio_slug", "=", groupSlug]]],
-    options: {
-      fields: ["id"],
-    },
+    options: { fields: ["id"] },
   });
 
   const { result: groupData } = response;
@@ -44,38 +45,42 @@ export async function GET(request: NextRequest) {
 
     const categories: Record<string, any> = {};
     const taxes: Record<string, any> = {};
-    response.result = await Promise.all(
-      productsData.map(async (product) => {
-        const { categ_id, taxes_id } = product;
-        if (!categories[categ_id[0]]) {
-          const { result: categoryData } = await odooQuery({
-            model: "product.category",
-            method: "search_read",
-            domain: [[["id", "=", categ_id[0]]]],
-            options: {
-              fields: ["id", "name", "x_studio_sequence"],
-            },
-          });
-          categories[categ_id[0]] = categoryData[0];
-        }
-        if (!taxes[taxes_id[0]]) {
-          const { result: taxData } = await odooQuery({
-            model: "account.tax",
-            method: "search_read",
-            domain: [[["id", "=", taxes_id[0]]]],
-            options: {
-              fields: ["id", "amount"],
-            },
-          });
-          taxes[taxes_id[0]] = taxData[0];
-        }
-        return {
-          ...product,
-          category: categories[categ_id[0]],
-          tax: taxes[taxes_id[0]],
-        };
-      }),
-    );
+
+    response.result = [];
+
+    for (const product of productsData) {
+      const { categ_id, taxes_id } = product;
+
+      if (!categories[categ_id[0]]) {
+        const { result: categoryData } = await odooQuery({
+          model: "product.category",
+          method: "search_read",
+          domain: [[["id", "=", categ_id[0]]]],
+          options: { fields: ["id", "name", "x_studio_sequence"] },
+        });
+        categories[categ_id[0]] = categoryData[0];
+        await delay();
+      }
+
+      if (!taxes[taxes_id[0]]) {
+        const { result: taxData } = await odooQuery({
+          model: "account.tax",
+          method: "search_read",
+          domain: [[["id", "=", taxes_id[0]]]],
+          options: { fields: ["id", "amount"] },
+        });
+        taxes[taxes_id[0]] = taxData[0];
+        await delay();
+      }
+
+      response.result.push({
+        ...product,
+        category: categories[categ_id[0]],
+        tax: taxes[taxes_id[0]],
+      });
+
+      await delay();
+    }
 
     response.result = response.result
       .reduce<any[]>((acc, product) => {

@@ -52,5 +52,6 @@ export type Order = {
 export type ProductAttribute = {
   id: number;
   name: string;
+  muted: boolean;
   options: { id: number; name: string; price: number }[];
 };
