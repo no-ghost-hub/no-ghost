@@ -13,7 +13,6 @@
   --spacing-s: clamp(16px, 2vw, 20px);
   --spacing-m: clamp(40px, 6vw, 60px);
   --spacing-l: clamp(80px, 16vw, 160px);
-  --spacing-full: 100%;
   --spacing-content: 0px;
 
   --color-transparent: transparent;
@@ -34,7 +33,8 @@
 
   --animate-slide-in: slide 200ms;
   --animate-slide-out: slide 200ms reverse;
-  --animate-fill: fill 2000ms infinite;
+  --animate-load: load 2000ms infinite;
+  --animate-underline: underline 1500ms infinite;
 
   @keyframes slide {
     0% {
@@ -45,19 +45,28 @@
     }
   }
 
-  @keyframes fill {
+  @keyframes load {
     from {
-      background-position: 0% 0%;
+      clip-path: inset(100% 0% 0% 0%);
     }
     to {
-      background-position: 0 100%;
+      clip-path: inset(0% 0% 0% 0%);
+    }
+  }
+
+  @keyframes underline {
+    from {
+      background-size: 0% 0.1em;
+    }
+    to {
+      background-size: 100% 0.1em;
     }
   }
 }
 
 @utility custom-underline {
   &:not([data-disabled="true"]) {
-    @apply bg-linear-to-r from-black to-black bg-[length:0%_0.1em] bg-bottom bg-no-repeat transition-[background-size] duration-300 hover:bg-[length:100%_0.1em];
+    @apply from-darkgrey to-darkgrey bg-linear-to-r bg-[length:0%_0.1em] bg-bottom bg-no-repeat transition-[background-size] duration-300 hover:bg-[length:100%_0.1em];
   }
 }
 
@@ -68,21 +77,26 @@
 .active-link,
 [data-selected="true"] {
   &.custom-underline {
-    @apply bg-[length:100%_0.1em];
+    @apply from-black to-black bg-[length:100%_0.1em];
   }
 }
 .shadow:not(.shadow-none) {
   @apply transition-[background_size,box_shadow] duration-200 hover:shadow-md;
 }
 
-@utility loading {
-  background: linear-gradient(
-    to top,
-    var(--color-orange) 0%,
-    var(--color-orange) 50%,
-    var(--color-black) 50%,
-    var(--color-black) 100%
-  );
-  background-size: 100% 200%;
-  @apply animate-fill;
+.animate-underline {
+  @apply from-black to-black;
+}
+
+form {
+  .custom-underline:focus-within {
+    @apply from-black to-black;
+    @apply bg-[length:100%_0.1em];
+  }
+  [data-invalid="true"] {
+    .custom-underline {
+      @apply bg-[length:100%_0.1em];
+      @apply from-orange to-orange;
+    }
+  }
 }

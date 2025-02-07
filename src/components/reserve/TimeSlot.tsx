@@ -14,7 +14,7 @@ type Props = {
 };
 
 const TimeSlot = ({ guests = 0, date = "", time, timeZone }: Props) => {
-  const { data: availableTables } = useSWR(
+  const { data: availableTables, isLoading } = useSWR(
     {
       route: "available-tables",
       method: "POST",
@@ -38,12 +38,16 @@ const TimeSlot = ({ guests = 0, date = "", time, timeZone }: Props) => {
       className="custom-underline data-selected:bg-grey data-disabled:text-darkgrey cursor-pointer data-disabled:pointer-events-none"
       isDisabled={!availableTables?.length || past}
     >
-      <div className="p-xs grid grid-flow-col items-end justify-between">
+      <div
+        className={`p-xs grid grid-flow-col items-end justify-between ${isLoading ? "custom-underline animate-underline" : ""}`}
+      >
         <Text tag="div">{time.from}</Text>
         <Text tag="div" typo="sm" wrap={false}>
-          {availableTables?.length
-            ? `${s("reserve.to")} ${time.to}`
-            : `${s("reserve.booked")}`}
+          {isLoading
+            ? s("loading")
+            : availableTables?.length
+              ? `${s("reserve.to")} ${time.to}`
+              : `${s("reserve.booked")}`}
         </Text>
       </div>
     </Radio>

@@ -11,9 +11,7 @@ const Page = async ({
   searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
 }) => {
   const { slug } = await params;
-
   const { home } = await getGlobal("site");
-
   const data = await getEntry("pages", slug?.[0] || home.slug);
 
   return (

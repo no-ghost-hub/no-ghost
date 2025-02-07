@@ -1,10 +1,8 @@
 import { odooQuery } from "@/utils/odooClient";
-import { NextResponse } from "next/server";
 import parsed from "@/utils/parsed";
 
-export async function GET() {
-  let response;
-  response = await odooQuery({
+export default async function getReservationTypes() {
+  const json = await odooQuery({
     model: "appointment.type",
     method: "search_read",
     options: {
@@ -19,11 +17,7 @@ export async function GET() {
     },
   });
 
-  const { result: data } = response;
+  json.result = parsed(json.result, "reservationTypes");
 
-  if (data) {
-    response.result = parsed(data, "reservationTypes");
-  }
-
-  return NextResponse.json(response);
+  return json;
 }

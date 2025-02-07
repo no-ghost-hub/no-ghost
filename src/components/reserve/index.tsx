@@ -14,6 +14,7 @@ import { useEffect, useRef, useState } from "react";
 import useOdoo from "@/utils/useOdoo";
 import { Reservation } from "@/types";
 import { useUiStore } from "@/components/providers/Global";
+import createReservation from "@/odoo/createReservation";
 
 type Props = {};
 
@@ -48,17 +49,14 @@ const Reserve = ({}: Props) => {
   ];
 
   const [result, setResult] = useState<{ data?: any; error?: string }>();
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     if (Object.values(reservation).every((v) => v)) {
       (async () => {
-        const result = await useOdoo({
-          route: "reservations",
-          method: "POST",
-          body: JSON.stringify(reservation),
-          type: "create",
-        });
-
+        setLoading(true);
+        const result = await createReservation(reservation);
+        setLoading(false);
         setResult(result);
       })();
     }

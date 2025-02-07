@@ -4,7 +4,7 @@ import parsed from "@/utils/parsed";
 import { attributesPrice, CartItem } from "@/stores/cart";
 
 export async function GET(request: NextRequest) {
-  const { searchParams } = new URL(request.url);
+  const { searchParams } = request.nextUrl;
   const id = searchParams.get("id");
 
   let response;

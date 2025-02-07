@@ -10,7 +10,7 @@ type Props = {
   name: string;
   label?: string;
   ariaLabel?: string;
-  options: { text: string; value: string }[];
+  options: { text?: string; value: string }[];
   selected?: string[];
   required?: boolean;
 };

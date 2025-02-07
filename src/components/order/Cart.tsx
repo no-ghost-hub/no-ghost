@@ -11,7 +11,7 @@ import CartThumb from "@/components/thumbs/Cart";
 import useOdoo from "@/utils/useOdoo";
 import { redirect, useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
-import Loading from "@/components/utils/Loading";
+import Loader from "@/components/utils/Loader";
 import useSWR from "swr";
 
 type Props = {};
@@ -87,11 +87,11 @@ const Cart = ({}: Props) => {
         ) : (
           <main className="gap-s grid grid-rows-[1fr] overflow-y-auto">
             {loading || isLoading ? (
-              <Loading>
+              <Loader>
                 <Text tag="div">
                   {s(payment ? "loading.order.payment" : "loading.order")}
                 </Text>
-              </Loading>
+              </Loader>
             ) : (
               <>
                 <div className="gap-xs p-xs grid content-center">

@@ -3,7 +3,7 @@ import { odooQuery } from "@/utils/odooClient";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function GET(request: NextRequest) {
-  const { searchParams } = new URL(request.url);
+  const { searchParams } = request.nextUrl;
   const id = searchParams.get("id");
 
   let response: { result: any[] };

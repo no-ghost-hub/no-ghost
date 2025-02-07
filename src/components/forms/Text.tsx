@@ -9,7 +9,7 @@ import { TextInputDOMProps } from "@react-types/shared/src/dom";
 
 type Props = {
   name: string;
-  label: string;
+  label?: string;
   type?: TextInputDOMProps["type"];
   required?: boolean;
 };
