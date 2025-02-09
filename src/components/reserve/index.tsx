@@ -9,7 +9,7 @@ import Guests from "@/components/reserve/Guests";
 import Info from "@/components/reserve/Info";
 import Result from "@/components/reserve/Result";
 import { s } from "@/utils/useClientString";
-import { JSX, useEffect, useRef, useState } from "react";
+import { useActionState, useEffect, useRef, useState } from "react";
 
 import { Reservation } from "@/types";
 import { useUiStore } from "@/components/providers/Global";
@@ -20,25 +20,25 @@ import { getLocalTimeZone, today } from "@internationalized/date";
 type Props = {};
 
 const Reserve = ({}: Props) => {
-  // const [reservation, setReservation] = useState<Reservation>({
-  //   guests: 2,
-  //   date: today(getLocalTimeZone()).toString(),
-  //   time: undefined,
-  //   info: {
-  //     firstName: "",
-  //     lastName: "",
-  //     email: "",
-  //     phone: "",
-  //     message: "",
-  //     marketing: true,
-  //   },
-  // });
+  const [reservation, setReservation] = useState<Reservation>({
+    guests: 2,
+    date: today(getLocalTimeZone()).toString(),
+    time: undefined,
+    info: {
+      firstName: "",
+      lastName: "",
+      email: "",
+      phone: "",
+      message: "",
+      marketing: true,
+    },
+  });
 
   const formEl = useRef<HTMLFormElement>(null);
 
   const steps: {
     handle: "date" | "time" | "guests" | "info";
-    component: (props: any) => JSX.Element;
+    component: any;
   }[] = [
     { handle: "guests", component: Guests },
     { handle: "date", component: Calendar },
@@ -46,11 +46,7 @@ const Reserve = ({}: Props) => {
     { handle: "info", component: Info },
   ];
 
-  const [result, setResult] = useState<{ data?: any; error?: string }>();
-  const [loading, setLoading] = useState(false);
-
   const [stepIndex, setStepIndex] = useState(0);
-
   const step = steps[stepIndex];
 
   function handleNext() {
@@ -60,6 +56,11 @@ const Reserve = ({}: Props) => {
       setStepIndex(stepIndex + 1);
     }
   }
+
+  const [state, formAction, pending] = useActionState(
+    createReservation.bind(null, reservation),
+    null,
+  );
 
   const { navigation } = useUiStore((state) => state);
 
@@ -75,7 +76,7 @@ const Reserve = ({}: Props) => {
           <Text tag="h3" align="center">
             {s("reserve.heading")}
           </Text>
-          {!result && (
+          {!state && (
             <div className="grid grid-flow-col">
               {steps.map(({ handle }, index) => {
                 return (
@@ -98,29 +99,30 @@ const Reserve = ({}: Props) => {
         </header>
         <main className="p-xs grid overflow-y-auto" ref={stepEl}>
           <div className="gap-s grid grid-rows-[1fr]">
-            {result ? (
-              <Result reservation={result.data} error={result.error} />
+            {state ? (
+              <Result reservation={state.data} error={state.error} />
             ) : (
               <>
                 <I18nProvider locale="en-BE">
-                  <Form
-                    className="grid"
-                    ref={formEl}
-                    action={() => createReservation(reservation)}
-                  >
-                    {steps.map((step, index) => (
-                      <div
-                        key={step.handle}
-                        className={index === stepIndex ? "grid" : "hidden"}
-                      >
-                        <step.component />
-                      </div>
-                    ))}
+                  <Form className="grid" ref={formEl} action={formAction}>
+                    {step?.component && (
+                      <step.component {...{ reservation, setReservation }} />
+                    )}
                   </Form>
                 </I18nProvider>
-                <Link theme="button" background="orange" onClick={handleNext}>
-                  {/* disabled={!reservation[step.handle]} */}
-                  <Text tag="div">{s("ctas.next")}</Text>
+                <Link
+                  theme="button"
+                  background="orange"
+                  disabled={!reservation[step.handle]}
+                  onClick={handleNext}
+                >
+                  <Text tag="div">
+                    {s(
+                      stepIndex === steps.length - 1
+                        ? "ctas.confirm"
+                        : "ctas.next",
+                    )}
+                  </Text>
                 </Link>
               </>
             )}

@@ -32,8 +32,6 @@ const TimeSlot = ({ guests = 0, date = "", time, timeZone }: Props) => {
     useOdoo,
   );
 
-  console.log(availableTables);
-
   return (
     <Radio
       value={JSON.stringify(time)}
