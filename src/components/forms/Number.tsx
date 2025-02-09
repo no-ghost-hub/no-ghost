@@ -32,7 +32,7 @@ const FormsNumber = ({ min, max, label, value, onChange }: Props) => {
         {(!max || max > 1) && (
           <>
             <div className="py-xs text-base">
-              <Input size={1} className="text-center" />
+              <Input size={1} className="w-full text-center" />
             </div>
             <Button
               slot="increment"

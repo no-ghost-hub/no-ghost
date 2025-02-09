@@ -4,23 +4,30 @@ import {
   Label,
   FieldError,
   TextArea,
+  TextFieldProps,
 } from "react-aria-components";
-import { TextInputDOMProps } from "@react-types/shared/src/dom";
 
-type Props = {
-  name: string;
+type Props = TextFieldProps & {
   label?: string;
-  type?: TextInputDOMProps["type"];
   required?: boolean;
 };
 
-const FormsText = ({ name, label, type = "text", required = false }: Props) => {
+const FormsText = ({
+  name,
+  label,
+  type = "text",
+  required = false,
+  value,
+  onChange,
+}: Props) => {
   return (
     <TextField
       name={name}
       isRequired={required}
       className="gap-xs grid"
       type={type === "textarea" ? "text" : type}
+      value={value}
+      onChange={onChange}
     >
       <Label className="text-base">{label}</Label>
       <div className="custom-underline bg-grey p-xs text-input">

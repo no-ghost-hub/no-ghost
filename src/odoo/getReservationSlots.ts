@@ -1,10 +1,8 @@
 import { odooQuery } from "@/utils/odooClient";
-import { NextResponse } from "next/server";
 import parsed from "@/utils/parsed";
 
-export async function GET() {
-  let response;
-  response = await odooQuery({
+export default async function getReservationSlots() {
+  const json = await odooQuery({
     model: "appointment.slot",
     method: "search_read",
     options: {
@@ -15,11 +13,8 @@ export async function GET() {
     ],
   });
 
-  const { result: data } = response;
+  json.result = parsed(json.result, "reservationSlots");
 
-  if (data) {
-    response.result = parsed(data, "reservationDates");
-  }
-
-  return NextResponse.json(response);
+  const { result: data, ...rest } = json;
+  return { data, ...rest };
 }

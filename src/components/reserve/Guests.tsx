@@ -1,60 +1,50 @@
 "use client";
 
-import { I18nProvider } from "react-aria-components";
 import Text from "@/components/elements/Text";
-import Link from "@/components/elements/Link";
 
-import { s } from "@/utils/useClientString";
 import { Reservation } from "@/types";
-import FormsNumber from "@/components/forms/Number";
-import useSWR from "swr";
-import useOdoo from "@/utils/useOdoo";
+
+import { useContext } from "react";
+import Context from "@/components/utils/Context";
+import { ToggleButton, ToggleButtonGroup } from "react-aria-components";
 
 type Props = {
   reservation: Reservation;
   setReservation: (value: Reservation) => void;
-  onNext: () => void;
 };
 
-const ReserveGuests = ({ reservation, setReservation, onNext }: Props) => {
-  const locale = "en-BE";
+const ReserveGuests = ({ reservation, setReservation }: Props) => {
+  const { tables } = useContext(Context);
 
-  function handleChange(guests: number) {
-    setReservation({ ...reservation, guests });
+  function handleChange(keys: Set<number>) {
+    setReservation({ ...reservation, guests: Array.from(keys)[0] });
   }
 
-  const { data: tables, isLoading } = useSWR({ route: "tables" }, useOdoo);
-
   return (
-    <I18nProvider locale={locale}>
-      <div className="gap-s grid grid-rows-[1fr_auto]">
-        {!isLoading && (
-          <FormsNumber
-            min={0}
-            max={tables.maxCapacity}
-            label="Reservation guests"
-            value={reservation.guests || 0}
-            onChange={handleChange}
-          />
-        )}
-        <div className="gap-s grid">
-          {!isLoading && (
-            <Text typo="sm" align="center">
-              To reserve for more than {tables.maxCapacity} guests, please
-              contact us.
-            </Text>
-          )}
-          <Link
-            theme="button"
-            background="orange"
-            disabled={!reservation.guests}
-            onClick={onNext}
+    <div className="gap-m grid self-center">
+      <ToggleButtonGroup
+        className="grid grid-cols-4 justify-self-center"
+        onSelectionChange={(keys) => handleChange(keys as Set<number>)}
+        selectedKeys={[reservation.guests]}
+        aria-label="Reservation guests"
+        disallowEmptySelection={true}
+      >
+        {[...Array(tables.maxCapacity)].map((_, index) => (
+          <ToggleButton
+            key={index + 1}
+            id={index + 1}
+            className="custom-underline data-selected:bg-grey p-s cursor-pointer"
           >
-            <Text tag="div">{s("ctas.next")}</Text>
-          </Link>
-        </div>
-      </div>
-    </I18nProvider>
+            <Text tag="div" typo="md" wrap={false}>
+              {index + 1}
+            </Text>
+          </ToggleButton>
+        ))}
+      </ToggleButtonGroup>
+      <Text typo="sm" align="center">
+        To reserve for more than {tables.maxCapacity} guests, please contact us.
+      </Text>
+    </div>
   );
 };
 

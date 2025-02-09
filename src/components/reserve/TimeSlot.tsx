@@ -14,6 +14,15 @@ type Props = {
 };
 
 const TimeSlot = ({ guests = 0, date = "", time, timeZone }: Props) => {
+  const [hours, minutes] = time.from.split(":").map(Number);
+  const now = new Date();
+  const future = new Date(date).getTime() > now.getTime();
+
+  const past =
+    !future &&
+    (now.getHours() > hours ||
+      (now.getHours() === hours && now.getMinutes() >= minutes));
+
   const { data: availableTables, isLoading } = useSWR(
     {
       route: "available-tables",
@@ -23,14 +32,7 @@ const TimeSlot = ({ guests = 0, date = "", time, timeZone }: Props) => {
     useOdoo,
   );
 
-  const [hours, minutes] = time.from.split(":").map(Number);
-  const now = new Date();
-  const future = new Date(date).getTime() > now.getTime();
-
-  const past =
-    !future &&
-    (now.getHours() > hours ||
-      (now.getHours() === hours && now.getMinutes() >= minutes));
+  console.log(availableTables);
 
   return (
     <Radio

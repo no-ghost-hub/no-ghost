@@ -5,9 +5,7 @@ const getTables = async () => {
   const json = await odooQuery({
     model: "appointment.resource",
     method: "search_read",
-    options: {
-      fields: ["id", "name", "capacity"],
-    },
+    options: { fields: ["capacity"] },
     domain: [
       [["appointment_type_ids.x_studio_slug", "in", ["lunch", "dinner"]]],
     ],
@@ -15,7 +13,8 @@ const getTables = async () => {
 
   json.result = parsed(json.result, "tables");
 
-  return json;
+  const { result: data, ...rest } = json;
+  return { data, ...rest };
 };
 
 export default getTables;

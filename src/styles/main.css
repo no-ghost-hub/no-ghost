@@ -26,6 +26,11 @@
   --color-blue: rgb(25, 155, 255);
   --color-orange: rgb(255, 105, 5);
 
+  --text-sm: clamp(12px, 1.5vw, 14px);
+  --text-base: clamp(12px, 1.5vw, 18px);
+  --text-md: clamp(16px, 2vw, 24px);
+  --text-lg: clamp(32px, 4vw, 64px);
+
   --shadow: 0px 0px var(--spacing-xs) 0px rgba(0, 0, 0, 0.08);
   --shadow-md: 0px 0px var(--spacing-xs) 0px rgba(0, 0, 0, 0.12);
 
@@ -66,7 +71,7 @@
 
 @utility custom-underline {
   &:not([data-disabled="true"]) {
-    @apply from-darkgrey to-darkgrey bg-linear-to-r bg-[length:0%_0.1em] bg-bottom bg-no-repeat transition-[background-size] duration-300 hover:bg-[length:100%_0.1em];
+    @apply bg-linear-to-r from-black/20 to-black/20 bg-[length:0%_0.1em] bg-bottom bg-no-repeat transition-[background-size] duration-300 hover:bg-[length:100%_0.1em];
   }
 }
 
@@ -85,13 +90,12 @@
 }
 
 .animate-underline {
-  @apply from-black to-black;
+  @apply from-blue to-blue;
 }
 
 form {
   .custom-underline:focus-within {
-    @apply from-black to-black;
-    @apply bg-[length:100%_0.1em];
+    @apply from-black to-black bg-[length:100%_0.1em];
   }
   [data-invalid="true"] {
     .custom-underline {

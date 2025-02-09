@@ -3,15 +3,14 @@ import {
   FieldError,
   Checkbox,
   CheckboxGroup,
+  CheckboxGroupProps,
 } from "react-aria-components";
 import Text from "@/components/elements/Text";
 
-type Props = {
-  name: string;
+type Props = CheckboxGroupProps & {
   label?: string;
   ariaLabel?: string;
   options: { text?: string; value: string }[];
-  selected?: string[];
   required?: boolean;
 };
 
@@ -20,7 +19,8 @@ const FormsCheckbox = ({
   label,
   ariaLabel,
   options,
-  selected = [],
+  value,
+  onChange,
   required = false,
 }: Props) => {
   return (
@@ -29,7 +29,8 @@ const FormsCheckbox = ({
       isRequired={required}
       className="gap-xs grid"
       aria-label={ariaLabel}
-      defaultValue={selected}
+      value={value}
+      onChange={onChange}
     >
       {label && <Label className="text-base">{label}</Label>}
       {options.map(({ text, value }) => (

@@ -2,10 +2,7 @@ import { ReactNode } from "react";
 import type { LinkProps } from "next/link";
 import type { ContentBlock } from "@/payload-types";
 
-export type Block = {
-  id: string;
-  blockType: string;
-};
+export type Block = { id: string; blockType: string };
 
 export type ContentBlockProps = ContentBlock;
 
@@ -35,10 +32,10 @@ export type Text = {
 export type Link = LinkProps & { children: ReactNode };
 
 export type Reservation = {
-  date?: string;
+  guests: number;
+  date: string;
   time?: { from: string; to: string; type: number };
-  guests?: number;
-  info?: Record<string, any>;
+  info: Record<string, any>;
   timeZone?: string;
   location?: string;
 };

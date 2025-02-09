@@ -1,16 +1,11 @@
 import formatDecimalTime from "@/utils/formatDecimalTime";
 
-const odooColors: Record<string, string> = {
-  "2": "orange",
-  "8": "blue",
-};
+const odooColors: Record<string, string> = { "2": "orange", "8": "blue" };
 
 const parsed = (raw: any, type?: string): any => {
   switch (type) {
     case "linkBlock": {
-      return {
-        ...parsed(raw, "link"),
-      };
+      return { ...parsed(raw, "link") };
     }
     case "link": {
       const href =
@@ -31,10 +26,7 @@ const parsed = (raw: any, type?: string): any => {
       };
     }
     case "category": {
-      return {
-        title: raw.name,
-        products: raw.products,
-      };
+      return { title: raw.name, products: raw.products };
     }
     case "productThumb": {
       return {
@@ -50,9 +42,7 @@ const parsed = (raw: any, type?: string): any => {
       };
     }
     case "company": {
-      return {
-        currency: raw.currency_id[1],
-      };
+      return { currency: raw.currency_id[1] };
     }
     case "reservations": {
       return raw.map((reservation: any) => parsed(reservation, "reservation"));
@@ -64,7 +54,7 @@ const parsed = (raw: any, type?: string): any => {
         capacity: raw.capacity_used,
       };
     }
-    case "reservationDates": {
+    case "reservationSlots": {
       const weekdays = Array.from(
         new Set(raw.map((slot: any) => (parseInt(slot.weekday) + 6) % 7)),
       );
@@ -77,10 +67,7 @@ const parsed = (raw: any, type?: string): any => {
         }),
       );
 
-      return {
-        weekdays,
-        times,
-      };
+      return { weekdays, times };
     }
     case "tables": {
       return {
@@ -160,16 +147,10 @@ const parsed = (raw: any, type?: string): any => {
       };
     }
     case "imageBlock": {
-      return {
-        type: "image",
-        ...parsed(raw.image, "image"),
-      };
+      return { type: "image", ...parsed(raw.image, "image") };
     }
     case "videoBlock": {
-      return {
-        type: "video",
-        ...parsed(raw, "video"),
-      };
+      return { type: "video", ...parsed(raw, "video") };
     }
     case "image": {
       return {
