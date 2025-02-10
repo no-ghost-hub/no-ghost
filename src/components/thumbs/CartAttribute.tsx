@@ -5,7 +5,6 @@ import formatPrice from "@/utils/formatPrice";
 import SizeUtil from "@/components/utils/Size";
 import FormsNumber from "@/components/forms/Number";
 import { useRef } from "react";
-import { s } from "@/utils/useClientString";
 
 type Props = {
   id: number;
@@ -41,9 +40,11 @@ const CartAttributeThumb = ({ id, name, price, tax, onRemove }: Props) => {
         <SizeUtil name="price" width scoped scopedEl={el}>
           <div className="p-xs">
             <Text typo="sm">
-              {price
-                ? formatPrice(price * (1 + 12 / 100))
-                : s("attribute.free")}
+              {price ? (
+                formatPrice(price * (1 + tax.amount / 100))
+              ) : (
+                <>&nbsp;</>
+              )}
             </Text>
           </div>
         </SizeUtil>

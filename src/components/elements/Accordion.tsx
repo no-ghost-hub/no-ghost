@@ -36,9 +36,9 @@ const AccordionElement = ({ trigger, children, theme = "default" }: Props) => {
     <div ref={el} className="grid">
       <Link onClick={handleClick} theme="button" shadow={false} active={open}>
         <div className="grid grid-flow-col items-center justify-between">
-          <Text tag="div">{open ? "-" : "+"}</Text>
+          <Text tag="div">{open ? "↑" : "↓"}</Text>
           {trigger}
-          <Text tag="div">{open ? "-" : "+"}</Text>
+          <Text tag="div">{open ? "↑" : "↓"}</Text>
         </div>
       </Link>
       <div className="h-content overflow-y-hidden transition-[height]">
