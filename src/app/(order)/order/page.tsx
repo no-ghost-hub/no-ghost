@@ -1,8 +1,7 @@
 import Logo from "@/components/layout/Logo";
-import Menu from "@/components/menu/Menu";
+import Menu, { MenuLoading } from "@/components/menu/Menu";
 
 import { Suspense } from "react";
-import { MenuLoading } from "@/app/(website)/menu/page";
 
 const OrderPage = ({
   params,
