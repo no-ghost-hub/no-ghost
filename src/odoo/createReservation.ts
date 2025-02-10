@@ -3,7 +3,6 @@
 import { odooQuery } from "@/utils/odooClient";
 import { Reservation } from "@/types";
 import { utcDate } from "@/utils/utcDate";
-import delay from "@/utils/delay";
 
 const ids: Record<string, number> = {
   client: 2,
@@ -98,10 +97,9 @@ const createReservation = async (reservation: Reservation) => {
   });
 
   const resource = response.result
-    .filter((r: any) => r.capacity >= (guests || 0))
+    .filter((r: any) => r.capacity >= guests)
     .reduce((closest: any, current: any) =>
-      Math.abs(current.capacity - (guests || 0)) <
-      Math.abs(closest.capacity - (guests || 0))
+      Math.abs(current.capacity - guests) < Math.abs(closest.capacity - guests)
         ? current
         : closest,
     );

@@ -16,6 +16,7 @@ import { useUiStore } from "@/components/providers/Global";
 import createReservation from "@/odoo/createReservation";
 import { I18nProvider, Form } from "react-aria-components";
 import { getLocalTimeZone, today } from "@internationalized/date";
+import Loader from "@/components/utils/Loader";
 
 type Props = {};
 
@@ -57,7 +58,7 @@ const Reserve = ({}: Props) => {
     }
   }
 
-  const [state, formAction, pending] = useActionState(
+  const [result, formAction, pending] = useActionState(
     createReservation.bind(null, reservation),
     null,
   );
@@ -76,7 +77,7 @@ const Reserve = ({}: Props) => {
           <Text tag="h3" align="center">
             {s("reserve.heading")}
           </Text>
-          {!state && (
+          {!result && (
             <div className="grid grid-flow-col">
               {steps.map(({ handle }, index) => {
                 return (
@@ -99,8 +100,15 @@ const Reserve = ({}: Props) => {
         </header>
         <main className="p-xs grid overflow-y-auto" ref={stepEl}>
           <div className="gap-s grid grid-rows-[1fr]">
-            {state ? (
-              <Result reservation={state.data} error={state.error} />
+            {pending ? (
+              <Loader>
+                <Text tag="div">{s("loading.reservation")}</Text>
+              </Loader>
+            ) : result ? (
+              <Result
+                reservation={result.data}
+                error={result.error?.data.message}
+              />
             ) : (
               <>
                 <I18nProvider locale="en-BE">
