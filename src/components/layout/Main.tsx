@@ -6,18 +6,26 @@ import Navigation from "@/components/layout/Navigation";
 import Footer from "@/components/layout/Footer";
 import { Suspense } from "react";
 import RoutesLoader from "@/components/utils/RoutesLoader";
+import OrderBar from "@/components/layout/OrderBar";
 
-type Props = { children?: React.ReactNode };
+type Props = { type?: string; children?: React.ReactNode };
 
-const Main = async ({ children }: Props) => {
+const bars: Record<string, any> = {
+  default: Navigation,
+  order: OrderBar,
+};
+
+const Main = async ({ type = "default", children }: Props) => {
   const { strings } = await getGlobal("strings");
+
+  const Component = bars[type];
 
   return (
     <GlobalProvider {...{ strings }} currency="EUR">
       {children}
       <div className="m-xs pointer-events-none fixed right-0 bottom-0 left-0 z-20 grid sm:place-content-center">
         <Suspense fallback={<NavigationLoading />}>
-          <Navigation />
+          <Component />
         </Suspense>
       </div>
       <RoutesLoader className="fixed right-0 bottom-0 left-0" />

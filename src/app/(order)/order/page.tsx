@@ -1,52 +1,28 @@
 import Logo from "@/components/layout/Logo";
-import Category from "@/components/menu/Category";
-import parsed from "@/utils/parsed";
-import useOdoo from "@/utils/useOdoo";
+import Menu from "@/components/menu/Menu";
 
-const Page = async ({
+import { Suspense } from "react";
+import { MenuLoading } from "@/app/(website)/menu/page";
+
+const OrderPage = ({
   params,
   searchParams,
 }: {
   params: Promise<{ slug: string }>;
   searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
 }) => {
-  const { data: menuGroups }: { data: any[] } = await useOdoo({
-    route: "menu-groups",
-  });
-
-  const currentHour = new Date().getHours();
-  const group = menuGroups.find(
-    ({ hourFrom, hourTo }) =>
-      currentHour >= parseInt(hourFrom) && currentHour < parseInt(hourTo),
-  );
-
-  let menu;
-
-  if (group) {
-    const { data } = await useOdoo({ route: `menu?group=${group.slug}` });
-    menu = data;
-  }
-
   return (
-    <main>
+    <main className="pb-l">
       <header className="grid place-content-center">
         <div className="p-m">
           <Logo />
         </div>
       </header>
-      {menu?.map((category: any) => {
-        return (
-          <div key={category.id} className="pb-l">
-            <Category
-              {...parsed(category, "category")}
-              color={group?.slug || "default"}
-              theme="order"
-            />
-          </div>
-        );
-      })}
+      <Suspense fallback={<MenuLoading />}>
+        <Menu theme="order" />
+      </Suspense>
     </main>
   );
 };
 
-export default Page;
+export default OrderPage;

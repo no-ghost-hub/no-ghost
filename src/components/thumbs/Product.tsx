@@ -31,15 +31,15 @@ const ProductThumb = async ({
   const formattedPrice = formatPrice(taxedPrice);
 
   const attributes = [];
-  if (theme === "order") {
-    const { data: attributesData } = await useOdoo({
-      route: `product-attributes?id=${id}`,
-    });
+  // if (theme === "order") {
+  //   const { data: attributesData } = await useOdoo({
+  //     route: `product-attributes?id=${id}`,
+  //   });
 
-    if (attributesData) {
-      attributes.push(...attributesData);
-    }
-  }
+  //   if (attributesData) {
+  //     attributes.push(...attributesData);
+  //   }
+  // }
 
   return (
     <div className="grid grid-rows-[auto_minmax(0,1fr)] bg-white shadow">
@@ -59,14 +59,14 @@ const ProductThumb = async ({
           {formattedPrice}
         </Text>
       </div>
-      {theme === "order" && (
+      {/* {theme === "order" && (
         <div className="p-xs grid pt-0">
           <CartAdder
             {...{ productId: id, title, price, taxedPrice, tax, attributes }}
             theme={color}
           />
         </div>
-      )}
+      )} */}
     </div>
   );
 };

@@ -33,7 +33,7 @@ export type Link = LinkProps & { children: ReactNode };
 
 export type Reservation = {
   guests: number;
-  date: string;
+  date?: string;
   time?: { from: string; to: string; type: number };
   info: Record<string, any>;
   timeZone?: string;

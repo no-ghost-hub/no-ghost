@@ -62,7 +62,34 @@ const nextConfig: NextConfig = {
         permanent: true,
         destination: `${process.env.NEXT_PUBLIC_SERVER_URL}/:path*?navigation=reserve`,
       },
+      ...(process.env.NODE_ENV === "production"
+        ? [
+            {
+              source: "/order",
+              permanent: true,
+              destination: "/",
+            },
+          ]
+        : []),
     ];
+  },
+  async rewrites() {
+    return {
+      beforeFiles: [
+        {
+          source: "/:path*",
+          has: [
+            {
+              type: "host",
+              value: process.env.NEXT_PUBLIC_ORDER_HOST || "",
+            },
+          ],
+          destination: `${process.env.NEXT_PUBLIC_SERVER_URL}/:path*`,
+        },
+      ],
+      afterFiles: [],
+      fallback: [],
+    };
   },
 };
 
