@@ -42,7 +42,7 @@ const CartAttributeThumb = ({ id, name, price, tax, onRemove }: Props) => {
           <div className="p-xs">
             <Text typo="sm">
               {price
-                ? formatPrice(price * (1 + tax.amount / 100))
+                ? formatPrice(price * (1 + 12 / 100))
                 : s("attribute.free")}
             </Text>
           </div>

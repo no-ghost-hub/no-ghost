@@ -29,7 +29,7 @@ const MenuPage = ({
 
 export default MenuPage;
 
-const MenuLoading = () => {
+export const MenuLoading = () => {
   return (
     <div className="mx-auto max-w-(--breakpoint-lg) px-[calc(var(--spacing-xs)/2)]">
       <SizeUtil name="menu-category" width scoped>

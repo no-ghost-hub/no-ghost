@@ -23,7 +23,7 @@ type Props = {};
 const Reserve = ({}: Props) => {
   const [reservation, setReservation] = useState<Reservation>({
     guests: 2,
-    date: today(getLocalTimeZone()).toString(),
+    date: undefined,
     time: undefined,
     info: {
       firstName: "",

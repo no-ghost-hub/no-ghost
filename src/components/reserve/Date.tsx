@@ -41,9 +41,9 @@ const ReserveDate = ({ reservation, setReservation }: Props) => {
       return t.weekday === weekday;
     });
 
+    const jsDate = date.toDate(getLocalTimeZone());
     const closed = closingDays?.some(
-      ({ from, to }) =>
-        date.toString() >= from.toString() && date.toString() <= to.toString(),
+      ({ from, to }) => jsDate >= from && jsDate <= to,
     );
 
     return !availableSlots?.length || closed;
@@ -58,7 +58,7 @@ const ReserveDate = ({ reservation, setReservation }: Props) => {
       className="calendar gap-s grid self-center"
       isDateUnavailable={isDateUnavailable}
       minValue={today(getLocalTimeZone())}
-      value={parseDate(reservation.date)}
+      value={reservation.date ? parseDate(reservation.date) : undefined}
       onChange={handleChange}
       aria-label="Reservation date"
     >
