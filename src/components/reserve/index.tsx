@@ -3,74 +3,65 @@
 import Link from "@/components/elements/Link";
 import Text from "@/components/elements/Text";
 import NavigationToggleContainer from "@/components/utils/NavigationToggleContainer";
-import Date from "@/components/reserve/Date";
+import Calendar from "@/components/reserve/Date";
 import Time from "@/components/reserve/Time";
 import Guests from "@/components/reserve/Guests";
 import Info from "@/components/reserve/Info";
 import Result from "@/components/reserve/Result";
 import { s } from "@/utils/useClientString";
-import { useEffect, useRef, useState } from "react";
+import { useActionState, useEffect, useRef, useState } from "react";
 
-import useOdoo from "@/utils/useOdoo";
 import { Reservation } from "@/types";
 import { useUiStore } from "@/components/providers/Global";
+import createReservation from "@/odoo/createReservation";
+import { I18nProvider, Form } from "react-aria-components";
+import { getLocalTimeZone, today } from "@internationalized/date";
+import Loader from "@/components/utils/Loader";
 
 type Props = {};
 
 const Reserve = ({}: Props) => {
   const [reservation, setReservation] = useState<Reservation>({
-    date: undefined,
+    guests: 2,
+    date: today(getLocalTimeZone()).toString(),
     time: undefined,
-    guests: undefined,
-    info: undefined,
+    info: {
+      firstName: "",
+      lastName: "",
+      email: "",
+      phone: "",
+      message: "",
+      marketing: true,
+    },
   });
+
+  const formEl = useRef<HTMLFormElement>(null);
 
   const steps: {
     handle: "date" | "time" | "guests" | "info";
     component: any;
   }[] = [
-    {
-      handle: "guests",
-      component: Guests,
-    },
-    {
-      handle: "date",
-      component: Date,
-    },
-    {
-      handle: "time",
-      component: Time,
-    },
-    {
-      handle: "info",
-      component: Info,
-    },
+    { handle: "guests", component: Guests },
+    { handle: "date", component: Calendar },
+    { handle: "time", component: Time },
+    { handle: "info", component: Info },
   ];
 
-  const [result, setResult] = useState<{ data?: any; error?: string }>();
-
-  useEffect(() => {
-    if (Object.values(reservation).every((v) => v)) {
-      (async () => {
-        const result = await useOdoo({
-          route: "reservations",
-          method: "POST",
-          body: JSON.stringify(reservation),
-          type: "create",
-        });
-
-        setResult(result);
-      })();
-    }
-  }, [reservation]);
-
   const [stepIndex, setStepIndex] = useState(0);
-
   const step = steps[stepIndex];
 
-  async function handleNext() {
-    setStepIndex(stepIndex + 1);
+  function handleNext() {
+    if (stepIndex === steps.length - 1) {
+      formEl.current?.requestSubmit();
+    } else {
+      setStepIndex(stepIndex + 1);
+    }
   }
+
+  const [result, formAction, pending] = useActionState(
+    createReservation.bind(null, reservation),
+    null,
+  );
 
   const { navigation } = useUiStore((state) => state);
 
@@ -94,7 +85,7 @@ const Reserve = ({}: Props) => {
                     theme="button"
                     key={index}
                     onClick={() => setStepIndex(index)}
-                    disabled={!reservation[handle] && index !== stepIndex}
+                    disabled={index > stepIndex}
                     active={index === stepIndex}
                     shadow={false}
                   >
@@ -108,19 +99,42 @@ const Reserve = ({}: Props) => {
           )}
         </header>
         <main className="p-xs grid overflow-y-auto" ref={stepEl}>
-          {result ? (
-            <Result reservation={result.data} error={result.error} />
-          ) : (
-            step?.component && (
-              <step.component
-                {...{
-                  reservation,
-                  setReservation,
-                }}
-                onNext={handleNext}
+          <div className="gap-s grid grid-rows-[1fr]">
+            {pending ? (
+              <Loader>
+                <Text tag="div">{s("loading.reservation")}</Text>
+              </Loader>
+            ) : result ? (
+              <Result
+                reservation={result.data}
+                error={result.error?.data.message}
               />
-            )
-          )}
+            ) : (
+              <>
+                <I18nProvider locale="en-BE">
+                  <Form className="grid" ref={formEl} action={formAction}>
+                    {step?.component && (
+                      <step.component {...{ reservation, setReservation }} />
+                    )}
+                  </Form>
+                </I18nProvider>
+                <Link
+                  theme="button"
+                  background="orange"
+                  disabled={!reservation[step.handle]}
+                  onClick={handleNext}
+                >
+                  <Text tag="div">
+                    {s(
+                      stepIndex === steps.length - 1
+                        ? "ctas.confirm"
+                        : "ctas.next",
+                    )}
+                  </Text>
+                </Link>
+              </>
+            )}
+          </div>
         </main>
       </div>
     </NavigationToggleContainer>

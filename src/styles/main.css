@@ -13,11 +13,11 @@
   --spacing-s: clamp(16px, 2vw, 20px);
   --spacing-m: clamp(40px, 6vw, 60px);
   --spacing-l: clamp(80px, 16vw, 160px);
-  --spacing-full: 100%;
+  --spacing-content: 0px;
 
   --color-transparent: transparent;
   --color-current: currentColor;
-  --color-black: rgb(0, 0, 0);
+  --color-black: rgb(35, 30, 30);
   --color-white: rgb(255, 255, 255);
   --color-grey: rgb(245, 245, 245);
   --color-darkgrey: rgb(190, 190, 190);
@@ -26,6 +26,11 @@
   --color-blue: rgb(25, 155, 255);
   --color-orange: rgb(255, 105, 5);
 
+  --text-sm: clamp(12px, 1.5vw, 14px);
+  --text-base: clamp(12px, 1.5vw, 18px);
+  --text-md: clamp(16px, 2vw, 24px);
+  --text-lg: clamp(32px, 4vw, 64px);
+
   --shadow: 0px 0px var(--spacing-xs) 0px rgba(0, 0, 0, 0.08);
   --shadow-md: 0px 0px var(--spacing-xs) 0px rgba(0, 0, 0, 0.12);
 
@@ -33,6 +38,8 @@
 
   --animate-slide-in: slide 200ms;
   --animate-slide-out: slide 200ms reverse;
+  --animate-load: load 2000ms infinite;
+  --animate-underline: underline 1500ms infinite;
 
   @keyframes slide {
     0% {
@@ -42,11 +49,29 @@
       transform: translateY(0);
     }
   }
+
+  @keyframes load {
+    from {
+      clip-path: inset(100% 0% 0% 0%);
+    }
+    to {
+      clip-path: inset(0% 0% 0% 0%);
+    }
+  }
+
+  @keyframes underline {
+    from {
+      background-size: 0% 0.1em;
+    }
+    to {
+      background-size: 100% 0.1em;
+    }
+  }
 }
 
 @utility custom-underline {
   &:not([data-disabled="true"]) {
-    @apply bg-linear-to-r from-black to-black bg-[length:0%_0.1em] bg-bottom bg-no-repeat transition-[background-size] duration-300 hover:bg-[length:100%_0.1em];
+    @apply bg-linear-to-r from-black/20 to-black/20 bg-[length:0%_0.1em] bg-bottom bg-no-repeat transition-[background-size] duration-300 hover:bg-[length:100%_0.1em];
   }
 }
 
@@ -57,9 +82,25 @@
 .active-link,
 [data-selected="true"] {
   &.custom-underline {
-    @apply bg-[length:100%_0.1em];
+    @apply from-black to-black bg-[length:100%_0.1em];
   }
 }
 .shadow:not(.shadow-none) {
   @apply transition-[background_size,box_shadow] duration-200 hover:shadow-md;
+}
+
+.animate-underline {
+  @apply from-blue to-blue;
+}
+
+form {
+  .custom-underline:focus-within {
+    @apply from-black to-black bg-[length:100%_0.1em];
+  }
+  [data-invalid="true"] {
+    .custom-underline {
+      @apply bg-[length:100%_0.1em];
+      @apply from-orange to-orange;
+    }
+  }
 }

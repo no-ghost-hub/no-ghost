@@ -1,38 +1,57 @@
 import Logo from "@/components/layout/Logo";
-import Category from "@/components/menu/Category";
-import parsed from "@/utils/parsed";
-import useOdoo from "@/utils/useOdoo";
+import Menu from "@/components/menu/Menu";
+import Text from "@/components/elements/Text";
 
-const Page = async ({
+import SizeUtil from "@/components/utils/Size";
+
+import { Suspense } from "react";
+
+const MenuPage = ({
   params,
   searchParams,
 }: {
   params: Promise<{ slug: string }>;
   searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
 }) => {
-  const { slug } = await params;
-  const { group } = await searchParams;
-
-  // if (group) {
-  const { data: menu } = await useOdoo({ route: `menu?group=menu` });
-  // }
-
   return (
-    <main>
+    <main className="pb-l">
       <header className="grid place-content-center">
         <div className="p-m">
           <Logo />
         </div>
       </header>
-      {menu?.map((category: any) => {
-        return (
-          <div key={category.id} className="pb-l">
-            <Category {...parsed(category, "category")} />
-          </div>
-        );
-      })}
+      <Suspense fallback={<MenuLoading />}>
+        <Menu />
+      </Suspense>
     </main>
   );
 };
 
-export default Page;
+export default MenuPage;
+
+const MenuLoading = () => {
+  return (
+    <div className="mx-auto max-w-(--breakpoint-lg) px-[calc(var(--spacing-xs)/2)]">
+      <SizeUtil name="menu-category" width scoped>
+        <div className="gap-m grid">
+          <Text tag="h3" align="center" transform="uppercase">
+            <div className="bg-darkgrey w-(--w-item)">&nbsp;</div>
+          </Text>
+          <div className="gap-y-xs flex flex-wrap justify-center">
+            {[...Array(4)].map((_, i) => (
+              <div
+                key={i}
+                className="w-(--w-item) px-[calc(var(--spacing-xs)/2)]"
+              >
+                <div className="grid shadow">
+                  <div className="bg-darkgrey grid aspect-square" />
+                  <div className="custom-underline animate-underline grid aspect-square bg-white" />
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </SizeUtil>
+    </div>
+  );
+};

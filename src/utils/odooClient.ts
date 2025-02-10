@@ -15,8 +15,7 @@ const odooQuery = async ({
   domain?: any[];
   options?: any;
 }) => {
-  let response;
-  response = await fetch(endpoint, {
+  const response: any = await fetch(endpoint, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({
@@ -30,12 +29,18 @@ const odooQuery = async ({
       id: new Date().getTime(),
     }),
   });
-  response = await response.json();
 
-  if (response.error) {
-    throw new Error(response.error.data.message);
+  if (!response.ok) {
+    return { error: response.status };
   }
-  return response;
+
+  const json = await response.json();
+
+  if (json.error) {
+    console.error(json.error.data.message);
+  }
+
+  return json;
 };
 
 const odooOrder = async ({
