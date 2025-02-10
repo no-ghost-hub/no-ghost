@@ -10,9 +10,10 @@ import { useString } from "@/utils/useClientString";
 import CartThumb from "@/components/thumbs/Cart";
 import useOdoo from "@/utils/useOdoo";
 import { redirect, useSearchParams } from "next/navigation";
-import { useEffect, useState } from "react";
+import { startTransition, useActionState, useEffect, useState } from "react";
 import Loader from "@/components/utils/Loader";
 import useSWR from "swr";
+import createOrder from "@/odoo/createOrder";
 
 type Props = {};
 
@@ -24,9 +25,11 @@ const Cart = ({}: Props) => {
   const table = searchParams.get("table");
   const id = searchParams.get("id");
 
-  const [loading, setLoading] = useState(false);
-  const [payment, setPayment] = useState(id ? true : false);
-  const [result, setResult] = useState<{ data?: any; error?: string }>();
+  const [payment, setPayment] = useState(false);
+  const [result, formAction, pending] = useActionState(
+    createOrder.bind(null, { table: table || "", lines: cart }),
+    null,
+  );
 
   useEffect(() => {
     if (id) {
@@ -40,22 +43,15 @@ const Cart = ({}: Props) => {
     error,
   } = useSWR(id ? { route: `order?id=${id}` } : null, useOdoo);
 
-  async function handleClick(payment: boolean = false) {
+  function handleClick(payment: boolean = false) {
     setPayment(payment);
-    setLoading(true);
-    const result = await useOdoo({
-      route: "order",
-      method: "POST",
-      body: JSON.stringify({
-        table,
-        lines: cart,
-      }),
-      type: "create",
+    startTransition(() => {
+      formAction();
     });
-    setLoading(false);
-    setResult(result);
+  }
 
-    if (result.data) {
+  useEffect(() => {
+    if (result?.data) {
       clear();
       if (payment) {
         const endpoint = process.env.NEXT_PUBLIC_ODOO_PAY_ENDPOINT;
@@ -66,7 +62,7 @@ const Cart = ({}: Props) => {
         );
       }
     }
-  }
+  }, [result]);
 
   const s = useString();
 
@@ -81,12 +77,12 @@ const Cart = ({}: Props) => {
         {result || order ? (
           <Result
             order={result?.data || order}
-            error={result?.error || error}
+            error={result?.error?.data.message || error}
             payment={payment}
           />
         ) : (
           <main className="gap-s grid grid-rows-[1fr] overflow-y-auto">
-            {loading || isLoading ? (
+            {pending || isLoading ? (
               <Loader>
                 <Text tag="div">
                   {s(payment ? "loading.order.payment" : "loading.order")}

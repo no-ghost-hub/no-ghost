@@ -29,16 +29,18 @@ const parsed = (raw: any, type?: string): any => {
       return { title: raw.name, products: raw.products };
     }
     case "productThumb": {
+      const taxedPrice =
+        parseFloat(raw.tax_string.match(/-?\d*\.?\d+/)?.[0]) || raw.list_price;
+
       return {
         id: raw.id,
         title: raw.name,
         image: raw.image_1024 ? `data:image;base64,${raw.image_1024}` : "",
         price: raw.list_price,
-        taxedPrice:
-          parseFloat(raw.tax_string.match(/-?\d*\.?\d+/)?.[0]) ||
-          raw.list_price,
+        taxedPrice,
         tax: raw.tax,
         description: raw.public_description,
+        attributes: raw.attributes,
       };
     }
     case "company": {

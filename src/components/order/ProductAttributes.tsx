@@ -34,6 +34,10 @@ const ProductAttributes = ({
     }, {}),
   );
 
+  const valid = attributes
+    .filter((a) => a.type === "radio")
+    .every((a) => selected[a.id].size);
+
   const onChange = (key: number, ids: Set<Key>) => {
     setSelected((prev) => ({
       ...prev,
@@ -58,10 +62,10 @@ const ProductAttributes = ({
       </header>
       <main className="p-xs gap-m grid grid-rows-[1fr] overflow-y-auto">
         <div className="gap-s grid content-center">
-          {attributes.map(({ id, name, muted, options }) => (
+          {attributes.map(({ id, name, muted, options, type }) => (
             <ProductAttributeWrapper key={id} name={name} muted={muted}>
               <ProductAttribute
-                {...{ id, name, muted, options, tax }}
+                {...{ id, name, muted, options, tax, type }}
                 value={selected[id]}
                 onChange={(value) => onChange(id, value)}
               />
@@ -69,7 +73,12 @@ const ProductAttributes = ({
           ))}
         </div>
         <footer className="grid">
-          <Link theme="button" background="orange" onClick={handleAdd}>
+          <Link
+            theme="button"
+            background="orange"
+            onClick={handleAdd}
+            disabled={!valid}
+          >
             <Text tag="div" wrap={false}>
               {s("ctas.cart.add")}
             </Text>
@@ -112,16 +121,18 @@ const ProductAttributeWrapper = ({
 
 const ProductAttribute = ({
   options,
+  type,
   value,
   tax,
   onChange,
 }: ProductAttributeProps) => {
   return (
     <ToggleButtonGroup
-      selectionMode="multiple"
+      selectionMode={type === "radio" ? "single" : "multiple"}
       selectedKeys={value}
       onSelectionChange={onChange}
       className="grid"
+      disallowEmptySelection={type === "radio"}
     >
       {options.map(({ id, name, price }) => (
         <ToggleButton
@@ -134,9 +145,11 @@ const ProductAttribute = ({
               {name}
             </Text>
             <Text tag="div" typo="sm" wrap={false}>
-              {price
-                ? formatPrice(price * (1 + tax.amount / 100))
-                : s("attribute.free")}
+              {price ? (
+                formatPrice(price * (1 + tax.amount / 100))
+              ) : (
+                <>&nbsp;</>
+              )}
             </Text>
           </div>
         </ToggleButton>

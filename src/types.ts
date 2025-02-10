@@ -50,5 +50,6 @@ export type ProductAttribute = {
   id: number;
   name: string;
   muted: boolean;
+  type: "multi" | "radio";
   options: { id: number; name: string; price: number }[];
 };

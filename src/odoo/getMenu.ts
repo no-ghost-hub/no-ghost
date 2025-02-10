@@ -34,6 +34,17 @@ export default async function getMenu() {
     },
   });
 
+  const taxIds = Array.from(new Set(products.map((p: any) => p.taxes_id[0])));
+
+  const { result: taxes } = await odooQuery({
+    model: "account.tax",
+    method: "search_read",
+    domain: [[["id", "in", taxIds]]],
+    options: {
+      fields: ["amount"],
+    },
+  });
+
   const attributeLineIds = products.flatMap((p: any) => p.attribute_line_ids);
 
   const { result: attributeLines } = await odooQuery({
@@ -75,6 +86,7 @@ export default async function getMenu() {
       .filter((p: any) => p.categ_id[0] === id)
       .map((p: any) => ({
         ...p,
+        tax: taxes.find((t: any) => t.id === p.taxes_id[0]),
         attributes: attributeLines
           .filter((l: any) => l.product_tmpl_id[0] === p.id)
           .map((l: any) => {
@@ -86,9 +98,13 @@ export default async function getMenu() {
               name: l.display_name,
               muted: attribute?.x_studio_muted,
               type: attribute?.display_type,
-              options: options.filter(
-                (o: any) => o.attribute_line_id[0] === l.id,
-              ),
+              options: options
+                .filter((o: any) => o.attribute_line_id[0] === l.id)
+                .map((o: any) => ({
+                  id: o.id,
+                  name: o.name,
+                  price: o.price_extra,
+                })),
             };
           }),
       })),
