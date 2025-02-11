@@ -30,6 +30,7 @@ const odooQuery = async ({
       },
       id: randomUUID(),
     }),
+    cache: "no-store",
   });
 
   if (!response.ok) {
@@ -67,6 +68,7 @@ const odooOrder = async ({
       },
       id: randomUUID(),
     }),
+    cache: "no-store",
   });
 
   if (!response.ok) {
