@@ -1,11 +1,9 @@
 "use client";
 
 import Text from "@/components/elements/Text";
-import Link from "@/components/elements/Link";
 
 import { s } from "@/utils/useClientString";
 import { Order } from "@/types";
-import { useUiStore } from "@/components/providers/Global";
 
 type Props = {
   order?: Order;
@@ -14,7 +12,8 @@ type Props = {
 };
 
 const OrderResult = ({ order, error, payment }: Props) => {
-  const { setNavigation } = useUiStore((state) => state);
+  console.log(order);
+
   return (
     <main className="gap-s p-xs grid grid-rows-[1fr] overflow-y-auto">
       <div className="gap-s grid self-center">

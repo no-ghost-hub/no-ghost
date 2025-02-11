@@ -10,11 +10,32 @@ import { totalQuantity, totalPrice } from "@/stores/cart";
 import { s } from "@/utils/useClientString";
 import formatPrice from "@/utils/formatPrice";
 import Cart from "@/components/order/Cart";
+import { useEffect } from "react";
+import { useRouter, useSearchParams } from "next/navigation";
 
-type Props = {};
+type Props = {
+  already: any;
+};
 
-const OrderBar = ({}: Props) => {
+const OrderBar = ({ already }: Props) => {
   const { setNavigation, navigation } = useUiStore((state) => state);
+
+  useEffect(() => {
+    if (already) {
+      setNavigation("cart");
+    }
+  }, [already]);
+
+  const searchParams = useSearchParams();
+  const id = searchParams.get("id");
+  const table = searchParams.get("table");
+  const router = useRouter();
+
+  // useEffect(() => {
+  //   if (!navigation && id) {
+  //     router.replace(`?table=${table}`);
+  //   }
+  // }, [navigation]);
 
   function handleClick() {
     if (navigation === "cart") {
@@ -28,7 +49,7 @@ const OrderBar = ({}: Props) => {
       <Wrapper type="navigation">
         <Wrapper type="order">
           <div className="-m-xs p-xs -mb-0 grid items-end overflow-hidden pb-0">
-            <Cart />
+            <Cart already={already} />
           </div>
         </Wrapper>
         <SizeUtil name="nav" height={true}>

@@ -3,6 +3,7 @@
 import { odooQuery, odooOrder } from "@/utils/odooClient";
 import parsed from "@/utils/parsed";
 import { attributesPrice, CartItem } from "@/stores/cart";
+import { randomUUID } from "crypto";
 
 const createOrder = async ({
   table,
@@ -31,7 +32,7 @@ const createOrder = async ({
       model: "restaurant.table",
       method: "search_read",
       options: {
-        fields: ["id", "identifier"],
+        fields: ["id", "identifier", "table_number"],
         domain: [["table_number", "=", table]],
       },
     }),
@@ -49,6 +50,7 @@ const createOrder = async ({
       amount_paid: 0,
       amount_return: 0,
       customer_count: 1,
+      uuid: randomUUID(),
       lines: lines.map(
         ({ productId, price, attributes, quantity, taxedPrice, tax }) => [
           0,
@@ -65,6 +67,7 @@ const createOrder = async ({
             attribute_value_ids: attributes?.map(({ id }) => id),
             qty: quantity,
             tax_ids: [tax.id],
+            uuid: randomUUID(),
           },
         ],
       ),

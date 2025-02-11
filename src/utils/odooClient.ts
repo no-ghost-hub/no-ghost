@@ -1,3 +1,5 @@
+import { randomUUID } from "crypto";
+
 const endpoint = process.env.ODOO_API_ENDPOINT || "";
 const orderEndpoint = process.env.ODOO_API_ORDER_ENDPOINT || "";
 const db = process.env.ODOO_DATABASE_NAME;
@@ -15,7 +17,7 @@ const odooQuery = async ({
   domain?: any[];
   options?: any;
 }) => {
-  const response: any = await fetch(endpoint, {
+  const response = await fetch(endpoint, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({
@@ -26,7 +28,7 @@ const odooQuery = async ({
         method: "execute_kw",
         args: [db, user, token, model, method, domain, options],
       },
-      id: new Date().getTime(),
+      id: randomUUID(),
     }),
   });
 
@@ -52,8 +54,7 @@ const odooOrder = async ({
   order: any;
   table: string;
 }) => {
-  let response;
-  response = await fetch(orderEndpoint, {
+  const response = await fetch(orderEndpoint, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({
@@ -64,7 +65,7 @@ const odooOrder = async ({
         table_identifier: table,
         order,
       },
-      id: new Date().getTime(),
+      id: randomUUID(),
     }),
   });
 

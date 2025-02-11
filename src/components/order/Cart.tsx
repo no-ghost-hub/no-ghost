@@ -8,40 +8,28 @@ import { useUiStore } from "@/components/providers/Global";
 import { useCartStore } from "@/components/providers/Global";
 import { useString } from "@/utils/useClientString";
 import CartThumb from "@/components/thumbs/Cart";
-import useOdoo from "@/utils/useOdoo";
 import { redirect, useSearchParams } from "next/navigation";
 import { startTransition, useActionState, useEffect, useState } from "react";
 import Loader from "@/components/utils/Loader";
-import useSWR from "swr";
 import createOrder from "@/odoo/createOrder";
 
-type Props = {};
+type Props = {
+  already: any;
+};
 
-const Cart = ({}: Props) => {
+const Cart = ({ already }: Props) => {
   const { navigation, setNavigation } = useUiStore((state) => state);
+
   const { cart, clear } = useCartStore((state) => state);
 
   const searchParams = useSearchParams();
   const table = searchParams.get("table");
-  const id = searchParams.get("id");
 
   const [payment, setPayment] = useState(false);
   const [result, formAction, pending] = useActionState(
     createOrder.bind(null, { table: table || "", lines: cart }),
     null,
   );
-
-  useEffect(() => {
-    if (id) {
-      setNavigation("cart");
-    }
-  }, [id]);
-
-  const {
-    data: order,
-    isLoading,
-    error,
-  } = useSWR(id ? { route: `order?id=${id}` } : null, useOdoo);
 
   function handleClick(payment: boolean = false) {
     setPayment(payment);
@@ -74,15 +62,15 @@ const Cart = ({}: Props) => {
             {s("cart")}
           </Text>
         </header>
-        {result || order ? (
+        {result || already ? (
           <Result
-            order={result?.data || order}
-            error={result?.error?.data.message || error}
-            payment={payment}
+            order={result?.data || already}
+            error={result?.error?.data.message}
+            payment={already ? true : false}
           />
         ) : (
           <main className="gap-s grid grid-rows-[1fr] overflow-y-auto">
-            {pending || isLoading ? (
+            {pending ? (
               <Loader>
                 <Text tag="div">
                   {s(payment ? "loading.order.payment" : "loading.order")}

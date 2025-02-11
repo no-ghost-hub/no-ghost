@@ -2,6 +2,8 @@ import Wrapper from "@/components/utils/Wrapper";
 import MenuGroups from "@/components/layout/MenuGroups";
 import DeliveryOptions from "@/components/layout/DeliveryOptions";
 import Reserve from "@/components/reserve";
+import Link from "@/components/elements/Link";
+import Text from "@/components/elements/Text";
 
 import NavigationBar from "@/components/layout/NavigationBar";
 import getEntry from "@/utils/getEntry";
@@ -50,3 +52,13 @@ const Navigation = async ({}: Props) => {
 };
 
 export default Navigation;
+
+export const NavigationLoading = () => {
+  return (
+    <div className="custom-underline animate-underline grid sm:w-(--breakpoint-sm)">
+      <Link theme="button" background="white">
+        <Text>&nbsp;</Text>
+      </Link>
+    </div>
+  );
+};
