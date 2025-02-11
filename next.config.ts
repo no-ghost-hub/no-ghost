@@ -74,22 +74,18 @@ const nextConfig: NextConfig = {
     ];
   },
   async rewrites() {
-    return {
-      beforeFiles: [
-        {
-          source: "/:path*",
-          has: [
-            {
-              type: "host",
-              value: process.env.NEXT_PUBLIC_ORDER_HOST || "",
-            },
-          ],
-          destination: `${process.env.NEXT_PUBLIC_SERVER_URL}/order`,
-        },
-      ],
-      afterFiles: [],
-      fallback: [],
-    };
+    return [
+      {
+        source: "/:path*",
+        has: [
+          {
+            type: "host",
+            value: process.env.NEXT_PUBLIC_ORDER_HOST || "",
+          },
+        ],
+        destination: `${process.env.NEXT_PUBLIC_SERVER_URL}/order/:path*`,
+      },
+    ];
   },
 };
 
