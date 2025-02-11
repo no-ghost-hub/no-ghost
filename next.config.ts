@@ -62,15 +62,15 @@ const nextConfig: NextConfig = {
         permanent: true,
         destination: `${process.env.NEXT_PUBLIC_SERVER_URL}/:path*?navigation=reserve`,
       },
-      // ...(process.env.NODE_ENV === "production"
-      //   ? [
-      //       {
-      //         source: "/order",
-      //         permanent: true,
-      //         destination: "/",
-      //       },
-      //     ]
-      //   : []),
+      ...(process.env.NODE_ENV === "production"
+        ? [
+            {
+              source: "/order",
+              permanent: true,
+              destination: "/",
+            },
+          ]
+        : []),
     ];
   },
   async rewrites() {
