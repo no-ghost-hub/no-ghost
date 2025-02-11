@@ -83,7 +83,7 @@ const nextConfig: NextConfig = {
             value: process.env.NEXT_PUBLIC_ORDER_HOST || "",
           },
         ],
-        destination: `${process.env.NEXT_PUBLIC_SERVER_URL}/order/:path*`,
+        destination: `${process.env.NEXT_PUBLIC_SERVER_URL}/order/:path*/`,
       },
     ];
   },
