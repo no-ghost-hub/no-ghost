@@ -32,13 +32,13 @@ const ProductThumb = async ({
   const formattedPrice = formatPrice(taxedPrice);
 
   return (
-    <div className="grid grid-rows-[auto_minmax(0,1fr)] bg-white shadow">
+    <div className="grid bg-white shadow">
       {image && (
-        <div className="relative grid aspect-1/1">
+        <div className="relative grid aspect-square w-full">
           <Image src={image} alt={title} theme="thumb" />
         </div>
       )}
-      <div className="gap-s p-s grid aspect-1/1 content-between">
+      <div className="gap-s p-s grid aspect-square min-w-0 content-between">
         <div className="gap-s grid">
           <Text tag="h2" typo="md" align="center">
             {title}
