@@ -43,7 +43,7 @@ export type Reservation = {
 export type Order = {
   id: number;
   token: string;
-  lines: { title: string; quantity: number; price: number }[];
+  lines: { id: number; title: string; quantity: number; price: number }[];
 };
 
 export type ProductAttribute = {

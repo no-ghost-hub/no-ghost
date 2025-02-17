@@ -4,12 +4,14 @@ import { odooQuery, odooOrder } from "@/utils/odooClient";
 import parsed from "@/utils/parsed";
 import { attributesPrice, CartItem } from "@/stores/cart";
 import { randomUUID } from "crypto";
+import getTableOrder from "@/odoo/getTableOrder";
+import updateOrder from "@/odoo/updateOrder";
 
 const createOrder = async ({
   table,
   lines,
 }: {
-  table?: string;
+  table: string;
   lines: CartItem[];
 }) => {
   const [
@@ -19,6 +21,7 @@ const createOrder = async ({
     {
       result: [tableData],
     },
+    { data: alreadyData },
   ] = await Promise.all([
     odooQuery({
       model: "pos.config",
@@ -36,47 +39,51 @@ const createOrder = async ({
         domain: [["table_number", "=", table]],
       },
     }),
+    getTableOrder(table),
   ]);
 
-  const json = await odooOrder({
-    token: posData.access_token,
-    table: tableData.identifier,
-    order: {
-      table_id: tableData.id,
-      company_id: 1,
-      session_id: 1,
-      amount_tax: 0,
-      amount_total: 0,
-      amount_paid: 0,
-      amount_return: 0,
-      customer_count: 1,
-      uuid: randomUUID(),
-      lines: lines.map(
-        ({ productId, price, attributes, quantity, taxedPrice, tax }) => [
-          0,
-          0,
-          {
-            product_id: productId,
-            price_unit: price + attributesPrice(attributes),
-            price_extra: attributesPrice(attributes),
-            price_subtotal: (price + attributesPrice(attributes)) * quantity,
-            price_subtotal_incl:
-              (taxedPrice +
-                attributesPrice(attributes) * (1 + tax.amount / 100)) *
-              quantity,
-            attribute_value_ids: attributes?.map(({ id }) => id),
-            qty: quantity,
-            tax_ids: [tax.id],
-            uuid: randomUUID(),
-          },
-        ],
-      ),
-    },
-  });
+  const computedLines = lines.map(
+    ({ productId, price, attributes, quantity, taxedPrice, tax }) => [
+      0,
+      0,
+      {
+        product_id: productId,
+        price_unit: price + attributesPrice(attributes),
+        price_extra: attributesPrice(attributes),
+        price_subtotal: (price + attributesPrice(attributes)) * quantity,
+        price_subtotal_incl:
+          (taxedPrice + attributesPrice(attributes) * (1 + tax.amount / 100)) *
+          quantity,
+        attribute_value_ids: attributes?.map(({ id }) => id),
+        qty: quantity,
+        tax_ids: [tax.id],
+        uuid: randomUUID(),
+      },
+    ],
+  );
 
-  const { result } = json;
-
-  return { ...json, ...(result ? { data: parsed(result, "order") } : {}) };
+  if (alreadyData?.id) {
+    return await updateOrder(alreadyData.id, computedLines);
+  } else {
+    const json = await odooOrder({
+      token: posData.access_token,
+      table: tableData.identifier,
+      order: {
+        table_id: tableData.id,
+        company_id: 1,
+        session_id: 1,
+        amount_tax: 0,
+        amount_total: 0,
+        amount_paid: 0,
+        amount_return: 0,
+        customer_count: 1,
+        uuid: randomUUID(),
+        lines: computedLines,
+      },
+    });
+    const { result } = json;
+    return { ...json, ...(result ? { data: parsed(result, "order") } : {}) };
+  }
 };
 
 export default createOrder;

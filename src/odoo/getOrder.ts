@@ -16,7 +16,7 @@ const getOrder = async (id: string) => {
       method: "search_read",
       domain: [[["order_id", "=", parseInt(id)]]],
       options: {
-        fields: ["display_name", "qty"],
+        fields: ["display_name", "qty", "price_subtotal_incl"],
       },
     }),
   ]);

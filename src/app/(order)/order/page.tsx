@@ -4,7 +4,7 @@ import OrderBar from "@/components/layout/OrderBar";
 
 import { Suspense } from "react";
 import { NavigationLoading } from "@/components/layout/Navigation";
-import getOrder from "@/odoo/getOrder";
+import getTableOrder from "@/odoo/getTableOrder";
 
 const OrderPage = async ({
   params,
@@ -13,12 +13,13 @@ const OrderPage = async ({
   params: Promise<{ slug: string }>;
   searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
 }) => {
-  const { id } = await searchParams;
+  const { table } = await searchParams;
 
   let order;
-  if (id && typeof id === "string") {
-    const { data } = await getOrder(id);
+  if (table && typeof table === "string") {
+    const { data } = await getTableOrder(table);
     order = data;
+    console.log(order);
   }
 
   return (

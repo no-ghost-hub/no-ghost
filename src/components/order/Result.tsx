@@ -12,8 +12,6 @@ type Props = {
 };
 
 const OrderResult = ({ order, error, payment }: Props) => {
-  console.log(order);
-
   return (
     <main className="gap-s p-xs grid grid-rows-[1fr] overflow-y-auto">
       <div className="gap-s grid self-center">
@@ -38,8 +36,8 @@ const OrderResult = ({ order, error, payment }: Props) => {
         ) : (
           order && (
             <Text align="center">
-              {order.lines.map(({ title, quantity }) => (
-                <span key={title}>
+              {order.lines.map(({ id, title, quantity }) => (
+                <span key={id}>
                   <span className="text-orange"> {quantity}</span> {title}
                   <br />
                 </span>

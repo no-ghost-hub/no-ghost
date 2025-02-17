@@ -43,7 +43,7 @@ const Cart = ({ already }: Props) => {
       clear();
       if (payment) {
         const endpoint = process.env.NEXT_PUBLIC_ODOO_PAY_ENDPOINT;
-        const exit = `${process.env.NEXT_PUBLIC_SERVER_URL}/order?table=${table}&id=${result.data.id}`;
+        const exit = `https://${process.env.NEXT_PUBLIC_ORDER_HOST}/?table=${table}`;
 
         redirect(
           `${endpoint}/${result.data.id}?access_token=${result.data.token}&exit_route=${exit}`,
@@ -62,11 +62,11 @@ const Cart = ({ already }: Props) => {
             {s("cart")}
           </Text>
         </header>
-        {result || already ? (
+        {result || already?.state === "done" ? (
           <Result
             order={result?.data || already}
             error={result?.error?.data.message}
-            payment={already ? true : false}
+            payment={already?.state === "done"}
           />
         ) : (
           <main className="gap-s grid grid-rows-[1fr] overflow-y-auto">
@@ -89,20 +89,20 @@ const Cart = ({ already }: Props) => {
                 <div className="p-xs sticky bottom-0 grid bg-white">
                   <Link
                     theme="button"
-                    background="white"
+                    background="orange"
                     onClick={() => handleClick(false)}
                     disabled={!cart.length}
                   >
                     <Text tag="div">{s("ctas.order.send")}</Text>
                   </Link>
-                  <Link
+                  {/* <Link
                     theme="button"
                     background="orange"
                     onClick={() => handleClick(true)}
                     disabled={!cart.length}
                   >
                     <Text tag="div">{s("ctas.order.pay")}</Text>
-                  </Link>
+                  </Link> */}
                 </div>
               </>
             )}

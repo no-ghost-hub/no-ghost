@@ -89,6 +89,7 @@ const parsed = (raw: any, type?: string): any => {
     }
     case "orderLine": {
       return {
+        id: raw.id,
         title: raw.display_name,
         quantity: raw.qty,
         price: raw.price_subtotal_incl,
