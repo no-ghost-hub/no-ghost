@@ -72,8 +72,8 @@ const createReservation = async (reservation: Reservation) => {
     domain: [
       [
         ["appointment_type_id", "=", time?.type],
-        ["event_start", "<", utcDate(`${date} ${time?.to}`)],
-        ["event_stop", ">", utcDate(`${date} ${time?.from}`)],
+        ["event_start", "<", utcDate(`${date} ${time?.to}`, timeZone)],
+        ["event_stop", ">", utcDate(`${date} ${time?.from}`, timeZone)],
       ],
     ],
   });
