@@ -60,8 +60,8 @@ const ProductAttributes = ({
           {title}
         </Text>
       </header>
-      <main className="p-xs gap-m grid grid-rows-[1fr] overflow-y-auto">
-        <div className="gap-s grid content-center">
+      <main className="gap-m grid grid-rows-[1fr] overflow-y-auto">
+        <div className="gap-s p-xs grid content-center">
           {attributes.map(({ id, name, muted, options, type }) => (
             <ProductAttributeWrapper key={id} name={name} muted={muted}>
               <ProductAttribute
@@ -72,7 +72,7 @@ const ProductAttributes = ({
             </ProductAttributeWrapper>
           ))}
         </div>
-        <footer className="grid">
+        <footer className="p-xs sticky bottom-0 grid bg-white">
           <Link
             theme="button"
             background="orange"
