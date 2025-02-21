@@ -1,7 +1,9 @@
+import getSession from "@/odoo/getSession";
 import { randomUUID } from "crypto";
 
 const endpoint = process.env.ODOO_API_ENDPOINT || "";
 const orderEndpoint = process.env.ODOO_API_ORDER_ENDPOINT || "";
+const syncEndpoint = process.env.ODOO_API_SYNC_ENDPOINT || "";
 const db = process.env.ODOO_DATABASE_NAME;
 const user = process.env.ODOO_API_USER;
 const token = process.env.ODOO_API_TOKEN;
@@ -84,4 +86,36 @@ const odooOrder = async ({
   return json;
 };
 
-export { odooQuery, odooOrder };
+const odooSync = async (order: any) => {
+  const { id } = await getSession();
+  const response = await fetch(syncEndpoint, {
+    method: "POST",
+    headers: { "Content-Type": "application/json", Cookie: `session_id=${id}` },
+    body: JSON.stringify({
+      jsonrpc: "2.0",
+      method: "call",
+      params: {
+        model: "pos.order",
+        method: "sync_from_ui",
+        args: [[order]],
+        kwargs: {},
+      },
+      id: randomUUID(),
+    }),
+    cache: "no-store",
+  });
+
+  if (!response.ok) {
+    return { error: response.status };
+  }
+
+  const json = await response.json();
+
+  if (json.error) {
+    console.error(json.error.data.message);
+  }
+
+  return json;
+};
+
+export { odooQuery, odooOrder, odooSync };

@@ -19,7 +19,6 @@ const OrderPage = async ({
   if (table && typeof table === "string") {
     const { data } = await getTableOrder(table);
     order = data;
-    console.log(order);
   }
 
   return (

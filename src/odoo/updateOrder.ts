@@ -1,4 +1,4 @@
-import { odooQuery } from "@/utils/odooClient";
+import { odooQuery, odooSync } from "@/utils/odooClient";
 import getOrder from "@/odoo/getOrder";
 
 const updateOrder = async (id: string, lines: any[]) => {
@@ -15,6 +15,13 @@ const updateOrder = async (id: string, lines: any[]) => {
 
   if (json.result === true) {
     const order = await getOrder(id);
+
+    await odooSync({
+      ...order.data,
+      session_id: order.data.session_id[0],
+      lines: [],
+    });
+
     return order;
   } else {
     const { result: data, ...rest } = json;

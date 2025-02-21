@@ -27,7 +27,7 @@ const createOrder = async ({
       model: "pos.config",
       method: "search_read",
       options: {
-        fields: ["access_token"],
+        fields: ["access_token", "current_session_id"],
         domain: [["self_ordering_mode", "=", "mobile"]],
       },
     }),
@@ -71,7 +71,7 @@ const createOrder = async ({
       order: {
         table_id: tableData.id,
         company_id: 1,
-        session_id: 1,
+        session_id: posData.current_session_id[0],
         amount_tax: 0,
         amount_total: 0,
         amount_paid: 0,

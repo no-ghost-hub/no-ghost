@@ -8,7 +8,16 @@ const getOrder = async (id: string) => {
       method: "search_read",
       domain: [[["id", "=", parseInt(id)]]],
       options: {
-        fields: ["state", "amount_paid", "lines"],
+        fields: [
+          "state",
+          "session_id",
+          "amount_tax",
+          "amount_total",
+          "amount_paid",
+          "amount_return",
+          "lines",
+          "uuid",
+        ],
       },
     }),
     odooQuery({

@@ -15,14 +15,14 @@
     "ci": "pnpm build"
   },
   "dependencies": {
-    "@payloadcms/db-mongodb": "3.23.0",
-    "@payloadcms/next": "3.23.0",
-    "@payloadcms/richtext-lexical": "3.23.0",
-    "@payloadcms/storage-vercel-blob": "3.23.0",
+    "@payloadcms/db-mongodb": "3.24.0",
+    "@payloadcms/next": "3.24.0",
+    "@payloadcms/richtext-lexical": "3.24.0",
+    "@payloadcms/storage-vercel-blob": "3.24.0",
     "@vercel/analytics": "^1.5.0",
     "hls.js": "^1.5.20",
     "next": "15.1.7",
-    "payload": "3.23.0",
+    "payload": "3.24.0",
     "react": "19.0.0",
     "react-aria-components": "^1.6.0",
     "react-dom": "19.0.0",
@@ -34,15 +34,15 @@
   },
   "devDependencies": {
     "@svgr/webpack": "^8.1.0",
-    "@swc/core": "^1.10.16",
-    "@tailwindcss/postcss": "^4.0.6",
+    "@swc/core": "^1.10.18",
+    "@tailwindcss/postcss": "^4.0.7",
     "@types/node": "^22",
     "@types/react": "^19",
     "@types/react-dom": "^19",
     "postcss": "^8",
     "prettier": "^3.5.1",
     "prettier-plugin-tailwindcss": "^0.6.11",
-    "tailwindcss": "^4.0.6",
+    "tailwindcss": "^4.0.7",
     "typescript": "^5"
   }
 }
