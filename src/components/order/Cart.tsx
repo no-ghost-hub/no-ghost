@@ -42,7 +42,7 @@ const Cart = ({ already }: Props) => {
     if (result?.data) {
       clear();
       if (payment) {
-        const endpoint = process.env.NEXT_PUBLIC_ODOO_PAY_ENDPOINT;
+        const endpoint = `${process.env.NEXT_PUBLIC_ODOO_URL}/pos/pay`;
         const exit = `https://${process.env.NEXT_PUBLIC_ORDER_HOST}/?table=${table}`;
 
         redirect(
@@ -72,7 +72,7 @@ const Cart = ({ already }: Props) => {
           <main className="gap-s grid grid-rows-[1fr] overflow-y-auto">
             {pending ? (
               <Loader>
-                <Text tag="div">
+                <Text tag="div" align="center" wrap={false}>
                   {s(payment ? "loading.order.payment" : "loading.order")}
                 </Text>
               </Loader>

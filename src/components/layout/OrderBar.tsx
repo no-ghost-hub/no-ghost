@@ -20,11 +20,11 @@ type Props = {
 const OrderBar = ({ already }: Props) => {
   const { setNavigation, navigation } = useUiStore((state) => state);
 
-  useEffect(() => {
-    if (already) {
-      setNavigation("cart");
-    }
-  }, [already]);
+  // useEffect(() => {
+  //   if (already) {
+  //     setNavigation("cart");
+  //   }
+  // }, [already]);
 
   const searchParams = useSearchParams();
   const id = searchParams.get("id");

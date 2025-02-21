@@ -1,9 +1,8 @@
 import getSession from "@/odoo/getSession";
 import { randomUUID } from "crypto";
 
-const endpoint = process.env.ODOO_API_ENDPOINT || "";
-const orderEndpoint = process.env.ODOO_API_ORDER_ENDPOINT || "";
-const syncEndpoint = process.env.ODOO_API_SYNC_ENDPOINT || "";
+const odooUrl = process.env.NEXT_PUBLIC_ODOO_URL || "";
+
 const db = process.env.ODOO_DATABASE_NAME;
 const user = process.env.ODOO_API_USER;
 const token = process.env.ODOO_API_TOKEN;
@@ -19,7 +18,7 @@ const odooQuery = async ({
   domain?: any[];
   options?: any;
 }) => {
-  const response = await fetch(endpoint, {
+  const response = await fetch(`${odooUrl}/jsonrpc`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({
@@ -57,21 +56,24 @@ const odooOrder = async ({
   order: any;
   table: string;
 }) => {
-  const response = await fetch(orderEndpoint, {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({
-      jsonrpc: "2.0",
-      method: "call",
-      params: {
-        access_token: token,
-        table_identifier: table,
-        order,
-      },
-      id: randomUUID(),
-    }),
-    cache: "no-store",
-  });
+  const response = await fetch(
+    `${odooUrl}/pos-self-order/process-order/mobile`,
+    {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        jsonrpc: "2.0",
+        method: "call",
+        params: {
+          access_token: token,
+          table_identifier: table,
+          order,
+        },
+        id: randomUUID(),
+      }),
+      cache: "no-store",
+    },
+  );
 
   if (!response.ok) {
     return { error: response.status };
@@ -88,22 +90,28 @@ const odooOrder = async ({
 
 const odooSync = async (order: any) => {
   const { id } = await getSession();
-  const response = await fetch(syncEndpoint, {
-    method: "POST",
-    headers: { "Content-Type": "application/json", Cookie: `session_id=${id}` },
-    body: JSON.stringify({
-      jsonrpc: "2.0",
-      method: "call",
-      params: {
-        model: "pos.order",
-        method: "sync_from_ui",
-        args: [[order]],
-        kwargs: {},
+  const response = await fetch(
+    `${odooUrl}/web/dataset/call_kw/pos.order/sync_from_ui`,
+    {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Cookie: `session_id=${id}`,
       },
-      id: randomUUID(),
-    }),
-    cache: "no-store",
-  });
+      body: JSON.stringify({
+        jsonrpc: "2.0",
+        method: "call",
+        params: {
+          model: "pos.order",
+          method: "sync_from_ui",
+          args: [[order]],
+          kwargs: {},
+        },
+        id: randomUUID(),
+      }),
+      cache: "no-store",
+    },
+  );
 
   if (!response.ok) {
     return { error: response.status };
