@@ -2,7 +2,7 @@
   body {
     font-family: var(--font-leif, serif);
     font-weight: 800;
-    font-size: clamp(12px, 1.5vw, 18px);
+    font-size: var(--text-base);
     line-height: 1.2;
     color: var(--color-black);
   }
@@ -13,7 +13,7 @@
   .prose h6 {
     font-family: var(--font-leif, serif);
     font-weight: 800;
-    font-size: clamp(12px, 1.5vw, 18px);
+    font-size: var(--text-base);
     line-height: 1.2;
 
     &::before {
@@ -30,7 +30,7 @@
   }
 
   .text-sm {
-    font-size: clamp(12px, 1.5vw, 14px);
+    font-size: var(--text-sm);
     line-height: 1.2;
 
     &::before {
@@ -48,7 +48,7 @@
 
   .text-md,
   .prose h3 {
-    font-size: clamp(16px, 2vw, 24px);
+    font-size: var(--text-md);
     line-height: 1.2;
 
     &::before {
@@ -67,7 +67,7 @@
   .text-lg,
   .prose h1,
   .prose h2 {
-    font-size: clamp(32px, 4vw, 64px);
+    font-size: var(--text-lg);
     line-height: 1;
     text-transform: uppercase;
     text-align: center;
@@ -86,7 +86,7 @@
   }
 
   .text-input {
-    font-size: clamp(16px, 1.5vw, 18px);
+    font-size: var(--text-input);
     line-height: 1.2;
 
     &::before {

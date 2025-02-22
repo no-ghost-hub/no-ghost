@@ -14,7 +14,7 @@ const DefaultModal = ({ show, onShowChange, label, children }: Props) => {
   return (
     <ModalOverlay
       className={({ isEntering, isExiting }) =>
-        `fixed inset-0 z-30 grid place-items-center ${isEntering ? "animate-slide-in" : ""} ${isExiting ? "animate-slide-out" : ""} `
+        `fixed inset-0 z-30 grid sm:place-items-center ${isEntering ? "animate-slide-in" : ""} ${isExiting ? "animate-slide-out" : ""} `
       }
       isOpen={show}
       onOpenChange={onShowChange}

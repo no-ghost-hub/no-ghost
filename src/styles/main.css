@@ -9,8 +9,8 @@
 
   --spacing-0: 0px;
   --spacing-xxs: 4px;
-  --spacing-xs: clamp(12px, 1.6vw, 16px);
-  --spacing-s: clamp(16px, 2vw, 20px);
+  --spacing-xs: clamp(14px, 1.6vw, 16px);
+  --spacing-s: clamp(18px, 2vw, 20px);
   --spacing-m: clamp(40px, 6vw, 60px);
   --spacing-l: clamp(80px, 16vw, 160px);
   --spacing-content: 0px;
@@ -27,8 +27,9 @@
   --color-orange: rgb(255, 105, 5);
 
   --text-sm: clamp(12px, 1.5vw, 14px);
-  --text-base: clamp(12px, 1.5vw, 18px);
-  --text-md: clamp(16px, 2vw, 24px);
+  --text-base: clamp(16px, 1.5vw, 18px);
+  --text-input: clamp(16px, 1.5vw, 18px);
+  --text-md: clamp(20px, 2vw, 24px);
   --text-lg: clamp(32px, 4vw, 64px);
 
   --shadow: 0px 0px var(--spacing-xs) 0px rgba(0, 0, 0, 0.08);
