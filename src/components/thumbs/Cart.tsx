@@ -29,7 +29,7 @@ const CartThumb = ({
     <div className="grid bg-white shadow">
       <div
         ref={mainEl}
-        className="gap-xs grid grid-flow-col grid-cols-[auto_1fr_auto] items-center"
+        className="grid grid-flow-col grid-cols-[auto_1fr_auto] items-center"
       >
         <div className="grid justify-items-start *:col-start-1 *:row-start-1">
           <SizeUtil name="adder" width scoped scopedEl={mainEl}>
