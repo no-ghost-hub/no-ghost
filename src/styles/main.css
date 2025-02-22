@@ -27,7 +27,7 @@
   --color-orange: rgb(255, 105, 5);
 
   --text-sm: clamp(12px, 1.5vw, 14px);
-  --text-base: clamp(16px, 1.5vw, 18px);
+  --text-base: clamp(15px, 1.5vw, 18px);
   --text-input: clamp(16px, 1.5vw, 18px);
   --text-md: clamp(20px, 2vw, 24px);
   --text-lg: clamp(32px, 4vw, 64px);
