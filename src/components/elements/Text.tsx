@@ -10,7 +10,7 @@ type Props = {
   theme?: string;
 };
 
-const Component = ({
+const Text = ({
   children,
   html,
   tag = "p",
@@ -73,4 +73,4 @@ const Component = ({
   );
 };
 
-export default Component;
+export default Text;

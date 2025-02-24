@@ -1,6 +1,6 @@
 "use client";
 
-import { Video } from "@/types";
+import { Video as VideoType } from "@/types";
 import { useEffect, useRef, useState } from "react";
 import Hls from "hls.js";
 
@@ -8,9 +8,9 @@ import Link from "@/components/elements/Link";
 import Text from "@/components/elements/Text";
 import { s } from "@/utils/useClientString";
 
-type Props = Video;
+type Props = VideoType;
 
-const VideoElement = ({
+const Video = ({
   src,
   poster,
   ratio,
@@ -21,11 +21,11 @@ const VideoElement = ({
 
   useEffect(() => {
     if (videoEl.current) {
-      if (Hls.isSupported()) {
+      if (src.endsWith(".m3u8") && Hls.isSupported()) {
         const hls = new Hls();
         hls.loadSource(src);
         hls.attachMedia(videoEl.current);
-      } else if (videoEl.current.canPlayType("application/vnd.apple.mpegurl")) {
+      } else {
         videoEl.current.src = src;
       }
     }
@@ -83,4 +83,4 @@ const VideoElement = ({
   );
 };
 
-export default VideoElement;
+export default Video;

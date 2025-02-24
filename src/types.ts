@@ -16,7 +16,7 @@ export type Image = {
 
 export type Video = {
   src: string;
-  poster: string;
+  poster?: string;
   ratio: { x: number; y: number };
   theme?: string;
   controls?: boolean;

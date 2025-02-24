@@ -13,7 +13,7 @@ type Props = {
   theme?: string;
 };
 
-const AccordionElement = ({ trigger, children, theme = "default" }: Props) => {
+const Accordion = ({ trigger, children, theme = "default" }: Props) => {
   const el = useRef<HTMLDivElement>(null);
 
   const [contentEl, { height }] = useMeasure<HTMLDivElement>();
@@ -48,4 +48,4 @@ const AccordionElement = ({ trigger, children, theme = "default" }: Props) => {
   );
 };
 
-export default AccordionElement;
+export default Accordion;

@@ -1,6 +1,6 @@
 "use client";
 
-import Link from "next/link";
+import NextLink from "next/link";
 import { usePathname, useSearchParams } from "next/navigation";
 import type { LinkProps } from "next/link";
 
@@ -30,7 +30,7 @@ const backgrounds: Record<string, string> = {
   blue: "bg-blue",
 };
 
-const LinkElement = ({
+const Link = ({
   href: hrefProp,
   children,
   background = "default",
@@ -75,13 +75,13 @@ const LinkElement = ({
   return (
     <>
       {href ? (
-        <Link
+        <NextLink
           href={toggle && active ? path : href}
           className={`custom-underline ${classes[theme]} ${shadow === false ? "shadow-none" : ""} ${backgrounds[background]} ${active ? "active-link" : ""}`}
           target={external ? "_blank" : undefined}
         >
           {children}
-        </Link>
+        </NextLink>
       ) : (
         <button
           className={`custom-underline ${classes[theme]} ${shadow === false ? "shadow-none" : ""} ${backgrounds[background]} ${active ? "active-link" : ""} `}
@@ -95,4 +95,4 @@ const LinkElement = ({
   );
 };
 
-export default LinkElement;
+export default Link;

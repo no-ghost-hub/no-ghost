@@ -10,7 +10,7 @@ import { SwiperOptions } from "swiper/types";
 
 type Props = { children: ReactNode; theme?: string };
 
-const Component: React.FC<Props> = ({ children, theme = "default" }) => {
+const Carousel: React.FC<Props> = ({ children, theme = "default" }) => {
   const swiperEl = useRef<HTMLDivElement | null>(null);
   const swiper = useRef<Swiper | null>(null);
 
@@ -52,4 +52,4 @@ const Component: React.FC<Props> = ({ children, theme = "default" }) => {
   );
 };
 
-export default Component;
+export default Carousel;
