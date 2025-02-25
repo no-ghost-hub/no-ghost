@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import localFont from "next/font/local";
 import "@/styles/index.css";
+import { Suspense } from "react";
 
 const leif = localFont({
   src: [
@@ -25,7 +26,9 @@ const Layout = async ({
 }>) => {
   return (
     <html lang="en" className={`${leif.variable} selection:bg-yellow`}>
-      <body className="bg-grey">{children}</body>
+      <body className="bg-grey">
+        <Suspense>{children}</Suspense>
+      </body>
     </html>
   );
 };
