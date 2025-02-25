@@ -34,7 +34,7 @@
   },
   "devDependencies": {
     "@svgr/webpack": "^8.1.0",
-    "@swc/core": "^1.10.18",
+    "@swc/core": "^1.11.1",
     "@tailwindcss/postcss": "^4.0.8",
     "@types/node": "^22",
     "@types/react": "^19",
