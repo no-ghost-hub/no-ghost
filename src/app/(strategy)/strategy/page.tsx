@@ -151,59 +151,44 @@ const StrategyPage = ({
         </Text>
         <Text tag="h3" align="center">
           We should explore also smaller specific channels, like vegan community
-          platforms and nomads.com.
+          platforms and nomads.com, Facebook groups.
         </Text>
       </Section>
       <Section title="Implementations - One off">
         <Cards>
           <Card
-            tones={["k"]}
-            title="B2B section"
+            title="1000 reviews"
             goal="short"
-            channels="W"
-            why="To get and keep more B2B clients."
-            what="Web page(s) or e-commerce."
-            when="April 2025."
-            monitor="Increase in sales."
+            channels="G"
+            why="Have a significant presence on the most used platform in the world."
+            what="Several actions."
+            when="ASAP"
+            monitor="Client feedback."
+            priority={5}
           >
             <Text>
-              It would help promoting and selling No Ghost meat. It could even
-              become an e-commerce part with checkout flow. Possible to sell to
-              privates instead of only companies?
+              Strengthen Google Business profile (curated photos, videos),
+              respond to reviews and add new ones. Check regarding posts and
+              reservation features.
             </Text>
           </Card>
           <Card
-            tones={["k", "f"]}
-            title="Website tuning"
-            goal="long"
-            channels="W"
-            why="To communicate the identity properly."
-            what="Development hours."
-            when="March 2025."
-            monitor="Collective check."
-          >
-            <Text>
-              Finishing up website details: SEO, make contact info more visible,
-              decide about footer and navigation, implement visual effects on
-              media. With the help of Alessandro De Vecchi.
-            </Text>
-            <Image src={burnPic} />
-          </Card>
-          <Card
-            title="Space tuning"
+            tones={["f"]}
+            title="Ghost gear"
             goal="short"
-            channels="S"
-            why="To communicate the identity properly and make the space comfortable and homey."
-            what="Energy and effort."
-            when="March 2025."
-            monitor="Collective check."
+            channels="I - S - W"
+            why="For the fans and to have another stream of income."
+            what="Merchandise items on website."
+            when="TBD"
+            monitor="Sales."
+            priority={5}
           >
             <Text>
-              Finishing up space details: Decorative elements (wall stuff,
-              plants, art pieces, graphics), signage, music playlists, light
-              sync, outdoor seating. With the help of Elin.
+              Launch T-shirts with the slogan "Here There Are No Ghosts" on an
+              e-commerce platform, offering stylish, minimalist designs to
+              strengthen brand identity and engage fans. Buy at the restaurant.
             </Text>
-            <Image src={signPic} />
+            <Image src={shirtPic} />
           </Card>
           <Card
             title="Window food"
@@ -213,6 +198,7 @@ const StrategyPage = ({
             what="Daily effort."
             when="ASAP"
             monitor="Qualitative judgement."
+            priority={4}
           >
             <Text>
               Showcasing one food item every day in the window, with a small
@@ -230,6 +216,7 @@ const StrategyPage = ({
             what="Relinks, reposts, little thumbs."
             when="April 2025."
             monitor="Web analytics."
+            priority={3}
           >
             <Text>
               Adding thumbs of social media posts or web reviews to the website.
@@ -242,35 +229,54 @@ const StrategyPage = ({
             </Link>
           </Card>
           <Card
-            tones={["f"]}
-            title="Ghost gear"
+            title="Space tuning"
             goal="short"
-            channels="I - S - W"
-            why="For the fans and to have another stream of income."
-            what="Merchandise items on website."
-            when="TBD"
-            monitor="Sales."
+            channels="S"
+            priority={3}
+            why="To communicate the identity properly and make the space comfortable and homey."
+            what="Energy and effort."
+            when="March 2025."
+            monitor="Collective check."
           >
             <Text>
-              Launch T-shirts with the slogan "Here There Are No Ghosts" on an
-              e-commerce platform, offering stylish, minimalist designs to
-              strengthen brand identity and engage fans. Buy at the restaurant.
+              Finishing up space details: Decorative elements (wall stuff,
+              plants, art pieces, graphics), signage, music playlists, light
+              sync, outdoor seating. With the help of Elin.
             </Text>
-            <Image src={shirtPic} />
+            <Image src={signPic} />
           </Card>
           <Card
-            title="1000 reviews"
-            goal="short"
-            channels="G"
-            why="Have a significant presence on the most used platform in the world."
-            what="Several actions."
-            when="ASAP"
-            monitor="Client feedback."
+            tones={["k", "f"]}
+            title="Website tuning"
+            goal="long"
+            channels="W"
+            why="To communicate the identity properly."
+            what="Development hours."
+            when="March 2025."
+            priority={2}
+            monitor="Collective check."
           >
             <Text>
-              Strengthen Google Business profile (curated photos, videos),
-              respond to reviews and add new ones. Check regarding posts and
-              reservation features.
+              Finishing up website details: SEO, make contact info more visible,
+              decide about footer and navigation, implement visual effects on
+              media. With the help of Alessandro De Vecchi.
+            </Text>
+            <Image src={burnPic} />
+          </Card>
+          <Card
+            tones={["k"]}
+            title="B2B section"
+            goal="short"
+            channels="W"
+            why="To get and keep more B2B clients."
+            what="Web page(s) or e-commerce."
+            when="April 2025."
+            monitor="Increase in sales."
+          >
+            <Text>
+              It would help promoting and selling No Ghost meat. It could even
+              become an e-commerce part with checkout flow. Possible to sell to
+              privates instead of only companies?
             </Text>
           </Card>
         </Cards>
@@ -279,28 +285,13 @@ const StrategyPage = ({
         <Cards>
           <Card
             tones={["k"]}
-            title="Health insights"
-            goal="long"
-            channels="N - Y - W"
-            why="To educate, attract and inspire."
-            what="Articles, videos, newsletters."
-            monitor="Analytics."
-          >
-            <Text>
-              Engaging, thought-provoking content on vegan trends, health, and
-              innovation—delivered with an inspiring hook that sparks curiosity
-              and conversation.
-            </Text>
-            <Iframe src="https://www.youtube.com/embed/jDL9n_BQCg4" />
-          </Card>
-          <Card
-            tones={["k"]}
             title="Better bites"
             goal="short"
             channels="Y - W"
             why="To educate, attract and inspire."
             what="Articles, videos."
             monitor="Analytics."
+            priority={3}
           >
             <Text>
               Honest, in-depth reviews and comparisons of No Ghost products,
@@ -310,6 +301,23 @@ const StrategyPage = ({
             <Iframe src="https://www.youtube.com/embed/u-WwhaDAPqk" />
           </Card>
           <Card
+            tones={["k"]}
+            title="Health insights"
+            goal="long"
+            channels="N - Y - W"
+            why="To educate, attract and inspire."
+            what="Articles, videos, newsletters."
+            monitor="Analytics."
+            priority={2}
+          >
+            <Text>
+              Engaging, thought-provoking content on vegan trends, health, and
+              innovation—delivered with an inspiring hook that sparks curiosity
+              and conversation.
+            </Text>
+            <Iframe src="https://www.youtube.com/embed/jDL9n_BQCg4" />
+          </Card>
+          <Card
             tones={["k", "f"]}
             title="Community stories"
             goal="long"
@@ -317,6 +325,7 @@ const StrategyPage = ({
             why="Make the community visible and show humans behind the brand."
             what="Videos."
             monitor="Analytics."
+            priority={2}
           >
             <Text>
               Long-form, video-driven content featuring interviews with staff
@@ -354,6 +363,7 @@ const StrategyPage = ({
             what="Posts. Videos should be sharp, some color cuts, slow motion pans."
             when="30%"
             monitor="Analytics."
+            priority={5}
           >
             <Text>
               Videos and images focused on visually documenting the preparation
@@ -370,6 +380,7 @@ const StrategyPage = ({
             what="Short videos"
             when="30%"
             monitor="Analytics."
+            priority={5}
           >
             <Text>
               Content featuring staff and clients in their everyday
@@ -396,6 +407,7 @@ const StrategyPage = ({
             what="Static images or psychedelic GIFs."
             when="10%"
             monitor="Analytics."
+            priority={4}
           >
             <Text>
               Abstract, eye-catching content designed purely for brand
@@ -417,6 +429,7 @@ const StrategyPage = ({
             what="Text posts."
             when="10%"
             monitor="Analytics."
+            priority={4}
           >
             <Text>
               Short, informative posts offering quick health insights—educating
@@ -437,6 +450,7 @@ const StrategyPage = ({
             what="Posts."
             when="20%"
             monitor="Analytics."
+            priority={4}
           >
             <Text>
               Visual content highlighting the restaurant’s design elements,
@@ -461,6 +475,7 @@ const StrategyPage = ({
             what="Flyers (and basic web communication)."
             when="ASAP"
             monitor="Add a coupon and they need to bring it."
+            priority={5}
           >
             <Text>
               Targeted flyers with special lunch meal offers, designed for
@@ -487,6 +502,7 @@ const StrategyPage = ({
             what="Stickers with digital hook."
             when="TBD"
             monitor="Via digital code."
+            priority={5}
           >
             <Text>
               Eye-catching guerrilla-style stickers featuring a code that leads
@@ -501,6 +517,19 @@ const StrategyPage = ({
           </Card>
           <Card
             tones={["f"]}
+            title="Meir"
+            goal="short"
+            channels="S"
+            why="Attract unexpected potential clients."
+            what=""
+            when="TBD"
+            monitor=""
+            priority={5}
+          >
+            <Text>Tua madre</Text>
+          </Card>
+          <Card
+            tones={["f"]}
             title="Referral program"
             goal="short"
             channels="N - W"
@@ -508,6 +537,7 @@ const StrategyPage = ({
             what="Digital codes via email."
             when="TBD"
             monitor="Via digital code."
+            priority={5}
           >
             <Text>
               After making a reservation and signing up for marketing
@@ -524,6 +554,7 @@ const StrategyPage = ({
             what="Stands selling food."
             when="TBD"
             monitor="Partecipation."
+            priority={2}
           >
             <Text>
               A temporary pop-up in a new area to test a recipe, attract fresh
@@ -540,6 +571,7 @@ const StrategyPage = ({
             what="Mostly a newsletter with a communication summery."
             when="Whenever necessary"
             monitor="Reach-outs and feedback forms."
+            priority={2}
           >
             <Text>
               Regular news summaries covering the latest from the brand and
@@ -575,6 +607,29 @@ const StrategyPage = ({
       <Section title="Events - Once a month">
         <Cards>
           <Card
+            title="Flow"
+            goal="long"
+            channels="S"
+            why="Attract an active, wellness-focused community and promote morning visits."
+            what="Yoga."
+            when="TBD, best on weekends"
+            monitor="Partecipation."
+            priority={2}
+          >
+            <Text>
+              A refreshing morning yoga session followed by a healthy vegan
+              brunch, setting the tone for a balanced and energized day.
+            </Text>
+            <Text>Collaboration with Raket / Atelier du Mon?</Text>
+            <Link
+              theme="button"
+              background="white"
+              href="https://www.instagram.com/raket_antwerpen/"
+            >
+              <Text tag="div">Raket</Text>
+            </Link>
+          </Card>
+          <Card
             title="Sound & savor"
             goal="long"
             channels="S"
@@ -598,28 +653,6 @@ const StrategyPage = ({
             <div className="shadow">
               <Image src={relaxPic} />
             </div>
-          </Card>
-          <Card
-            title="Flow"
-            goal="long"
-            channels="S"
-            why="Attract an active, wellness-focused community and promote morning visits."
-            what="Yoga."
-            when="TBD, best on weekends"
-            monitor="Partecipation."
-          >
-            <Text>
-              A refreshing morning yoga session followed by a healthy vegan
-              brunch, setting the tone for a balanced and energized day.
-            </Text>
-            <Text>Collaboration with Raket / Atelier du Mon?</Text>
-            <Link
-              theme="button"
-              background="white"
-              href="https://www.instagram.com/raket_antwerpen/"
-            >
-              <Text tag="div">Raket</Text>
-            </Link>
           </Card>
           <Card
             title="Evening health talks"
@@ -692,6 +725,7 @@ const Card = ({
   what,
   when,
   monitor,
+  priority = 1,
   background = "white",
   theme = "default",
   children,
@@ -705,6 +739,7 @@ const Card = ({
   when?: string;
   monitor?: string;
   background?: string;
+  priority?: number;
   theme?: string;
   children?: React.ReactNode;
 }) => {
@@ -712,7 +747,7 @@ const Card = ({
 
   return (
     <div
-      className={`grid opacity-0 ${isHovered ? "opacity-100" : ""}`}
+      className={`grid opacity-100 ${isHovered ? "opacity-100" : ""}`}
       onMouseEnter={() => setIsHovered(true)}
     >
       <div className="grid grid-flow-col justify-between">
@@ -736,14 +771,25 @@ const Card = ({
         {children}
       </div>
       {theme === "default" && (
-        <div className={`p-xs ${colors[goal]}`}>
-          <Text typo="sm">
-            Why? {why} <br />
-            What? How? {what} <br />
-            When? {when} <br />
-            Monitor? {monitor} <br />
-          </Text>
-        </div>
+        <>
+          <div className={`p-xs ${colors[goal]}`}>
+            <Text typo="sm">
+              Why? {why} <br />
+              What? How? {what} <br />
+              When? {when} <br />
+              Monitor? {monitor} <br />
+            </Text>
+          </div>
+          <div className="h-xs gap-xxs grid grid-flow-col">
+            {Array.from({ length: 5 }).map((_, i) => (
+              <div
+                key={i}
+                className={i < priority ? "bg-orange" : ""}
+                style={{ opacity: (1 / 5) * priority }}
+              />
+            ))}
+          </div>
+        </>
       )}
     </div>
   );
