@@ -1,3 +1,5 @@
+"use client";
+
 import Image from "@/components/elements/Image";
 import Text from "@/components/elements/Text";
 import Logo from "@/components/layout/Logo";
@@ -13,6 +15,7 @@ import displayPic from "./images/display.jpg";
 import relaxPic from "./images/relax.jpg";
 import Video from "@/components/elements/Video";
 import Link from "@/components/elements/Link";
+import { useState } from "react";
 
 const colors: Record<string, string> = {
   k: "bg-blue",
@@ -137,7 +140,7 @@ const StrategyPage = ({
         </Cards>
       </Section>
       <Section title="Channels">
-        <Text tag="h3" typo="lg">
+        <Text tag="h4" typo="lg">
           G<span className="text-darkgrey">oogle</span>
           <br />I<span className="text-darkgrey">nstagram</span>
           <br />N<span className="text-darkgrey">ewsletter</span>
@@ -145,6 +148,10 @@ const StrategyPage = ({
           <br />S<span className="text-darkgrey">pace</span>
           <br />Y<span className="text-darkgrey">outube</span>
           <br /> W<span className="text-darkgrey">ebsite</span>
+        </Text>
+        <Text tag="h3" align="center">
+          We should explore also smaller specific channels, like vegan community
+          platforms and nomads.com.
         </Text>
       </Section>
       <Section title="Implementations - One off">
@@ -701,8 +708,13 @@ const Card = ({
   theme?: string;
   children?: React.ReactNode;
 }) => {
+  const [isHovered, setIsHovered] = useState(false);
+
   return (
-    <div className="grid">
+    <div
+      className={`grid opacity-0 ${isHovered ? "opacity-100" : ""}`}
+      onMouseEnter={() => setIsHovered(true)}
+    >
       <div className="grid grid-flow-col justify-between">
         <div className="grid grid-flow-col">
           {tones?.map((tone) => (
