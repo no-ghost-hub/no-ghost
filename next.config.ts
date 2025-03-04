@@ -41,6 +41,12 @@ const nextConfig: NextConfig = {
 
           fileLoaderRule.exclude = /\.svg$/i;
 
+          config.resolve.alias = {
+            ...config.resolve.alias,
+            sharp$: false,
+            "onnxruntime-node$": false,
+          };
+
           return config;
         }
       : (config) => config,
@@ -93,7 +99,6 @@ const nextConfig: NextConfig = {
       hmrRefreshes: true,
     },
   },
-  serverExternalPackages: ["sharp", "onnxruntime-node"],
 };
 
 export default withPayload(nextConfig);
