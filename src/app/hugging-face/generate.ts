@@ -14,13 +14,13 @@ const generate = async (prevState: any, formData: FormData) => {
     { role: "user", content: prompt as string },
   ];
 
-  let modelId = "HuggingFaceTB/SmolLM2-1.7B-Instruct";
+  let modelId = "HuggingFaceTB/SmolLM2-360M-Instruct";
   // modelId = "onnx-community/DeepSeek-R1-Distill-Qwen-1.5B-ONNX";
   // modelId = "onnx-community/Qwen2.5-0.5B-Instruct";
   // modelId = "onnx-community/Llama-3.2-1B-Instruct";
 
   const model = await AutoModelForCausalLM.from_pretrained(modelId, {
-    dtype: "fp16",
+    dtype: "q4",
   });
 
   const tokenizer = await AutoTokenizer.from_pretrained(modelId);

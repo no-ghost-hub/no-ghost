@@ -41,12 +41,6 @@ const nextConfig: NextConfig = {
 
           fileLoaderRule.exclude = /\.svg$/i;
 
-          config.resolve.alias = {
-            ...config.resolve.alias,
-            sharp$: false,
-            "onnxruntime-node$": false,
-          };
-
           return config;
         }
       : (config) => config,
