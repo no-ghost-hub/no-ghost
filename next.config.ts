@@ -94,7 +94,7 @@ const nextConfig: NextConfig = {
     },
   },
   outputFileTracingExcludes: {
-    "*": ["node_modules/onnx-runtime-node"],
+    "*": ["node_modules/onnxruntime-node"],
   },
 };
 
