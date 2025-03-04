@@ -93,6 +93,7 @@ const nextConfig: NextConfig = {
       hmrRefreshes: true,
     },
   },
+  serverExternalPackages: ["sharp", "onnxruntime-node"],
 };
 
 export default withPayload(nextConfig);
