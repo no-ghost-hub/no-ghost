@@ -93,7 +93,9 @@ const nextConfig: NextConfig = {
       hmrRefreshes: true,
     },
   },
-  output: "standalone",
+  outputFileTracingExcludes: {
+    "*": ["node_modules/onnx-runtime-node"],
+  },
 };
 
 export default withPayload(nextConfig);
