@@ -93,6 +93,7 @@ const nextConfig: NextConfig = {
       hmrRefreshes: true,
     },
   },
+  output: "standalone",
 };
 
 export default withPayload(nextConfig);

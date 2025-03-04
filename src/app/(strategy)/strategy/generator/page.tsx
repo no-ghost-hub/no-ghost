@@ -1,6 +1,6 @@
 "use client";
 
-// import generate from "@/app/hugging-face/generate";
+import generate from "@/app/hugging-face/generate";
 import Link from "@/components/elements/Link";
 import Text from "@/components/elements/Text";
 import FormsText from "@/components/forms/Text";
@@ -195,7 +195,7 @@ const GeneratorPage = ({
     setVariant(pickVariant(content));
   }
 
-  // const [result, formAction, pending] = useActionState(generate, null);
+  const [result, formAction, pending] = useActionState(generate, null);
 
   return (
     <main className="gap-l pt-m pb-l grid">
@@ -214,7 +214,7 @@ const GeneratorPage = ({
           </div>
         ))}
       </div> */}
-      {/* <div className="p-xs gap-s grid justify-self-center bg-white">
+      <div className="p-xs gap-s grid justify-self-center bg-white">
         <Form action={formAction} className="gap-s grid">
           <FormsText name="prompt" type="textarea" label="What?" />
           <Link theme="button" background="blue">
@@ -222,7 +222,7 @@ const GeneratorPage = ({
           </Link>
         </Form>
         {pending ? <Loader /> : <>{result}</>}
-      </div> */}
+      </div>
       <div className="px-xs justify-self-center">
         <Link onClick={handleGenerate} theme="button" background="blue">
           <Text tag="div" typo="lg">
