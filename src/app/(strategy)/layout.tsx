@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import localFont from "next/font/local";
 import "@/styles/index.css";
 import { Suspense } from "react";
+import { redirect } from "next/navigation";
 
 const leif = localFont({
   src: [
@@ -24,6 +25,10 @@ const Layout = async ({
 }: Readonly<{
   children: React.ReactNode;
 }>) => {
+  if (process.env.NODE_ENV !== "development") {
+    redirect("/");
+  }
+
   return (
     <html lang="en" className={`${leif.variable} selection:bg-yellow`}>
       <body className="bg-grey">
