@@ -13,6 +13,7 @@ import { vercelBlobStorage } from "@payloadcms/storage-vercel-blob";
 import Users from "@/payload/collections/Users";
 import Media from "@/payload/collections/Media";
 import Pages from "@/payload/collections/Pages";
+import Promotions from "@/payload/collections/Promotions";
 import Menus from "@/payload/collections/Menus";
 import Site from "@/payload/globals/Site";
 import Footer from "@/payload/globals/Footer";
@@ -38,7 +39,7 @@ export default buildConfig({
     ],
   }),
   globals: [Site, Footer, Strings],
-  collections: [Users, Pages, Media, Menus],
+  collections: [Users, Pages, Promotions, Media, Menus],
   secret: process.env.PAYLOAD_SECRET || "",
   db: mongooseAdapter({
     url: process.env.MONGODB_URL || "",
