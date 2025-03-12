@@ -297,8 +297,8 @@ export interface LinkBlock {
   } | null;
   url?: string | null;
   text?: string | null;
-  theme?: 'default' | null;
   id?: string | null;
+  theme?: 'default' | null;
   blockName?: string | null;
   blockType: 'linkBlock';
 }
@@ -549,8 +549,8 @@ export interface LinkBlockSelect<T extends boolean = true> {
   reference?: T;
   url?: T;
   text?: T;
-  theme?: T;
   id?: T;
+  theme?: T;
   blockName?: T;
 }
 /**

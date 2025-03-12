@@ -8,9 +8,7 @@ export default async function getReservationSlots() {
     options: {
       fields: ["weekday", "start_hour", "end_hour", "appointment_type_id"],
     },
-    domain: [
-      [["appointment_type_id.x_studio_slug", "in", ["lunch", "dinner"]]],
-    ],
+    domain: [[["appointment_type_id.x_studio_slug", "in", ["dinner"]]]],
   });
 
   json.result = parsed(json.result, "reservationSlots");

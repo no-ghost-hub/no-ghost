@@ -1,47 +1,47 @@
 "use server";
 
-import {
-  AutoModelForCausalLM,
-  AutoTokenizer,
-  Tensor,
-} from "@huggingface/transformers";
+const promptColors: Record<string, string> = {
+  orange: "bright orange",
+  blue: "electric blue",
+  green: "mint green",
+  yellow: "pale yellow",
+};
 
-const generate = async (prevState: any, formData: FormData) => {
-  const { prompt } = Object.fromEntries(formData);
+const generate = async (
+  image: File | null,
+  colors: string[],
+  prevState: any,
+  // formData: FormData,
+) => {
+  // const lol = Object.fromEntries(formData);
+  // console.log(lol);
 
-  const chat = [
-    { role: "system", content: "You are a helpful assistant." },
-    { role: "user", content: prompt as string },
-  ];
+  if (!image) {
+    return false;
+  }
 
-  let modelId = "HuggingFaceTB/SmolLM2-360M-Instruct";
-  // modelId = "onnx-community/DeepSeek-R1-Distill-Qwen-1.5B-ONNX";
-  // modelId = "onnx-community/Qwen2.5-0.5B-Instruct";
-  // modelId = "onnx-community/Llama-3.2-1B-Instruct";
+  const prompt = colors.map((color) => promptColors[color]).join(", ");
+  const formData = new FormData();
+  formData.append("image", image);
+  formData.append("prompt", prompt);
 
-  const model = await AutoModelForCausalLM.from_pretrained(modelId, {
-    dtype: "q4",
-  });
+  try {
+    const response = await fetch("http://127.0.0.1:8000/image", {
+      method: "POST",
+      body: formData,
+    });
 
-  const tokenizer = await AutoTokenizer.from_pretrained(modelId);
-  const formattedChat = tokenizer.apply_chat_template(chat, {
-    tokenize: false,
-    add_generation_prompt: true,
-  });
+    if (!response.ok) {
+      return { error: response.statusText };
+    }
 
-  const input = tokenizer(formattedChat, {
-    return_tensors: "pt",
-    add_special_tokens: false,
-  });
+    const json = await response.json();
 
-  const output = (await model.generate({
-    ...input,
-    // max_new_tokens: 128,
-  })) as Tensor;
-
-  const result = tokenizer.decode(output);
-
-  return result;
+    return json;
+  } catch (error: any) {
+    console.error(error);
+    return { error: error.message };
+  }
 };
 
 export default generate;

@@ -3,6 +3,7 @@
 import NextLink from "next/link";
 import { usePathname, useSearchParams } from "next/navigation";
 import type { LinkProps } from "next/link";
+import { Button } from "react-aria-components";
 
 type Props = Omit<LinkProps, "href"> & {
   href?: LinkProps["href"];
@@ -13,6 +14,7 @@ type Props = Omit<LinkProps, "href"> & {
   disabled?: boolean;
   active?: boolean;
   shadow?: boolean;
+  type?: "button" | "submit";
   onClick?: () => void;
   theme?: string;
 };
@@ -40,6 +42,7 @@ const Link = ({
   disabled = false,
   active: activeProp,
   onClick,
+  type = "button",
   theme = "default",
 }: Props) => {
   const path = usePathname();
@@ -83,13 +86,14 @@ const Link = ({
           {children}
         </NextLink>
       ) : (
-        <button
+        <Button
           className={`custom-underline ${classes[theme]} ${shadow === false ? "shadow-none" : ""} ${backgrounds[background]} ${active ? "active-link" : ""} `}
-          disabled={disabled}
-          onClick={onClick}
+          isDisabled={disabled}
+          onPress={onClick}
+          type={type}
         >
           {children}
-        </button>
+        </Button>
       )}
     </>
   );

@@ -14,8 +14,15 @@ const nextConfig: NextConfig = {
               },
             },
           },
+          serverActions: {
+            bodySizeLimit: "10mb",
+          },
         }
-      : {},
+      : {
+          serverActions: {
+            bodySizeLimit: "10mb",
+          },
+        },
   webpack:
     process.env.NODE_ENV === "production"
       ? (config) => {
@@ -93,9 +100,9 @@ const nextConfig: NextConfig = {
       hmrRefreshes: true,
     },
   },
-  outputFileTracingExcludes: {
-    "*": ["node_modules/onnxruntime-node"],
-  },
+  // outputFileTracingExcludes: {
+  //   "*": ["node_modules/onnxruntime-node"],
+  // },
 };
 
 export default withPayload(nextConfig);

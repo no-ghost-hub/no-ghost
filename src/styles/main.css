@@ -41,6 +41,7 @@
   --animate-slide-out: slide 200ms reverse;
   --animate-load: load 2000ms infinite;
   --animate-underline: underline 1500ms infinite;
+  --animate-flash: flash 8000ms infinite;
 
   @keyframes slide {
     0% {
@@ -48,6 +49,18 @@
     }
     100% {
       transform: translateY(0);
+    }
+  }
+
+  @keyframes flash {
+    0% {
+      opacity: 1;
+    }
+    20% {
+      opacity: 0;
+    }
+    100% {
+      opacity: 0;
     }
   }
 
