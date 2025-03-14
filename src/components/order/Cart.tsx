@@ -12,6 +12,10 @@ import { redirect, useSearchParams } from "next/navigation";
 import { startTransition, useActionState, useEffect, useState } from "react";
 import Loader from "@/components/utils/Loader";
 import createOrder from "@/odoo/createOrder";
+import FormsText from "@/components/forms/Text";
+import { Form } from "react-aria-components";
+import getDiscount from "@/odoo/getDiscount";
+import Accordion from "@/components/elements/Accordion";
 
 type Props = {
   already: any;
@@ -20,7 +24,8 @@ type Props = {
 const Cart = ({ already }: Props) => {
   const { navigation, setNavigation } = useUiStore((state) => state);
 
-  const { cart, clear } = useCartStore((state) => state);
+  const { cart, add, clear, discount, setDiscount, applyDiscount } =
+    useCartStore((state) => state);
 
   const searchParams = useSearchParams();
   const table = searchParams.get("table");
@@ -53,6 +58,18 @@ const Cart = ({ already }: Props) => {
   }, [result]);
 
   const s = useString();
+
+  const [discountResult, discountAction, discountPending] = useActionState(
+    getDiscount,
+    null,
+  );
+
+  useEffect(() => {
+    if (discountResult?.data) {
+      setDiscount(discountResult.data);
+      applyDiscount();
+    }
+  }, [discountResult]);
 
   return (
     <NavigationToggleContainer show={navigation === "cart"}>
@@ -87,6 +104,58 @@ const Cart = ({ already }: Props) => {
                   </div>
                 </div>
                 <div className="p-xs sticky bottom-0 grid bg-white">
+                  {discount ? (
+                    <div className="pb-xs grid">
+                      <Link
+                        theme="button"
+                        background="green"
+                        onClick={() => setDiscount(undefined)}
+                      >
+                        <div className="grid grid-flow-col justify-between">
+                          <Text typo="sm">X</Text>
+                          <Text wrap={false} typo="sm">
+                            {discount.code}
+                          </Text>
+                          <Text typo="sm">X</Text>
+                        </div>
+                      </Link>
+                    </div>
+                  ) : (
+                    <Accordion
+                      trigger={
+                        <Text tag="h5" align="center" wrap={false}>
+                          {s("cart.discountCode")}
+                        </Text>
+                      }
+                    >
+                      <div className="gap-xs py-xs grid">
+                        <Form action={discountAction}>
+                          <div className="gap-y-xs grid grid-flow-col grid-cols-[1fr]">
+                            <FormsText
+                              name="code"
+                              validation={false}
+                              label={s("cart.discountCode")}
+                              showLabel={false}
+                            />
+                            <Link
+                              type="submit"
+                              theme="button"
+                              background="green"
+                            >
+                              <Text tag="div">{s("ctas.discountCode")}</Text>
+                            </Link>
+                          </div>
+                        </Form>
+                        <Text typo="sm" color="orange">
+                          {discountResult && !discountResult.data ? (
+                            s("discountCode.error")
+                          ) : (
+                            <>&nbsp;</>
+                          )}
+                        </Text>
+                      </div>
+                    </Accordion>
+                  )}
                   <Link
                     theme="button"
                     background="orange"

@@ -11,6 +11,27 @@ export type CartItem = {
   tax: { id: number; amount: number };
   attributes?: { id: number; name: string; price: number }[];
   quantity: number;
+  reward?: {
+    id: number;
+    points: number;
+  };
+};
+
+export type CartDiscount = {
+  code: string;
+  minQuantity: number;
+  points: number;
+  products: number[];
+  rewards: {
+    id: number;
+    product: number;
+    maxQuantity: number;
+    points: number;
+    rewardProduct: {
+      id: number;
+      title: string;
+    };
+  }[];
 };
 
 export type CartStore = {
@@ -19,6 +40,9 @@ export type CartStore = {
   update: (id: string, quantity: number) => void;
   removeAttribute: (id: string, attributeId: number) => void;
   clear: () => void;
+  discount: CartDiscount | undefined;
+  setDiscount: (discount: any) => void;
+  applyDiscount: () => void;
 };
 
 const uniqueId = (id: number, attributes: { id: number }[] = []) =>
@@ -39,7 +63,6 @@ export const createCartStore = () =>
               {
                 id: uniqueId(item.productId, item.attributes),
                 ...item,
-                quantity: 1,
               },
             ],
           })),
@@ -65,7 +88,67 @@ export const createCartStore = () =>
                 : item,
             ),
           })),
-        clear: () => set({ cart: [] }),
+        clear: () => set({ cart: [], discount: undefined }),
+        discount: undefined,
+        setDiscount: (discount) =>
+          set((state) => {
+            if (!discount) {
+              return {
+                cart: state.cart.filter(({ reward }) => !reward),
+                discount,
+              };
+            }
+            return { discount };
+          }),
+        applyDiscount: () =>
+          set((state) => {
+            if (!state.discount) return state;
+
+            const { minQuantity, points, products, rewards } = state.discount;
+
+            const validProducts = state.cart.filter(({ productId }) =>
+              products.includes(productId),
+            );
+
+            if (validProducts.length < minQuantity) return state;
+
+            let remainingPoints = points;
+
+            rewards.forEach(
+              ({ id, product, maxQuantity, points, rewardProduct }) => {
+                state.cart.forEach((item) => {
+                  if (product === item.productId && remainingPoints >= points) {
+                    const quantity = Math.min(
+                      item.quantity,
+                      maxQuantity,
+                      Math.floor(remainingPoints / points),
+                    );
+
+                    if (quantity > 0) {
+                      state.add({
+                        productId: rewardProduct.id,
+                        price: -item.price * quantity,
+                        taxedPrice: -item.taxedPrice * quantity,
+                        quantity,
+                        tax: item.tax,
+                        title: rewardProduct.title,
+                        reward: {
+                          id,
+                          points,
+                        },
+                      });
+
+                      remainingPoints -= points;
+                    }
+                  }
+                });
+              },
+            );
+
+            return {
+              discount: { ...state.discount, points: remainingPoints },
+            };
+          }),
       }),
       {
         name: "cart-storage",

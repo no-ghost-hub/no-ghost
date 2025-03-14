@@ -8,20 +8,25 @@ import {
 } from "react-aria-components";
 
 type Props = TextFieldProps & {
-  label?: string;
+  label: string;
+  showLabel?: boolean;
   required?: boolean;
+  validation?: boolean;
 };
 
 const FormsText = ({
   name,
   label,
+  showLabel = true,
   type = "text",
   required = false,
+  validation = true,
   value,
   onChange,
 }: Props) => {
   return (
     <TextField
+      aria-label={label}
       name={name}
       isRequired={required}
       className="gap-xs grid"
@@ -29,7 +34,7 @@ const FormsText = ({
       value={value}
       onChange={onChange}
     >
-      <Label className="text-base">{label}</Label>
+      {showLabel && <Label className="text-base">{label}</Label>}
       <div className="custom-underline bg-grey p-xs text-input">
         {type === "textarea" ? (
           <TextArea className="w-full resize-none" rows={4} />
@@ -37,10 +42,12 @@ const FormsText = ({
           <Input size={1} className="w-full" />
         )}
       </div>
-      <div className="grid *:col-start-1 *:row-start-1">
-        <div className="text-sm">&nbsp;</div>
-        <FieldError className="text-orange text-sm" />
-      </div>
+      {validation && (
+        <div className="grid *:col-start-1 *:row-start-1">
+          <div className="text-sm">&nbsp;</div>
+          <FieldError className="text-orange text-sm" />
+        </div>
+      )}
     </TextField>
   );
 };

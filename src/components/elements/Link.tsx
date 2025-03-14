@@ -30,6 +30,7 @@ const backgrounds: Record<string, string> = {
   white: "bg-white",
   orange: "bg-orange",
   blue: "bg-blue",
+  green: "bg-green",
 };
 
 const Link = ({

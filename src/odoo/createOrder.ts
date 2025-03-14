@@ -43,7 +43,7 @@ const createOrder = async ({
   ]);
 
   const computedLines = lines.map(
-    ({ productId, price, attributes, quantity, taxedPrice, tax }) => [
+    ({ productId, price, attributes, quantity, taxedPrice, tax, reward }) => [
       0,
       0,
       {
@@ -58,6 +58,13 @@ const createOrder = async ({
         qty: quantity,
         tax_ids: [tax.id],
         uuid: randomUUID(),
+        ...(reward
+          ? {
+              is_reward_line: true,
+              reward_id: reward.id,
+              points_cost: reward.points,
+            }
+          : {}),
       },
     ],
   );

@@ -36,12 +36,14 @@ const OrderResult = ({ order, error, payment }: Props) => {
         ) : (
           order && (
             <Text align="center">
-              {order.lines.map(({ id, title, quantity }) => (
-                <span key={id}>
-                  <span className="text-orange"> {quantity}</span> {title}
-                  <br />
-                </span>
-              ))}
+              {order.lines
+                .filter(({ price }) => price >= 0)
+                .map(({ id, title, quantity }) => (
+                  <span key={id}>
+                    <span className="text-orange"> {quantity}</span> {title}
+                    <br />
+                  </span>
+                ))}
             </Text>
           )
         )}

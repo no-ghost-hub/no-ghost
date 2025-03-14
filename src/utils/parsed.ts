@@ -95,6 +95,27 @@ const parsed = (raw: any, type?: string): any => {
         price: raw.price_subtotal_incl,
       };
     }
+    case "discount": {
+      return {
+        id: raw.id,
+        code: raw.code,
+        products: raw.valid_product_ids,
+        minQuantity: raw.minimum_qty,
+        points: raw.reward_point_amount,
+      };
+    }
+    case "reward": {
+      return {
+        id: raw.id,
+        product: raw.reward_product_id[0],
+        maxQuantity: raw.reward_product_qty,
+        points: raw.required_points,
+        rewardProduct: {
+          id: raw.discount_line_product_id[0],
+          title: raw.discount_line_product_id[1],
+        },
+      };
+    }
     case "reservationTypes": {
       return {
         types: raw.map((type: any) => parsed(type, "reservationType")),
