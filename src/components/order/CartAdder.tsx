@@ -33,7 +33,7 @@ const CartAdder = ({
   attributes,
   theme = "default",
 }: Props) => {
-  const { cart, add, update, applyDiscount } = useCartStore((state) => state);
+  const { cart, add, update } = useCartStore((state) => state);
 
   const inCart = cart.find((item) =>
     id ? item.id === id : item.productId === productId,
@@ -67,7 +67,6 @@ const CartAdder = ({
       setShow(true);
     } else {
       add({ productId, title, price, taxedPrice, tax, quantity: 1 });
-      applyDiscount();
     }
   }
 
@@ -97,7 +96,6 @@ const CartAdder = ({
         attributes: selectedAttributes,
         quantity: 1,
       });
-      applyDiscount();
     }
     setShow(false);
   }
