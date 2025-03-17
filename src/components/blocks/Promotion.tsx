@@ -27,9 +27,11 @@ const PromotionBlock = async ({ code, background = "default" }: Props) => {
         </Text>
         <Text align="center">{s("promotion.remaining")}</Text>
       </div>
-      <div className="gap-s grid justify-self-center">
+      <div className="gap-s grid">
         <Text align="center">{s("promotion.discountCode")}</Text>
-        <PromotionBlockClient code={code} />
+        <div className="justify-self-center">
+          <PromotionBlockClient code={code} />
+        </div>
       </div>
     </div>
   );
