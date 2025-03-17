@@ -104,6 +104,13 @@ const parsed = (raw: any, type?: string): any => {
         points: raw.reward_point_amount,
       };
     }
+    case "promotion": {
+      return {
+        id: raw.id,
+        count: raw.total_order_count,
+        maxUsage: raw.max_usage,
+      };
+    }
     case "reward": {
       return {
         id: raw.id,
@@ -166,6 +173,13 @@ const parsed = (raw: any, type?: string): any => {
         medium: raw.medium.length
           ? parsed(raw.medium[0], raw.medium[0].blockType)
           : undefined,
+        theme: raw.theme,
+        background: raw.background,
+      };
+    }
+    case "promotionBlock": {
+      return {
+        code: raw.promotion,
         theme: raw.theme,
         background: raw.background,
       };

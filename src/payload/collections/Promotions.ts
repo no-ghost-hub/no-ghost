@@ -1,6 +1,7 @@
 import type { CollectionConfig } from "payload";
 import logoBlock from "@/payload/blocks/Logo";
 import contentBlock from "@/payload/blocks/Content";
+import promotionBlock from "@/payload/blocks/Promotion";
 
 const collection: CollectionConfig = {
   slug: "promotions",
@@ -43,7 +44,7 @@ const collection: CollectionConfig = {
               name: "blocks",
               label: "Blocks",
               type: "blocks",
-              blocks: [logoBlock, contentBlock],
+              blocks: [logoBlock, contentBlock, promotionBlock],
             },
           ],
         },

@@ -23,6 +23,8 @@ const classes: Record<string, string> = {
   default: "",
   button:
     "p-xs mix-blend-multiply text-center disabled:pointer-events-none disabled:bg-grey disabled:text-darkgrey shadow disabled:shadow-none",
+  "bleed-button":
+    "mix-blend-multiply text-center disabled:pointer-events-none disabled:bg-grey disabled:text-darkgrey shadow disabled:shadow-none",
 };
 
 const backgrounds: Record<string, string> = {

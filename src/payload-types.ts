@@ -283,11 +283,23 @@ export interface Promotion {
   id: string;
   title: string;
   slug: string;
-  blocks?: (LogoBlock | ContentBlock)[] | null;
+  blocks?: (LogoBlock | ContentBlock | PromotionBlock)[] | null;
   meta?: {};
   updatedAt: string;
   createdAt: string;
   _status?: ('draft' | 'published') | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "PromotionBlock".
+ */
+export interface PromotionBlock {
+  promotion?: 'HERE THERE ARE NO GHOSTS' | null;
+  theme?: 'default' | null;
+  background?: ('default' | 'orange' | 'blue' | 'none') | null;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'promotionBlock';
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -534,11 +546,23 @@ export interface PromotionsSelect<T extends boolean = true> {
     | {
         logoBlock?: T | LogoBlockSelect<T>;
         contentBlock?: T | ContentBlockSelect<T>;
+        promotionBlock?: T | PromotionBlockSelect<T>;
       };
   meta?: T | {};
   updatedAt?: T;
   createdAt?: T;
   _status?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "PromotionBlock_select".
+ */
+export interface PromotionBlockSelect<T extends boolean = true> {
+  promotion?: T;
+  theme?: T;
+  background?: T;
+  id?: T;
+  blockName?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
