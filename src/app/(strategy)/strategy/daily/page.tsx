@@ -23,6 +23,7 @@ import terraPic from "./../images/terra.jpg";
 import yelPic from "./../images/yel.jpg";
 import bPic from "./../images/b.jpg";
 import sassaraPic from "./../images/sassara.jpg";
+import announcementPic from "./../images/announcement.jpg";
 
 type Music = { type: string; descriptors: string };
 
@@ -323,6 +324,7 @@ const Card = ({
     "handheld-track": <HandheldTrack />,
     "the-shot": <TheShot />,
     "system-error": <SystemError />,
+    announcement: <Announcement />,
   };
 
   return (
@@ -399,7 +401,16 @@ const List = () => {
         ))}
       </Carousel>
       <div className="p-xs">
-        <Text color="white">Preview</Text>
+        <Text color="white">
+          ➸ Falangina Bellalma Bright and zesty with tropical fruit, bergamot,
+          and honey. <br />
+          <br />➸ Gneiss & Glimmer Nibiru Rich and aromatic with notes of pear,
+          floral notes, and a touch of spice. <br />
+          <br />➸ Weiss Bergkloster Aromatic and lively with hints of green
+          apple, white peach, and a touch of honey. <br />
+          <br />➸ Famea Sassara Fresh and mineral with notes of white flowers,
+          blackberry and thyme. Crisp and elegant.
+        </Text>
       </div>
     </div>
   );
@@ -424,6 +435,21 @@ const TheShot = () => {
       <ImageHandler />
       <div className="p-xs">
         <Text color="white">Preview</Text>
+      </div>
+    </div>
+  );
+};
+
+const Announcement = () => {
+  return (
+    <div className="grid bg-black">
+      <Image src={announcementPic} />
+      <div className="p-xs">
+        <Text color="white">
+          Are you passionate about innovative dining and ready for a new
+          challenge? If you have the dedication and drive to join our team, we’d
+          love to hear from you.
+        </Text>
       </div>
     </div>
   );

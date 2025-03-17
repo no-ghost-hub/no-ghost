@@ -8,7 +8,7 @@ import {
 } from "react-aria-components";
 
 type Props = TextFieldProps & {
-  label: string;
+  label?: string;
   showLabel?: boolean;
   required?: boolean;
   validation?: boolean;
