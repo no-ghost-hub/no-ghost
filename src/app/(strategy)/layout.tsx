@@ -25,7 +25,10 @@ const Layout = async ({
 }: Readonly<{
   children: React.ReactNode;
 }>) => {
-  if (process.env.NODE_ENV !== "development") {
+  if (
+    process.env.NODE_ENV !== "development" &&
+    process.env.NEXT_PUBLIC_SERVER_URL !== "https://dev.eatnoghost.com"
+  ) {
     redirect("/");
   }
 
