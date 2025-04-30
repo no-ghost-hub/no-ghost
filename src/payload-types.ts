@@ -295,7 +295,7 @@ export interface Promotion {
  * via the `definition` "PromotionBlock".
  */
 export interface PromotionBlock {
-  promotion?: 'HERE THERE ARE NO GHOSTS' | null;
+  promotion?: string | null;
   theme?: 'default' | null;
   background?: ('default' | 'orange' | 'blue' | 'none') | null;
   id?: string | null;

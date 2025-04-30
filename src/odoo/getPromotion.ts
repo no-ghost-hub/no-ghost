@@ -14,7 +14,7 @@ const getPromotion = async (code: string) => {
     ],
   });
 
-  json.result = parsed(json.result[0], "promotion");
+  json.result = json.result ? parsed(json.result[0], "promotion") : {};
 
   const { result: data, ...rest } = json;
   return { data, ...rest };

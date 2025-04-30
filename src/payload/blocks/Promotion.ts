@@ -33,7 +33,7 @@ const block: Block = {
               name: "promotion",
               label: "Promotion",
               type: "select",
-              options: result.map(({ program_id, code }: any) => ({
+              options: (result || []).map(({ program_id, code }: any) => ({
                 label: program_id[1],
                 value: code,
               })),

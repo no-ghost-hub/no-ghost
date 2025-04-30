@@ -3,26 +3,14 @@ import { withPayload } from "@payloadcms/next/withPayload";
 import { Config as SVGRConfig } from "@svgr/core";
 
 const nextConfig: NextConfig = {
-  experimental:
-    process.env.NODE_ENV === "development"
-      ? {
-          turbo: {
-            rules: {
-              "*.svg": {
-                loaders: ["@svgr/webpack"],
-                as: "*.js",
-              },
-            },
-          },
-          serverActions: {
-            bodySizeLimit: "10mb",
-          },
-        }
-      : {
-          serverActions: {
-            bodySizeLimit: "10mb",
-          },
-        },
+  turbopack: {
+    rules: {
+      "*.svg": {
+        loaders: ["@svgr/webpack"],
+        as: "*.js",
+      },
+    },
+  },
   webpack:
     process.env.NODE_ENV === "production"
       ? (config) => {
